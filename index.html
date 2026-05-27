@@ -250,8 +250,9 @@
     font-weight: 300;
   }
   .hero-side {
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
-    color: var(--ink-soft); text-transform: uppercase; line-height: 1.7;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+    color: var(--ink-soft); text-transform: uppercase; line-height: 1.6;
+    margin-top: 20px;
   }
   .hero-side .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--rule); }
   .hero-side .row:first-child { border-top: 1px solid var(--rule); }
@@ -769,6 +770,13 @@
   body[data-cursor-mode="off"] #cursor-readout { display: none; }
 
   /* ===== LIGHTBOX ===== */
+  body[data-lang="hi"] p {
+    font-size: 16px;
+  }
+  body[data-lang="hi"] .bio-grid .body p {
+    font-size: 16px;
+  }
+
   #lightbox {
     position: fixed; inset: 0; z-index: 10000;
     background: rgba(20,16,12,0.88);
@@ -796,6 +804,10 @@
     transform: scale(0.98);
     transition: transform .32s cubic-bezier(.2,.7,.2,1);
   }
+  #lightbox.open {
+    display: flex;
+    opacity: 1;
+  }
   #lightbox.open .lb-frame { transform: scale(1); }
   #lightbox img {
     display: block;
@@ -821,6 +833,7 @@
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: background .2s ease, transform .2s ease;
+    z-index: 10001;
   }
   #lightbox .lb-close:hover { background: rgba(241,233,216,0.1); transform: rotate(90deg); }
   #lightbox .lb-nav {
@@ -836,7 +849,7 @@
   #lightbox .lb-nav:hover { background: rgba(241,233,216,0.16); }
   #lightbox .lb-prev { left: 22px; }
   #lightbox .lb-next { right: 22px; }
-  body.lb-open { overflow: hidden; }
+  body.lb-open { /* overflow: hidden removed */ }
 </style>
 </head>
 <body data-theme="parchment" data-accent="terracotta" data-density="standard" data-cursor-mode="cartographer" data-design="gallery">
@@ -910,9 +923,9 @@
       <div class="hero-side">
         <div class="row"><span class="k">Affiliation</span><span class="v">Tallinn University</span></div>
         <div class="row"><span class="k">Centre</span><span class="v">Landscape & Culture</span></div>
-        <div class="row"><span class="k">Field</span><span class="v">Ethnography · Geography</span></div>
-        <div class="row"><span class="k">Regions</span><span class="v">Ladakh · Terai</span></div>
-        <div class="row"><span class="k">Year</span><span class="v">2024 — Present</span></div>
+        <div class="row"><span class="k">Field</span><span class="v">Ethnography, Borders, Infrastructure</span></div>
+        <div class="row" style="height: 33px"><span class="k">Regions</span><span class="v">Ladakh · Terai</span></div>
+        <div class="row"><span class="k">Year</span><span class="v">2021–26</span></div>
       </div>
     </div>
     <div class="hero-foot">
@@ -965,7 +978,7 @@
         </div>
         <div>
           <div class="meta"><span data-i18n="regions.terai.meta1">2023 — Ongoing</span><span data-i18n="regions.terai.meta2">Lowland · 80m</span></div>
-          <h3 data-i18n="regions.terai.h">The Terai, <span class="it">a porous edge.</span></h3>
+          <h3 data-i18n="regions.terai.h">Terai, <span class="it">a porous edge.</span></h3>
         </div>
         <p data-i18n="regions.terai.p">Twin-towns Raxaul and Birgunj, a comma between two republics. Roads as conduits of trade, smuggling, faith, and rumour — the everyday architecture of an open border.</p>
         <a class="read" href="border-regions/terai.html" data-i18n="regions.read">Read further <span class="arrow">→</span></a>
@@ -1167,8 +1180,6 @@ the long, slow noun of a wall.</div>
   </div>
 </footer>
 
-<script src="image-slot.js"></script>
-
 <!-- Reveal-on-scroll: tag key elements and cascade them in.
      The CSS only animates these in the non-original design modes;
      in "original" the attribute is inert. -->
@@ -1222,6 +1233,9 @@ the long, slow noun of a wall.</div>
 <!-- Cursor + readout JS -->
 <script>
 (function () {
+  // Skip entire cursor system on touch devices - saves CPU
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  
   const layer = document.getElementById('cursor-layer');
   if (!layer) return;
   const ring = document.getElementById('ring');
@@ -1348,14 +1362,25 @@ the long, slow noun of a wall.</div>
     label.textContent = captionFor(el);
   }
 
+  function preventScroll(e) {
+    if (lb.classList.contains('open')) {
+      e.preventDefault();
+    }
+  }
+
+  function close(){
+    lb.classList.remove('open');
+    document.body.classList.remove('lb-open');
+    document.removeEventListener('wheel', preventScroll);
+    document.removeEventListener('touchmove', preventScroll);
+  }
+
   function open(i){
     show(i);
     lb.classList.add('open');
     document.body.classList.add('lb-open');
-  }
-  function close(){
-    lb.classList.remove('open');
-    document.body.classList.remove('lb-open');
+    document.addEventListener('wheel', preventScroll, { passive: false });
+    document.addEventListener('touchmove', preventScroll, { passive: false });
   }
 
   items.forEach((el, i) => {
@@ -1367,11 +1392,12 @@ the long, slow noun of a wall.</div>
   });
 
   lb.addEventListener('click', (e) => {
-    if (e.target === lb) close();
+    // Only close if clicking the background, not the frame or buttons
+    if (e.target === lb || e.target === frame) close();
   });
-  lb.querySelector('.lb-close').addEventListener('click', close);
-  lb.querySelector('.lb-prev').addEventListener('click', (e) => { e.stopPropagation(); show(idx - 1); });
-  lb.querySelector('.lb-next').addEventListener('click', (e) => { e.stopPropagation(); show(idx + 1); });
+  lb.querySelector('.lb-close')?.addEventListener('click', close);
+  lb.querySelector('.lb-prev')?.addEventListener('click', (e) => { e.stopPropagation(); show(idx - 1); });
+  lb.querySelector('.lb-next')?.addEventListener('click', (e) => { e.stopPropagation(); show(idx + 1); });
 
   document.addEventListener('keydown', (e) => {
     if (!lb.classList.contains('open')) return;
@@ -1382,9 +1408,9 @@ the long, slow noun of a wall.</div>
 })();
 </script>
 
-<!-- React + Tweaks -->
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<!-- React + Tweaks (production build for performance) -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script type="text/babel" src="tweaks-panel.jsx"></script>
 <script type="text/babel" src="tweaks.jsx"></script>
