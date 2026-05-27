@@ -281,11 +281,12 @@ footer {
 }
 /* The map's internal head sits below the sec-label. Adjust spacing. */
 .field-map-section .field-map { margin-top: 28px; }
+/* The map's head sits directly below the sec-label; remove the
+   border lines above and below it for a cleaner visual flow. */
 .field-map-section .field-map .field-map-head {
-  padding-top: 0;
-  margin-bottom: 32px;
-  border-top: 1px solid var(--rule);
-  padding-bottom: 18px;
+  padding: 0;
+  margin: 0 0 32px 0;
+  border: none;
 }
 
 /* ---- Field-map link: a small, minimal one-line pointer ---- */
