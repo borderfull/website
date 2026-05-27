@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prince Tomar — Field Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    /* Parchment — warm editorial */
+    --paper: #f1e9d8;
+    --paper-2: #e8dec8;
+    --ink: #1c1814;
+    --ink-soft: #4a4238;
+    --ink-mute: #8a7f6e;
+    --rule: #c9bda5;
+    --accent: #b15a3a;
+    --horizon: #4a6d8c;
+    --serif-display: "Cormorant Garamond", "Times New Roman", serif;
+    --serif-body: "Spectral", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+
+    --measure: 60ch;
+    --gutter: clamp(20px, 4vw, 56px);
+    --density: 1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body {
+    font-family: var(--serif-body);
+    font-size: 17px;
+    line-height: 1.55;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    cursor: none;
+  }
+  /* On touch / no fine pointer, restore default cursor */
+  @media (pointer: coarse) {
+    body { cursor: auto; }
+    #cursor-layer, #cursor-readout { display: none !important; }
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  ::selection { background: var(--accent); color: var(--paper); }
+
+  /* Paper grain — extremely subtle */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(1200px 800px at 80% -10%, rgba(177,90,58,0.06), transparent 60%),
+      radial-gradient(900px 700px at -10% 110%, rgba(74,109,140,0.05), transparent 60%);
+    z-index: 0;
+  }
+
+  /* ------------ Cursor layer ------------ */
+  #cursor-layer {
+    position: fixed; inset: 0; pointer-events: none; z-index: 9000;
+    mix-blend-mode: multiply;
+  }
+  .cursor-dot {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--ink);
+    transform: translate(-50%, -50%);
+    will-change: transform, opacity;
+  }
+  .cursor-ring {
+    position: absolute;
+    width: 26px; height: 26px;
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: width .25s ease, height .25s ease, border-color .25s ease, background .25s ease, transform .12s ease-out;
+  }
+  .cursor-ring::before, .cursor-ring::after {
+    content: ""; position: absolute; background: var(--ink);
+    transition: background .25s ease;
+  }
+  .cursor-ring::before {
+    left: 50%; top: -6px; width: 1px; height: 6px; transform: translateX(-50%);
+  }
+  .cursor-ring::after {
+    left: 50%; bottom: -6px; width: 1px; height: 6px; transform: translateX(-50%);
+  }
+  .cursor-ring .h1, .cursor-ring .h2 {
+    position: absolute; top: 50%; background: var(--ink); height: 1px;
+  }
+  .cursor-ring .h1 { left: -6px; width: 6px; transform: translateY(-50%); }
+  .cursor-ring .h2 { right: -6px; width: 6px; transform: translateY(-50%); }
+  .cursor-trail {
+    position: absolute;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--ink);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  .cursor-label {
+    position: absolute;
+    transform: translate(14px, 14px);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 4px 7px;
+    border: 1px solid var(--ink);
+    opacity: 0;
+    transition: opacity .18s ease;
+    white-space: nowrap;
+  }
+  /* Hover modes — toggled via [data-cursor] on body */
+  body[data-cursor="image"] .cursor-ring { width: 72px; height: 72px; background: rgba(28,24,20,0.02); }
+  body[data-cursor="link"]  .cursor-ring { width: 40px; height: 40px; }
+  body[data-cursor="text"]  .cursor-ring { width: 16px; height: 32px; border-radius: 2px; }
+  body[data-cursor="text"]  .cursor-ring::before, body[data-cursor="text"] .cursor-ring::after,
+  body[data-cursor="text"]  .cursor-ring .h1, body[data-cursor="text"] .cursor-ring .h2 { display:none; }
+
+  /* ------------ Coordinate HUD ------------ */
+  #cursor-readout {
+    position: fixed; bottom: 18px; right: 22px; z-index: 8500;
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-soft);
+    text-align: right; line-height: 1.55;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+  #cursor-readout .k { color: var(--ink-mute); }
+  #cursor-readout .v { color: var(--ink); }
+  #cursor-readout hr { border: 0; height: 1px; background: var(--rule); margin: 4px 0; width: 120px; margin-left: auto; }
+
+  /* ------------ Top bar ------------ */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px var(--gutter);
+    background: linear-gradient(to bottom, var(--paper) 60%, transparent);
+    backdrop-filter: blur(2px);
+  }
+  .topbar .mark {
+    font-family: var(--serif-display); font-size: 20px; font-weight: 500; letter-spacing: 0.01em;
+  }
+  .topbar .mark em { font-style: italic; font-weight: 400; color: var(--ink-soft); }
+  .topbar nav {
+    display: flex; gap: 28px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .topbar nav a { position: relative; padding: 4px 0; transition: color .2s ease; }
+  .topbar nav a:hover { color: var(--ink); }
+  .topbar nav a::after {
+    content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 0;
+    background: var(--accent); transition: width .25s ease;
+  }
+  .topbar nav a:hover::after { width: 100%; }
+  .topbar nav .ext::before { content: "↗ "; opacity: .6; }
+
+  /* ------------ Sections ------------ */
+  main { position: relative; z-index: 1; }
+  section {
+    padding: calc(96px * var(--density)) var(--gutter);
+    position: relative;
+  }
+  .sec-label {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-mute);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 28px;
+  }
+  .sec-label .num { color: var(--accent); }
+  .sec-label .rule { flex: 1; height: 1px; background: var(--rule); max-width: 240px; }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 92vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: end;
+    padding-top: 140px;
+    padding-bottom: 56px;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 320px);
+    gap: 56px;
+    align-items: end;
+  }
+  .hero h1 {
+    font-family: var(--serif-display);
+    font-weight: 300;
+    font-size: clamp(54px, 9vw, 148px);
+    line-height: 0.92;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .hero h1 .it { font-style: italic; font-weight: 300; }
+  .hero .sub {
+    font-family: var(--serif-display);
+    font-size: clamp(20px, 1.6vw, 26px);
+    font-style: italic;
+    color: var(--ink-soft);
+    max-width: 38ch;
+    margin-top: 22px;
+    font-weight: 300;
+  }
+  .hero-side {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+    color: var(--ink-soft); text-transform: uppercase; line-height: 1.7;
+  }
+  .hero-side .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--rule); }
+  .hero-side .row:first-child { border-top: 1px solid var(--rule); }
+  .hero-side .row .k { color: var(--ink-mute); }
+  .hero-side .row .v { color: var(--ink); text-align: right; }
+
+  .hero-foot {
+    margin-top: 64px;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute);
+  }
+  .hero-foot .scroll { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); }
+  .hero-foot .scroll .bar {
+    display: inline-block; width: 36px; height: 1px; background: var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .hero-foot .scroll .bar::after {
+    content: ""; position: absolute; left: -36px; top: 0; width: 36px; height: 1px;
+    background: var(--accent); animation: trickle 2.4s ease-in-out infinite;
+  }
+  @keyframes trickle { 0%{transform:translateX(0);} 50%{transform:translateX(72px);} 100%{transform:translateX(72px);} }
+
+  /* Contour SVG behind hero */
+  .hero-contour {
+    position: absolute; right: 0; top: 0; bottom: 0;
+    width: 50vw; max-width: 720px;
+    opacity: 0.22; pointer-events: none;
+    color: var(--ink);
+  }
+  .hero-contour svg { width: 100%; height: 100%; }
+
+  /* ===== BIO ===== */
+  .bio { padding-top: calc(60px * var(--density)); }
+  .bio-grid {
+    display: grid; grid-template-columns: 1fr 1.6fr; gap: 72px;
+    align-items: start;
+  }
+  .bio-grid .lead {
+    font-family: var(--serif-display);
+    font-style: italic;
+    font-size: clamp(22px, 2vw, 30px);
+    line-height: 1.32;
+    color: var(--ink-soft);
+    font-weight: 300;
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+  }
+  .bio-grid .body p {
+    font-size: 17.5px; line-height: 1.7; margin-bottom: 1.2em;
+    text-wrap: pretty; max-width: 60ch;
+  }
+  .bio-grid .body p:first-letter {
+    font-family: var(--serif-display);
+    font-size: 3.5em; line-height: 0.88; float: left;
+    padding: 0.08em 0.12em 0 0; font-weight: 400;
+    color: var(--accent);
+  }
+  .bio-grid .body .pull {
+    margin: 28px 0; padding: 18px 0;
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    font-family: var(--serif-display);
+    font-style: italic; font-size: 22px; line-height: 1.4;
+    color: var(--ink-soft);
+  }
+
+  /* ===== BORDER REGIONS ===== */
+  .regions { background: var(--paper-2); }
+  .regions-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
+    margin-top: 32px;
+  }
+  .region {
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .region .plate {
+    aspect-ratio: 4/5; position: relative; overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+  }
+  .region .plate .label {
+    position: absolute; left: 14px; top: 14px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink);
+    background: var(--paper); padding: 4px 8px;
+    border: 1px solid var(--ink);
+    z-index: 2;
+  }
+  .region .plate .coords {
+    position: absolute; right: 14px; bottom: 14px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink);
+    background: var(--paper); padding: 4px 8px;
+    z-index: 2;
+  }
+  .region h3 {
+    font-family: var(--serif-display); font-weight: 400;
+    font-size: 38px; line-height: 1; letter-spacing: -0.01em;
+  }
+  .region h3 .it { font-style: italic; }
+  .region .meta {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute);
+    display: flex; gap: 18px;
+  }
+  .region p {
+    font-size: 15.5px; line-height: 1.7; color: var(--ink-soft);
+    max-width: 56ch;
+  }
+  .region .read {
+    margin-top: auto;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 0;
+    border-top: 1px solid var(--ink);
+    width: max-content;
+    transition: gap .25s ease;
+  }
+  .region .read:hover { gap: 18px; }
+  .region .read .arrow { transition: transform .25s ease; }
+  .region .read:hover .arrow { transform: translateX(4px); }
+
+  /* placeholder photo plate */
+  .plate-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  /* ===== GALLERY ===== */
+  .gallery { padding-top: calc(70px * var(--density)); }
+  .gallery-head {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;
+    margin-bottom: 40px;
+  }
+  .gallery-head h2 {
+    font-family: var(--serif-display); font-weight: 300;
+    font-size: clamp(40px, 5vw, 76px); line-height: 0.95;
+    max-width: 16ch;
+  }
+  .gallery-head h2 .it { font-style: italic; }
+  .gallery-head .aside {
+    max-width: 36ch;
+    font-size: 15.5px; line-height: 1.65; color: var(--ink-soft);
+  }
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 80px; gap: 16px;
+  }
+  .gphoto {
+    position: relative; overflow: hidden; background: var(--paper-2);
+    border: 1px solid var(--rule);
+  }
+  .gphoto .cap {
+    position: absolute; left: 10px; bottom: 10px;
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink);
+    background: var(--paper); padding: 3px 6px;
+    opacity: 0; transition: opacity .25s ease;
+  }
+  .gphoto:hover .cap { opacity: 1; }
+  /* Layout placements */
+  .gp-1 { grid-column: span 5; grid-row: span 4; }
+  .gp-2 { grid-column: span 4; grid-row: span 3; }
+  .gp-3 { grid-column: span 3; grid-row: span 3; }
+  .gp-4 { grid-column: span 3; grid-row: span 3; }
+  .gp-5 { grid-column: span 4; grid-row: span 4; }
+  .gp-6 { grid-column: span 5; grid-row: span 3; }
+  .gallery-cta {
+    margin-top: 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--rule); padding-top: 24px;
+  }
+  .gallery-cta a {
+    font-family: var(--serif-display); font-style: italic;
+    font-size: 28px; color: var(--ink);
+    display: inline-flex; align-items: baseline; gap: 14px;
+  }
+  .gallery-cta a .ext { font-family: var(--mono); font-style: normal; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+
+  /* ===== AI EXPERIMENTS ===== */
+  .ai { background: var(--ink); color: var(--paper); }
+  .ai .sec-label { color: rgba(241,233,216,0.55); }
+  .ai .sec-label .rule { background: rgba(241,233,216,0.2); }
+  .ai .sec-label .num { color: var(--accent); }
+  .ai-head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: end; margin-bottom: 56px; }
+  .ai-head h2 {
+    font-family: var(--serif-display); font-weight: 300;
+    font-size: clamp(40px, 5.4vw, 84px); line-height: 0.96; letter-spacing: -0.01em;
+  }
+  .ai-head h2 .it { font-style: italic; }
+  .ai-head .blurb {
+    color: rgba(241,233,216,0.78);
+    line-height: 1.65; font-size: 16px;
+    max-width: 40ch;
+  }
+  .ai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(241,233,216,0.18); }
+  .ai-card {
+    background: var(--ink);
+    padding: 36px 32px;
+    display: flex; flex-direction: column; gap: 18px;
+    min-height: 280px;
+    position: relative;
+    transition: background .3s ease;
+  }
+  .ai-card:hover { background: #221d18; }
+  .ai-card .num {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+    color: var(--accent);
+  }
+  .ai-card h4 {
+    font-family: var(--serif-display); font-weight: 400; font-size: 26px; line-height: 1.1;
+  }
+  .ai-card h4 .it { font-style: italic; }
+  .ai-card p { color: rgba(241,233,216,0.65); font-size: 14.5px; line-height: 1.6; }
+  .ai-card .tag {
+    margin-top: auto; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(241,233,216,0.5);
+    display: flex; justify-content: space-between;
+  }
+
+  /* ===== WRITING ===== */
+  .writing { padding: calc(120px * var(--density)) var(--gutter); }
+  .writing-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+  .writing h2 {
+    font-family: var(--serif-display); font-weight: 300;
+    font-size: clamp(40px, 5vw, 76px); line-height: 0.95;
+    max-width: 12ch;
+  }
+  .writing h2 .it { font-style: italic; }
+  .poem {
+    border-left: 1px solid var(--rule);
+    padding-left: 32px;
+  }
+  .poem .title {
+    font-family: var(--serif-display); font-style: italic; font-size: 24px;
+    color: var(--ink); margin-bottom: 20px;
+  }
+  .poem .stanza {
+    font-family: var(--serif-display); font-size: 22px; line-height: 1.5;
+    color: var(--ink-soft); font-weight: 300; margin-bottom: 20px;
+    white-space: pre-line;
+  }
+  .poem .stanza:last-of-type { margin-bottom: 28px; }
+  .poem .attr {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute);
+  }
+
+  /* ===== EPILOGUE ===== */
+  .epilogue { background: var(--paper-2); }
+  .epilogue-head { margin-bottom: 48px; max-width: 60ch; }
+  .epilogue-head h2 {
+    font-family: var(--serif-display); font-weight: 300;
+    font-size: clamp(40px, 5vw, 76px); line-height: 0.95; margin-bottom: 18px;
+  }
+  .epilogue-head h2 .it { font-style: italic; }
+  .epilogue-head .lede {
+    font-family: var(--serif-display); font-style: italic;
+    font-size: 20px; color: var(--ink-soft); line-height: 1.5; font-weight: 300;
+  }
+  .epilogue-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 48px;
+  }
+  .epi-col h5 {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-mute);
+    padding-bottom: 12px; border-bottom: 1px solid var(--rule);
+    margin-bottom: 18px;
+    display: flex; justify-content: space-between;
+  }
+  .epi-col h5 .num { color: var(--accent); }
+  .epi-item { padding: 14px 0; border-bottom: 1px dashed var(--rule); }
+  .epi-item:last-child { border-bottom: 0; }
+  .epi-item .t { font-family: var(--serif-display); font-size: 22px; line-height: 1.2; color: var(--ink); }
+  .epi-item .t .it { font-style: italic; }
+  .epi-item .a {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 4px;
+  }
+  .epi-item .n { font-size: 14px; color: var(--ink-soft); line-height: 1.55; margin-top: 6px; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 80px var(--gutter) 36px;
+    border-top: 1px solid var(--rule);
+  }
+  .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; align-items: start; }
+  .foot-mark {
+    font-family: var(--serif-display); font-size: 48px; font-weight: 300; line-height: 1;
+  }
+  .foot-mark .it { font-style: italic; }
+  .foot-mark + .foot-sub {
+    font-family: var(--serif-display); font-style: italic; color: var(--ink-soft);
+    margin-top: 8px; font-size: 17px;
+  }
+  .foot-col h6 {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-mute);
+    margin-bottom: 14px;
+  }
+  .foot-col a, .foot-col span {
+    display: block; padding: 4px 0; font-size: 15px; color: var(--ink);
+  }
+  .foot-col a:hover { color: var(--accent); }
+  .foot-base {
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 980px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-side { max-width: 360px; }
+    .bio-grid { grid-template-columns: 1fr; gap: 32px; }
+    .regions-grid { grid-template-columns: 1fr; gap: 40px; }
+    .gallery-head { flex-direction: column; align-items: flex-start; }
+    .ai-head { grid-template-columns: 1fr; gap: 24px; }
+    .ai-grid { grid-template-columns: 1fr; }
+    .writing-grid { grid-template-columns: 1fr; gap: 32px; }
+    .epilogue-grid { grid-template-columns: 1fr; gap: 32px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .topbar nav { display: none; }
+  }
+
+  /* ===== Theme variants (via [data-theme] on body) ===== */
+  body[data-theme="midnight"] {
+    --paper: #131211;
+    --paper-2: #1c1a17;
+    --ink: #ece3d2;
+    --ink-soft: #b6ad9a;
+    --ink-mute: #7d7565;
+    --rule: #3a342c;
+  }
+  body[data-theme="midnight"] .ai { background: #0a0908; color: #ece3d2; }
+  body[data-theme="midnight"] .ai-card { background: #0a0908; }
+  body[data-theme="midnight"] .ai-card:hover { background: #14120f; }
+  body[data-theme="midnight"] ::selection { background: var(--accent); color: #0a0908; }
+
+  body[data-theme="ivory"] {
+    --paper: #f8f4ec;
+    --paper-2: #f0eadf;
+    --ink: #1a1a1a;
+    --ink-soft: #555;
+    --ink-mute: #8c8c8c;
+    --rule: #d6d0c4;
+  }
+
+  body[data-accent="terracotta"] { --accent: #b15a3a; }
+  body[data-accent="horizon"]    { --accent: #4a6d8c; }
+  body[data-accent="moss"]       { --accent: #6d7d4a; }
+  body[data-accent="ink"]        { --accent: #1c1814; }
+
+  body[data-density="airy"]     { --density: 1.25; }
+  body[data-density="standard"] { --density: 1; }
+  body[data-density="tight"]    { --density: 0.75; }
+
+  body[data-cursor-mode="off"] { cursor: auto; }
+  body[data-cursor-mode="off"] #cursor-layer,
+  body[data-cursor-mode="off"] #cursor-readout { display: none; }
+
+  /* ===== PRINT ===== */
+  @media print {
+    @page { size: A4 portrait; margin: 14mm 12mm; }
+    html, body {
+      background: var(--paper) !important;
+      color: var(--ink) !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      cursor: auto !important;
+    }
+    body::before { display: none !important; }
+    #cursor-layer, #cursor-readout, #tweaks-root, .topbar { display: none !important; }
+
+    main { padding-top: 0 !important; }
+    section {
+      padding: 18mm 0 !important;
+      break-inside: avoid-page;
+    }
+    .hero { min-height: 0 !important; padding-top: 0 !important; }
+    .hero h1 { font-size: 56pt !important; }
+    .hero .sub { font-size: 14pt !important; }
+    .hero-contour { opacity: 0.18 !important; max-width: 60% !important; }
+    .hero-foot { margin-top: 24mm !important; }
+
+    .bio, .regions, .gallery, .ai, .writing, .epilogue, footer { break-before: page; }
+    .regions, .epilogue { background: var(--paper-2) !important; }
+    .ai { background: var(--ink) !important; color: var(--paper) !important; }
+    .ai-card { background: var(--ink) !important; }
+
+    .region, .ai-card, .epi-item, .gphoto, .poem, .gallery-cta {
+      break-inside: avoid;
+    }
+    .region .plate { aspect-ratio: 5/4 !important; }
+    .gallery-grid { grid-auto-rows: 52px !important; gap: 8px !important; }
+
+    a { color: inherit !important; text-decoration: none !important; }
+    a::after { display: none !important; }
+
+    /* Force the dark AI section to render full-bleed even with page margins */
+    .ai {
+      margin: 0 -12mm !important;
+      padding: 18mm 12mm !important;
+    }
+    .regions, .epilogue {
+      margin: 0 -12mm !important;
+      padding: 18mm 12mm !important;
+    }
+
+    /* Prevent very tall sections from clipping their content */
+    .gallery-grid { break-inside: auto; }
+  }
+</style>
+</head>
+<body data-theme="parchment" data-accent="terracotta" data-density="standard" data-cursor-mode="cartographer">
+
+<!-- Custom cursor layer -->
+<div id="cursor-layer" aria-hidden="true">
+  <div class="cursor-trail" id="trail-0"></div>
+  <div class="cursor-trail" id="trail-1"></div>
+  <div class="cursor-trail" id="trail-2"></div>
+  <div class="cursor-trail" id="trail-3"></div>
+  <div class="cursor-trail" id="trail-4"></div>
+  <div class="cursor-ring" id="ring"><span class="h1"></span><span class="h2"></span></div>
+  <div class="cursor-dot" id="dot"></div>
+  <div class="cursor-label" id="cursor-label">View</div>
+</div>
+
+<!-- Coordinate HUD -->
+<div id="cursor-readout">
+  <div><span class="k">N</span> <span class="v" id="rd-lat">—</span></div>
+  <div><span class="k">E</span> <span class="v" id="rd-lng">—</span></div>
+  <hr />
+  <div><span class="k">Region</span> <span class="v" id="rd-region">—</span></div>
+</div>
+
+<!-- Top bar -->
+<header class="topbar">
+  <a href="#top" class="mark">Prince <em>Tomar</em></a>
+  <nav>
+    <a href="#bio">About</a>
+    <a href="#regions">Borderlands</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#ai">Experiments</a>
+    <a href="#writing">Writing</a>
+    <a href="#epilogue">Epilogue</a>
+  </nav>
+</header>
+
+<main id="top" data-screen-label="Portfolio">
+
+  <!-- HERO -->
+  <section class="hero" id="hero" data-screen-label="01 Hero">
+    <div class="hero-contour" aria-hidden="true">
+      <svg viewBox="0 0 600 800" fill="none" stroke="currentColor" stroke-width="0.6">
+        <path d="M0,180 C90,140 180,220 270,180 S420,140 600,200" />
+        <path d="M0,230 C90,200 180,270 270,230 S420,190 600,250" />
+        <path d="M0,290 C100,250 200,320 290,280 S430,250 600,310" />
+        <path d="M0,360 C110,320 220,400 310,360 S440,310 600,380" />
+        <path d="M0,440 C120,400 230,470 320,430 S460,390 600,460" />
+        <path d="M0,520 C120,480 240,550 330,510 S480,470 600,540" />
+        <path d="M0,600 C130,560 250,630 340,600 S490,560 600,620" />
+        <path d="M0,680 C140,640 260,710 360,680 S500,640 600,700" />
+        <circle cx="220" cy="320" r="2.5" fill="currentColor" stroke="none" />
+        <circle cx="420" cy="480" r="2.5" fill="currentColor" stroke="none" />
+        <text x="232" y="316" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none">LADAKH · 34.02° N</text>
+        <text x="432" y="476" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none">TERAI · 27.04° N</text>
+      </svg>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <div class="sec-label"><span class="num">§ 00</span> Portfolio · Field Notes <span class="rule"></span> MMXXVI</div>
+        <h1>Prince <span class="it">Tomar</span><br />— a portfolio<br />of borderlands.</h1>
+        <p class="sub">Doctoral researcher tracing the dance of road, ridge, and rumour across the Himalayan frontier.</p>
+      </div>
+      <div class="hero-side">
+        <div class="row"><span class="k">Affiliation</span><span class="v">Tallinn University</span></div>
+        <div class="row"><span class="k">Centre</span><span class="v">Landscape & Culture</span></div>
+        <div class="row"><span class="k">Field</span><span class="v">Ethnography · Geography</span></div>
+        <div class="row"><span class="k">Regions</span><span class="v">Ladakh · Terai</span></div>
+        <div class="row"><span class="k">Year</span><span class="v">2024 — Present</span></div>
+      </div>
+    </div>
+    <div class="hero-foot">
+      <span>Vol. I — Edition 2026</span>
+      <a href="#bio" class="scroll">Scroll · Section 01 <span class="bar"></span></a>
+      <span>Tallinn · 59.43° N</span>
+    </div>
+  </section>
+
+  <!-- BIO -->
+  <section class="bio" id="bio" data-screen-label="02 About">
+    <div class="sec-label"><span class="num">§ 01</span> About <span class="rule"></span> Bio · Practice</div>
+    <div class="bio-grid">
+      <div class="lead">
+        On infrastructure, territory, and the long argument the mountain has always had with the road.
+      </div>
+      <div class="body">
+        <p>Prince Tomar is a doctoral researcher at the Centre for Landscape and Culture, Tallinn University. He works with borderland communities along the Indian Himalaya, with a particular focus on the dynamics of road development — tracing the subtle interplay between infrastructure, territorialisation, and the region's intricate dance of history, geopolitics, and terrain.</p>
+        <p class="pull">"The road is not only the thing that arrives; it is also the question the village must learn to answer."</p>
+        <p>Beyond the academic work, he writes poems and is interested in the porous border between ethnography and literary studies — the way a field note can become a stanza, and a stanza can carry the weight of a census. His current project studies the spatial-temporal dimensions of change in the Indian Himalaya as the pace of road development quickens.</p>
+        <p>He keeps an open notebook here: photographs from the field, dispatches and small experiments with AI, and an epilogue of things being read, watched, listened to.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BORDER REGIONS -->
+  <section class="regions" id="regions" data-screen-label="03 Regions">
+    <div class="sec-label"><span class="num">§ 02</span> Border Regions <span class="rule"></span> Two field sites</div>
+    <div class="regions-grid">
+      <article class="region">
+        <div class="plate" data-hover="image">
+          <span class="label">Plate I · Ladakh</span>
+          <span class="coords">34.0216° N / 77.4444° E</span>
+          <svg class="plate-svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="ladakh" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#d9c8a8" />
+                <stop offset="0.5" stop-color="#b69d78" />
+                <stop offset="1" stop-color="#6e5a44" />
+              </linearGradient>
+              <pattern id="lstripe" width="6" height="6" patternUnits="userSpaceOnUse">
+                <rect width="6" height="6" fill="url(#ladakh)"/>
+                <path d="M0,6 L6,0" stroke="rgba(28,24,20,0.08)" stroke-width="0.6"/>
+              </pattern>
+            </defs>
+            <rect width="400" height="500" fill="url(#lstripe)"/>
+            <g fill="none" stroke="rgba(28,24,20,0.45)" stroke-width="0.8">
+              <path d="M-20,300 C80,260 160,330 240,290 S360,260 420,310"/>
+              <path d="M-20,340 C70,300 170,370 250,330 S370,300 420,350"/>
+              <path d="M-20,380 C70,340 170,410 250,370 S370,340 420,390"/>
+              <path d="M-20,420 C70,380 170,450 250,410 S370,380 420,430"/>
+              <path d="M-20,460 C70,420 170,490 250,450 S370,420 420,470"/>
+            </g>
+            <g fill="rgba(28,24,20,0.7)">
+              <polygon points="100,300 140,180 180,300" />
+              <polygon points="170,320 220,140 270,320" />
+              <polygon points="250,310 290,200 330,310" />
+            </g>
+            <g font-family="IBM Plex Mono" font-size="9" fill="rgba(28,24,20,0.55)">
+              <text x="16" y="476">[ FIELD PLATE · DROP A PHOTOGRAPH HERE ]</text>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="meta"><span>2024 — Ongoing</span><span>Cold Desert · 3500m</span></div>
+          <h3>Ladakh, <span class="it">the cold frontier.</span></h3>
+        </div>
+        <p>A study of strategic roadwork along the Indus and Shyok valleys: how the asphalt's slow arrival reorders pastoral routes, kinship, and the granular politics of a militarised altitude.</p>
+        <a class="read" href="https://www.princetomar.com/border-regions/ladakh">Read the field notes <span class="arrow">→</span></a>
+      </article>
+
+      <article class="region">
+        <div class="plate" data-hover="image">
+          <span class="label">Plate II · Terai</span>
+          <span class="coords">26.9806° N / 84.8465° E</span>
+          <svg class="plate-svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="terai" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#c7c19c" />
+                <stop offset="0.5" stop-color="#8d8a5b" />
+                <stop offset="1" stop-color="#3f4427" />
+              </linearGradient>
+              <pattern id="tstripe" width="6" height="6" patternUnits="userSpaceOnUse">
+                <rect width="6" height="6" fill="url(#terai)"/>
+                <path d="M0,6 L6,0" stroke="rgba(28,24,20,0.08)" stroke-width="0.6"/>
+              </pattern>
+            </defs>
+            <rect width="400" height="500" fill="url(#tstripe)"/>
+            <g fill="none" stroke="rgba(28,24,20,0.4)" stroke-width="0.8">
+              <path d="M-20,380 C100,360 200,400 300,370 S420,360 420,370"/>
+              <path d="M-20,410 C100,390 200,430 300,400 S420,390 420,400"/>
+              <path d="M-20,440 C100,420 200,460 300,430 S420,420 420,430"/>
+            </g>
+            <g stroke="rgba(28,24,20,0.55)" stroke-width="1" fill="none">
+              <path d="M40,500 L200,200 L360,500" />
+              <path d="M0,260 C120,240 240,280 400,250"/>
+            </g>
+            <circle cx="200" cy="200" r="3" fill="rgba(177,90,58,0.8)" />
+            <g font-family="IBM Plex Mono" font-size="9" fill="rgba(28,24,20,0.55)">
+              <text x="16" y="476">[ FIELD PLATE · DROP A PHOTOGRAPH HERE ]</text>
+              <text x="210" y="196">RAXAUL ⟷ BIRGUNJ</text>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="meta"><span>2023 — Ongoing</span><span>Lowland · 80m</span></div>
+          <h3>The Terai, <span class="it">a porous edge.</span></h3>
+        </div>
+        <p>Twin-towns Raxaul and Birgunj, a comma between two republics. Roads as conduits of trade, smuggling, faith, and rumour — the everyday architecture of an open border.</p>
+        <a class="read" href="https://www.princetomar.com/border-regions/terai">Read the field notes <span class="arrow">→</span></a>
+      </article>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery" data-screen-label="04 Gallery">
+    <div class="sec-label"><span class="num">§ 03</span> Fieldwork Gallery <span class="rule"></span> Photographs</div>
+    <div class="gallery-head">
+      <h2>The mountain, <span class="it">photographed slowly.</span></h2>
+      <p class="aside">Grouped sets of photographs from the field, each circling a quiet theme — light, labour, weather, the look a road has when no one is on it yet. The full archive lives at the gallery subdomain.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gphoto gp-1" data-hover="image">
+        <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#c9b994"/><stop offset="1" stop-color="#5d4d39"/>
+            </linearGradient>
+            <pattern id="gp1p" width="4" height="4" patternUnits="userSpaceOnUse">
+              <rect width="4" height="4" fill="url(#g1)"/>
+              <path d="M0,4 L4,0" stroke="rgba(28,24,20,0.07)" stroke-width="0.4"/>
+            </pattern>
+          </defs>
+          <rect width="800" height="600" fill="url(#gp1p)"/>
+          <polygon points="0,400 200,180 360,340 540,140 740,300 800,260 800,600 0,600" fill="rgba(28,24,20,0.55)"/>
+        </svg>
+        <span class="cap">Plate 01 · Pangong, October</span>
+      </div>
+      <div class="gphoto gp-2" data-hover="image">
+        <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block">
+          <rect width="600" height="400" fill="#a89a76"/>
+          <g stroke="rgba(28,24,20,0.45)" fill="none" stroke-width="1">
+            <path d="M0,280 C150,260 300,300 600,270"/>
+            <path d="M0,320 C150,300 300,340 600,310"/>
+            <path d="M0,360 C150,340 300,380 600,350"/>
+          </g>
+        </svg>
+        <span class="cap">Plate 02 · Indus, dust</span>
+      </div>
+      <div class="gphoto gp-3" data-hover="image">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block">
+          <rect width="400" height="400" fill="#7d8a6a"/>
+          <polygon points="0,300 100,200 200,280 300,180 400,260 400,400 0,400" fill="rgba(28,24,20,0.45)"/>
+        </svg>
+        <span class="cap">Plate 03 · Terai monsoon</span>
+      </div>
+      <div class="gphoto gp-4" data-hover="image">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block">
+          <rect width="400" height="400" fill="#cfc09a"/>
+          <circle cx="280" cy="120" r="34" fill="rgba(28,24,20,0.25)"/>
+          <path d="M0,300 L400,300 L400,400 L0,400Z" fill="rgba(28,24,20,0.45)"/>
+        </svg>
+        <span class="cap">Plate 04 · Border post</span>
+      </div>
+      <div class="gphoto gp-5" data-hover="image">
+        <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block">
+          <rect width="600" height="600" fill="#9e8a6a"/>
+          <polygon points="0,420 120,300 220,400 340,260 460,380 600,320 600,600 0,600" fill="rgba(28,24,20,0.55)"/>
+          <circle cx="500" cy="120" r="30" fill="rgba(241,233,216,0.4)"/>
+        </svg>
+        <span class="cap">Plate 05 · Khardung La</span>
+      </div>
+      <div class="gphoto gp-6" data-hover="image">
+        <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block">
+          <rect width="800" height="400" fill="#8e8158"/>
+          <g stroke="rgba(28,24,20,0.4)" fill="none" stroke-width="0.8">
+            <path d="M0,200 C200,180 400,220 800,190"/>
+            <path d="M0,240 C200,220 400,260 800,230"/>
+            <path d="M0,280 C200,260 400,300 800,270"/>
+            <path d="M0,320 C200,300 400,340 800,310"/>
+          </g>
+          <polygon points="100,200 180,90 260,200" fill="rgba(28,24,20,0.6)"/>
+          <polygon points="220,210 320,60 420,210" fill="rgba(28,24,20,0.5)"/>
+          <polygon points="380,200 460,110 540,200" fill="rgba(28,24,20,0.45)"/>
+        </svg>
+        <span class="cap">Plate 06 · Ladakh ridgeline</span>
+      </div>
+    </div>
+    <div class="gallery-cta">
+      <a href="http://gallery.princetomar.com" target="_blank" rel="noopener" data-hover="link">→ Visit the full gallery <span class="ext">gallery.princetomar.com</span></a>
+      <span style="font-family:var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute);">06 of 240 plates</span>
+    </div>
+  </section>
+
+  <!-- AI EXPERIMENTS -->
+  <section class="ai" id="ai" data-screen-label="05 Experiments">
+    <div class="sec-label"><span class="num">§ 04</span> Experiments with AI <span class="rule"></span> Sandbox</div>
+    <div class="ai-head">
+      <h2>What happens when the <span class="it">field notebook</span> learns to speak back?</h2>
+      <p class="blurb">A small open sandbox: prompts, models, and quiet provocations at the seam between ethnography and machine reading. Not conclusions — exposures.</p>
+    </div>
+    <div class="ai-grid">
+      <div class="ai-card" data-hover="link">
+        <span class="num">No. 01</span>
+        <h4>An LLM walks the <span class="it">Trans-Karakoram</span></h4>
+        <p>Feeding fragmented road-survey diaries from 1962 into a small language model, then asking it to dream the missing kilometres.</p>
+        <div class="tag"><span>Prose · Model</span><span>2025</span></div>
+      </div>
+      <div class="ai-card" data-hover="link">
+        <span class="num">No. 02</span>
+        <h4>Cartographies of <span class="it">absence</span></h4>
+        <p>Vision models trained to read what is not on a satellite tile — the unmapped path, the moved village, the road that was not built.</p>
+        <div class="tag"><span>Vision · Maps</span><span>2025</span></div>
+      </div>
+      <div class="ai-card" data-hover="link">
+        <span class="num">No. 03</span>
+        <h4>A poem in <span class="it">three altitudes</span></h4>
+        <p>Generative co-writing with a stanza of my own, then folded back, then again — to see at what height authorship breaks.</p>
+        <div class="tag"><span>Poetics · Co-write</span><span>2026</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section class="writing" id="writing" data-screen-label="06 Writing">
+    <div class="sec-label"><span class="num">§ 05</span> Selected Writing <span class="rule"></span> Poem</div>
+    <div class="writing-grid">
+      <div>
+        <h2>And the road, <span class="it">like a long sentence,</span> arrives.</h2>
+      </div>
+      <div class="poem">
+        <div class="title">Ridge, with bulldozer</div>
+        <div class="stanza">First the dust learned a new direction.
+Then the goats. Then the names of the goats.
+By winter the mountain had agreed
+to be measured in kilometres.</div>
+        <div class="stanza">A road, I think, is a kind of grammar —
+it puts a verb where there used to be only
+the long, slow noun of a wall.</div>
+        <div class="attr">— Excerpt · Field journal, Nubra, 2024</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EPILOGUE -->
+  <section class="epilogue" id="epilogue" data-screen-label="07 Epilogue">
+    <div class="sec-label"><span class="num">§ 06</span> Epilogue <span class="rule"></span> A small ledger</div>
+    <div class="epilogue-head">
+      <h2>Currently <span class="it">reading, listening, thinking.</span></h2>
+      <p class="lede">A loose, updated ledger — books on the desk, music in the headphones, ideas circling the kettle.</p>
+    </div>
+    <div class="epilogue-grid">
+      <div class="epi-col">
+        <h5><span>On the desk</span><span class="num">/ books</span></h5>
+        <div class="epi-item">
+          <div class="t"><span class="it">Space and Place</span></div>
+          <div class="a">Yi-Fu Tuan · 1977</div>
+          <div class="n">"An object becomes a symbol when its own nature is so clear and so profoundly exposed that while being fully itself it gives knowledge of something greater beyond."</div>
+        </div>
+        <div class="epi-item">
+          <div class="t"><span class="it">Vagabond Witness</span></div>
+          <div class="a">on Eduardo Galeano · re-reading</div>
+        </div>
+        <div class="epi-item">
+          <div class="t"><span class="it">The Living Mountain</span></div>
+          <div class="a">Nan Shepherd · 1977</div>
+        </div>
+      </div>
+      <div class="epi-col">
+        <h5><span>In the ears</span><span class="num">/ sound</span></h5>
+        <div class="epi-item">
+          <div class="t">Field recordings, Nubra valley</div>
+          <div class="a">own archive · 2024</div>
+        </div>
+        <div class="epi-item">
+          <div class="t">Arvo Pärt — <span class="it">Tabula Rasa</span></div>
+          <div class="a">on repeat, slowly</div>
+        </div>
+        <div class="epi-item">
+          <div class="t">Bhojpuri border radio</div>
+          <div class="a">Raxaul, AM dial</div>
+        </div>
+      </div>
+      <div class="epi-col">
+        <h5><span>Circling</span><span class="num">/ ideas</span></h5>
+        <div class="epi-item">
+          <div class="t">Whether a road is a noun or a verb.</div>
+        </div>
+        <div class="epi-item">
+          <div class="t">The grammar of dust.</div>
+        </div>
+        <div class="epi-item">
+          <div class="t">How a glacier keeps its appointments.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-mark">Prince <span class="it">Tomar</span>.</div>
+      <div class="foot-sub">— a portfolio of borderlands, written slowly.</div>
+    </div>
+    <div class="foot-col">
+      <h6>Sections</h6>
+      <a href="#bio">About</a>
+      <a href="#regions">Border Regions</a>
+      <a href="#gallery">Fieldwork Gallery</a>
+      <a href="#ai">Experiments with AI</a>
+      <a href="#writing">Writing</a>
+      <a href="#epilogue">Epilogue</a>
+    </div>
+    <div class="foot-col">
+      <h6>Affiliation</h6>
+      <span>Tallinn University</span>
+      <span>Centre for Landscape & Culture</span>
+      <span>Tallinn, Estonia</span>
+    </div>
+    <div class="foot-col">
+      <h6>Elsewhere</h6>
+      <a href="http://gallery.princetomar.com" target="_blank" rel="noopener">Gallery ↗</a>
+      <a href="#" data-hover="link">Email ↗</a>
+      <a href="#" data-hover="link">Academia.edu ↗</a>
+      <a href="#" data-hover="link">ORCID ↗</a>
+    </div>
+  </div>
+  <div class="foot-base">
+    <span>© MMXXVI — Prince Tomar</span>
+    <span>Set in Cormorant · Spectral · IBM Plex Mono</span>
+    <span>59.4370° N / 24.7536° E</span>
+  </div>
+</footer>
+
+<!-- Cursor + readout JS -->
+<script>
+(function () {
+  const layer = document.getElementById('cursor-layer');
+  if (!layer) return;
+  const ring = document.getElementById('ring');
+  const dot  = document.getElementById('dot');
+  const label = document.getElementById('cursor-label');
+  const trails = [0,1,2,3,4].map(i => document.getElementById('trail-' + i));
+  const rdLat = document.getElementById('rd-lat');
+  const rdLng = document.getElementById('rd-lng');
+  const rdRegion = document.getElementById('rd-region');
+
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let rx = mx, ry = my;
+  let dx = mx, dy = my;
+  const history = Array.from({length: 5}, () => ({x: mx, y: my}));
+
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    // Show readout if first time
+    document.body.classList.add('cursor-active');
+  }, { passive: true });
+
+  // Hover modes — anything with data-hover, plus links/buttons
+  function applyHover(target) {
+    if (!target) { document.body.removeAttribute('data-cursor'); label.style.opacity = 0; return; }
+    const mode = target.getAttribute('data-hover') ||
+                 (target.closest('a, button') ? 'link' : null);
+    if (!mode) { document.body.removeAttribute('data-cursor'); label.style.opacity = 0; return; }
+    document.body.setAttribute('data-cursor', mode);
+    if (mode === 'image') { label.textContent = 'View · plate'; label.style.opacity = 1; }
+    else if (mode === 'link') { label.textContent = '↗ open'; label.style.opacity = 1; }
+    else { label.style.opacity = 0; }
+  }
+
+  document.addEventListener('mouseover', (e) => {
+    applyHover(e.target.closest('[data-hover], a, button'));
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (!e.relatedTarget || !(e.relatedTarget.closest && e.relatedTarget.closest('[data-hover], a, button'))) {
+      applyHover(null);
+    }
+  });
+
+  // Animation loop
+  function tick() {
+    // smooth ring follow
+    rx += (mx - rx) * 0.22;
+    ry += (my - ry) * 0.22;
+    dx += (mx - dx) * 0.42;
+    dy += (my - dy) * 0.42;
+
+    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+    dot.style.transform  = `translate(${dx}px, ${dy}px) translate(-50%, -50%)`;
+    label.style.transform = `translate(${dx + 16}px, ${dy + 16}px)`;
+
+    // trail history
+    history.unshift({x: rx, y: ry});
+    history.length = 5;
+    trails.forEach((t, i) => {
+      const p = history[i];
+      const op = 0.5 - i * 0.09;
+      t.style.transform = `translate(${p.x}px, ${p.y}px) translate(-50%, -50%)`;
+      t.style.opacity = op.toFixed(2);
+    });
+
+    // Coord readout — interpolate between Ladakh (34.02°N, 77.44°E)
+    // and Terai (26.98°N, 84.85°E) by viewport x/y
+    const nx = Math.min(1, Math.max(0, mx / window.innerWidth));
+    const ny = Math.min(1, Math.max(0, my / window.innerHeight));
+    const lat = 34.02 - (34.02 - 26.98) * ny;
+    const lng = 77.44 + (84.85 - 77.44) * nx;
+    rdLat.textContent = lat.toFixed(4) + '°';
+    rdLng.textContent = lng.toFixed(4) + '°';
+
+    // Region label by quadrant
+    let region;
+    if (ny < 0.33) region = 'Trans-Himalaya';
+    else if (ny < 0.66) region = 'Middle Hills';
+    else region = 'Terai Plain';
+    rdRegion.textContent = region;
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+
+<!-- React + Tweaks -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tweaks.jsx"></script>
+
+<div id="tweaks-root"></div>
+
+<script>
+  // Auto-print once fonts + scripts are ready
+  (async function () {
+    try {
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+    } catch (e) {}
+    // Wait an extra moment for Babel/React/tweaks to settle
+    setTimeout(() => { window.print(); }, 800);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+# Netlify config — only needed if you deploy on Netlify (Vercel ignores this).
+#
+# [build].functions makes the functions directory explicit instead of relying
+# on auto-detection (sometimes a publish-dir override hides netlify/ from the
+# deploy). NODE_VERSION = "20" guarantees a runtime with global fetch().
+#
+# The redirect maps /api/goodreads to the function path so the page's fetch
+# URL is identical on Vercel and Netlify.
+
+[build]
+  functions = "netlify/functions"
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "20"
+  # Netlify strips dotfiles from deploys by default (safety: keeps .git/.env
+  # out). The image-slot component persists framing to .image-slots.state.json
+  # at the project root, so we opt back in. Don't add real secrets to dotfiles
+  # while this is on.
+  NETLIFY_INCLUDE_DOTFILES = "true"
+
+[[redirects]]
+  from = "/api/goodreads"
+  to = "/.netlify/functions/goodreads"
+  status = 200

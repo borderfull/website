@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ladakh, the cold frontier — Prince Tomar</title>
+  <meta name="description" content="A field site on the Indus and Shyok valleys: strategic roadwork, pastoral routes, and the granular politics of a militarised altitude." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Spectral:ital,wght@0,200;0,300;0,400;1,300&family=Noto+Serif+Devanagari:wght@300;400;500;600&family=Noto+Sans+Mono+Devanagari:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="field-site.css" />
+  <link rel="stylesheet" href="../field-map.css" />
+  <meta name="field-map-audio-base" content="../audio/" />
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back" href="../index.html#regions">
+    <span class="arrow">←</span>
+    <span>Back to portfolio</span>
+  </a>
+  <div class="mark">Prince <span class="it">Tomar</span> · Field Notes</div>
+</header>
+
+<main>
+
+  <!-- Hero plate -->
+  <div class="hero">
+    <div class="hero-plate">
+      <img src="../images/ladakh-plate-thumb.jpg" alt="Road construction crew at altitude along a Ladakh valley — workers resting beside a striped barrier, an excavator carving the dirt track into the mountainside." />
+      <span class="label">Field Site 1 · Ladakh</span>
+      <span class="coords">34.0216° N / 77.4444° E</span>
+    </div>
+  </div>
+
+  <!-- Title block -->
+  <section class="title-block">
+    <div class="sec-label">
+      <span class="num">§ 02.1</span>
+      <span>Border Regions · Field Site 1</span>
+      <span class="rule"></span>
+      <span>Cold Desert · 3500m · 2024 — Ongoing</span>
+    </div>
+    <h1>Ladakh, <span class="it">the cold frontier.</span></h1>
+    <div class="meta">
+      <span>Indus &amp; Shyok valleys</span>
+      <span>Ladakh, India</span>
+      <span>34.0216° N / 77.4444° E</span>
+      <span>Altitude ≈ 3500 m</span>
+    </div>
+  </section>
+
+  <!-- Body: lede + long-form description placeholder -->
+  <article class="body">
+    <p class="lede">A study of strategic roadwork along the Indus and Shyok valleys — how the asphalt's slow arrival reorders pastoral routes, kinship, and the granular politics of a militarised altitude.</p>
+
+    <h2>The Place</h2>
+
+    <p>At the northern end of India, beyond the Himalaya, lies a vast expanse of land with rugged terrain and harsh weather. The culture is considered Tibetan, the population Buddhist, and the location <span class="it">'sensitive'</span>. It sits between Tibet and the Himalaya, which made it an important center for trans-Himalayan trade, hence the name <span class="it">"pass-country"</span> or <span class="it">"country of passes."</span> <span class="it">'La'</span> for 'pass' and <span class="it">'Dakh'</span> for 'land/country' — with their roots in Tibetan — give rise to the name Ladakh. This region is one of the most unique parts of the country, with its distinct culture and history.</p>
+
+    <p>Ladakh's unique history is marked by trade, invasions, and wars between its South, North, and Central Asian neighbors. Famous for its Pashmina goats and trade routes, the region was ruled by the Namgyals from 1490–1842. The Dogra army, led by General Zorawar Singh Kahluria, conquered Ladakh during the Dogra–Tibetan war of 1841–42, leading to the region's incorporation into the princely state of Jammu. Later, it became part of the Indian state of Jammu and Kashmir.</p>
+
+    <p>Since Independence, Ladakh's experience has been characterised by peripherality, war, and clashes. The recent constitutional changes, including the abrogation of Article 370, have led to Ladakh becoming a Union Territory. After a long struggle, Ladakh is now partially under central government administration, free from the political dominance of Jammu and Kashmir that began 180 years ago. The fight for regional power continues as Ladakh seeks the sixth schedule under the Indian constitution and statehood to grant its people more political power in the region.</p>
+
+    <h2>What this study asks</h2>
+
+    <p>[Two or three paragraphs on the research questions — the larger arc the field site sits inside, the questions you carry into the valleys, and what scales of attention the work moves between.]</p>
+
+    <h3>Field notes — forthcoming</h3>
+    <div class="forthcoming">Long-form field notes from this site are in preparation. Selected entries will be posted here as they are written.</div>
+
+  </article>
+
+  <!-- Interactive field map of Ladakh -->
+  <section class="field-map-section" id="field-map">
+    <div class="sec-label">
+      <span class="num">§ 02.1a</span>
+      <span>Field Atlas</span>
+      <span class="rule"></span>
+      <span>Villages · Passes · Photographs · Recordings</span>
+    </div>
+    <div id="field-map-root"></div>
+  </section>
+
+  <!-- Bottom nav: cross-link to other field site + back to portfolio -->
+  <nav class="bot-nav">
+    <a href="terai.html">
+      <span class="tag">Next field site →</span>
+      <span class="title-line">The Terai, <span class="it">a porous edge.</span></span>
+    </a>
+    <a class="right" href="../index.html#regions">
+      <span class="tag">← Back to portfolio</span>
+      <span class="title-line">Prince <span class="it">Tomar</span></span>
+    </a>
+  </nav>
+
+  <footer>
+    <span>© MMXXVI — Prince Tomar</span>
+    <span>28.7041° N / 77.1025° E</span>
+  </footer>
+
+</main>
+
+<!-- Field-map runtime: image-slot for photos, React + Babel, then the
+     field-map components. Loaded at end of body so they don't block
+     the article above. -->
+<script src="../image-slot.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../field-map-data.jsx"></script>
+<script type="text/babel" src="../field-map-basemap.jsx"></script>
+<script type="text/babel" src="../field-map-audio.jsx"></script>
+<script type="text/babel" src="../field-map.jsx"></script>
+
+</body>
+</html>
