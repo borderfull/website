@@ -4,11 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Prince Tomar — Field Notes</title>
+<meta name="description" content="Prince Tomar — doctoral researcher at Tallinn University. Field notes on ethnography, borders, and infrastructure across Ladakh and the Terai." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://unpkg.com" crossorigin />
 <link rel="dns-prefetch" href="https://unpkg.com" />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+Devanagari:wght@300;400;500;600&family=Noto+Sans+Mono+Devanagari:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" /></noscript>wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+Devanagari:wght@300;400;500;600&family=Noto+Sans+Mono+Devanagari:wght@300;400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="designs.css" />
 <style>
   :root {
@@ -957,7 +959,10 @@
         <div class="plate" data-hover="image" data-lightbox="images/ladakh-plate.jpg">
           <span class="label" data-i18n="regions.ladakh.label">Field Site 1 · Ladakh</span>
           <span class="coords">34.0216° N / 77.4444° E</span>
-          <img class="plate-photo" src="images/ladakh-plate-thumb.jpg" width="1280" height="960" fetchpriority="high" alt="Road construction crew at altitude along a Ladakh valley — workers resting beside a striped barrier, an excavator carving the dirt track into the mountainside." loading="lazy" decoding="async" />
+          <picture>
+            <source srcset="images/ladakh-plate-thumb.webp" type="image/webp" />
+            <img class="plate-photo" src="images/ladakh-plate-thumb.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Road construction crew at altitude along a Ladakh valley — workers resting beside a striped barrier." />
+          </picture>
         </div>
         <div>
           <div class="meta"><span data-i18n="regions.ladakh.meta1">2024 — Ongoing</span><span data-i18n="regions.ladakh.meta2">Cold Desert · 3500m</span></div>
@@ -976,7 +981,10 @@
         <div class="plate" data-hover="image" data-lightbox="images/terai-plate.jpg">
           <span class="label" data-i18n="regions.terai.label">Field Site 2 · Terai</span>
           <span class="coords">26.9806° N / 84.8465° E</span>
-          <img class="plate-photo" src="images/terai-plate-thumb.jpg" width="1280" height="960" alt="A solitary peepal tree on the open Terai plain near Raxaul–Birgunj, dirt tracks fanning out across dry grassland." loading="lazy" decoding="async" />
+          <picture>
+            <source srcset="images/terai-plate-thumb.webp" type="image/webp" />
+            <img class="plate-photo" src="images/terai-plate-thumb.jpg" width="800" height="600" loading="lazy" decoding="async" alt="A solitary peepal tree on the open Terai plain near Raxaul–Birgunj, dirt tracks fanning out across dry grassland." />
+          </picture>
         </div>
         <div>
           <div class="meta"><span data-i18n="regions.terai.meta1">2023 — Ongoing</span><span data-i18n="regions.terai.meta2">Lowland · 80m</span></div>
@@ -1001,19 +1009,31 @@
     </div>
     <div class="gallery-grid">
       <figure class="gphoto gp-1" data-hover="image" data-lightbox="images/gallery-01-stonework.jpg">
-        <img src="images/gallery-01-stonework-thumb.jpg" width="1280" height="960" alt="Road labourers building a stone retaining wall in a Ladakh valley, dust and rubble around them." loading="lazy" decoding="async" />
+        <picture>
+          <source srcset="images/gallery-01-stonework-thumb.webp" type="image/webp" />
+          <img src="images/gallery-01-stonework-thumb.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Road labourers building a stone retaining wall in a Ladakh valley, dust and rubble around them." />
+        </picture>
         <span class="cap">Plate 01 · Stonework, Ladakh valley</span>
       </figure>
       <figure class="gphoto gp-2" data-hover="image" data-lightbox="images/gallery-02-birgunj.jpg">
-        <img src="images/gallery-02-birgunj-thumb.jpg" width="1280" height="960" alt="The ornate Nepal–India friendship gateway at Birgunj, with the handshake monument in the foreground." loading="lazy" decoding="async" />
+        <picture>
+          <source srcset="images/gallery-02-birgunj-thumb.webp" type="image/webp" />
+          <img src="images/gallery-02-birgunj-thumb.jpg" width="800" height="600" loading="lazy" decoding="async" alt="The ornate Nepal–India friendship gateway at Birgunj, with the handshake monument in the foreground." />
+        </picture>
         <span class="cap">Plate 02 · Birgunj gateway, Terai</span>
       </figure>
       <figure class="gphoto gp-3" data-hover="image" data-lightbox="images/gallery-03-roadwork-sign.jpg">
-        <img src="images/gallery-03-roadwork-sign-thumb.jpg" width="1100" height="1467" alt="A red triangular men-at-work sign on a wooden post against a blue Ladakh sky and rocky mountain backdrop." loading="lazy" decoding="async"ync" />
+        <picture>
+          <source srcset="images/gallery-03-roadwork-sign-thumb.webp" type="image/webp" />
+          <img src="images/gallery-03-roadwork-sign-thumb.jpg" width="733" height="978" loading="lazy" decoding="async" alt="A red triangular men-at-work sign on a wooden post against a blue Ladakh sky and rocky mountain backdrop." />
+        </picture>
         <span class="cap">Plate 03 · Work-ahead, Ladakh</span>
       </figure>
       <figure class="gphoto gp-4" data-hover="image" data-lightbox="images/gallery-04-himank.jpg">
-        <img src="images/gallery-04-himank-thumb.jpg" width="1280" height="960" alt="A painted yellow Himank Border Roads milestone reading 'No race, no rally — enjoy the beauty of valley', against dunes and clouds." loading="lazy" decoding="async" />
+        <picture>
+          <source srcset="images/gallery-04-himank-thumb.webp" type="image/webp" />
+          <img src="images/gallery-04-himank-thumb.jpg" width="800" height="600" loading="lazy" decoding="async" alt="A painted yellow Himank Border Roads milestone reading 'No race, no rally — enjoy the beauty of valley'." />
+        </picture>
         <span class="cap">Plate 04 · Himank milestone, Ladakh</span>
       </figure>
     </div>
@@ -1410,14 +1430,6 @@ the long, slow noun of a wall.</div>
 })();
 </script>
 
-<!-- React + Tweaks (production build for performance) -->
-<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="tweaks.jsx"></script>
-
-<div id="tweaks-root"></div>
 
 <script src="translations.js"></script>
 
