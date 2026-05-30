@@ -16,11 +16,11 @@ const OFFROAD_DUR = 8; // seconds biker is in off-road state
 
 /* ── Ranges ─────────────────────────────────────────────────────────── */
 const RANGES = [
-  { name:'Range I',   sub:'The Valley Floor',  alt:'3,200m', coords:'34.02°N', dur:90, spd:3.0,
+  { name:'Range I',   sub:'The Valley Floor',  alt:'3,200m', coords:'34.02°N', dur:60, spd:3.0,
     set:['mountain','goat','mountain','tunnel','mountain','offroad','goat','mountain','goat','mountain'] },
-  { name:'Range II',  sub:'The Upper Reaches', alt:'4,100m', coords:'34.84°N', dur:90, spd:4.1,
+  { name:'Range II',  sub:'The Upper Reaches', alt:'4,100m', coords:'34.84°N', dur:60, spd:4.1,
     set:['mountain','yak','mountain','offroad','tunnel','landslide','mountain','yak','mountain','offroad','mountain'] },
-  { name:'Range III', sub:'Near the Pass',     alt:'5,300m', coords:'35.49°N', dur:90, spd:5.4,
+  { name:'Range III', sub:'Near the Pass',     alt:'5,300m', coords:'35.49°N', dur:60, spd:5.4,
     set:['offroad','landslide','mountain','construction','yak','mountain','tunnel','mountain','construction','yak','offroad','mountain','yak','mountain'] }
 ];
 
@@ -49,6 +49,7 @@ let crashTimer=0, crashRange='', crashMoments=0;
 let notifMsg='', notifT=0;
 let soundPops=[], waitSound='';
 let W=0, H=0, GY=0;
+let highScore = parseInt(localStorage.getItem('road-game-highscore') || '0');
 
 /* ── Resize ────────────────────────────────────────────────────────── */
 function resize() {
@@ -148,10 +149,10 @@ function drawBikerFn() {
 
   // Crash: tilt forward progressively
   const crashLean = (S==='crashed'||S==='gameover')
-    ? Math.min(crashTimer/1.6, 1) * (Math.PI*0.55)
+    ? Math.min(crashTimer/1.2, 1) * (Math.PI*0.55)
     : 0;
   const crashDrop = (S==='crashed'||S==='gameover')
-    ? Math.min(crashTimer/1.6, 1) * 22
+    ? Math.min(crashTimer/1.2, 1) * 22
     : 0;
 
   ctx.save();
@@ -347,6 +348,10 @@ function drawHUD() {
   ctx.font='300 9px "IBM Plex Mono",monospace'; ctx.fillStyle=P.mute; ctx.textAlign='left';
   ctx.fillText(r.name.toUpperCase()+' · '+r.sub, 14, 12);
   ctx.fillText(r.coords+' · '+r.alt, 14, 25);
+  if (highScore > 0) {
+    ctx.fillStyle=P.mute; ctx.font='300 8px "IBM Plex Mono",monospace';
+    ctx.fillText('BEST · '+highScore, 14, 40);
+  }
   ctx.textAlign='right'; ctx.fillStyle=P.mute;
   ctx.fillText('MOMENTS', W-14, 12);
   ctx.font='300 20px "IBM Plex Mono",monospace'; ctx.fillStyle=P.ink;
@@ -399,7 +404,7 @@ function drawWaitOverlay() {
 
 /* ── Crash overlay ─────────────────────────────────────────────────── */
 function drawCrashOverlay() {
-  const prog = Math.min(crashTimer / 1.6, 1);
+  const prog = Math.min(crashTimer / 1.2, 1);
   // Biker falls forward — drawn separately below normal biker
   // Impact flash (quick white flash at start)
   if (crashTimer < 0.12) {
@@ -437,6 +442,7 @@ function drawGameOverScreen() {
   ctx.fillText(crashRange, W/2, H*0.52);
   ctx.font='300 9px "IBM Plex Mono",monospace'; ctx.fillStyle=P.mute;
   ctx.fillText(totalJumps+' summits cleared · '+totalWaits+' encounters', W/2, H*0.66);
+  if (highScore > 0) { ctx.fillStyle=P.mute; ctx.fillText('YOUR BEST · '+highScore+' moments', W/2, H*0.74); }
   ctx.fillStyle=P.paper; ctx.fillText('SPACE · TAP TO RIDE AGAIN', W/2, H*0.82);
   ctx.restore();
 }
@@ -530,7 +536,8 @@ function drawPops() {
 
 /* ── Input ─────────────────────────────────────────────────────────── */
 function doJump() {
-  if (S==='idle'||S==='done'||S==='gameover') { startGame(); return; }
+  if (S==='idle') { startGame(); return; }
+  if (S==='done'||S==='gameover') { startGame(); return; }
   if (S==='playing'&&onGround) { bikerVY=JUMP_VY; onGround=false; }
 }
 document.addEventListener('keydown', e=>{ if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();doJump();} });
@@ -581,8 +588,10 @@ function update(dt) {
     return;
   }
 
-  if(S==='crashed') { crashTimer+=dt; if(crashTimer>=1.6) S='gameover'; return; }
+  if(S==='crashed') { crashTimer+=dt; updatePops(dt); if(crashTimer>=1.2) { S='gameover'; const s=Math.floor(moments); if(s>highScore){highScore=s;localStorage.setItem('road-game-highscore',s);} } return; }
   if(S==='transition') { transT-=dt; if(transT<=0) S='playing'; return; }
+  if(S==='gameover') return;
+  if(S==='done') return;
 
   /* Playing */
   const r=RANGES[rangeIdx];
@@ -668,7 +677,7 @@ function update(dt) {
     if(rangeIdx<RANGES.length-1){
       rangeIdx++;rangeT=0;obstacles=[];obsQueue=[];nextObsIn=820;
       S='transition';transT=3.5;setupRange(rangeIdx);
-    } else S='done';
+    } else { S='done'; const s=Math.floor(moments); if(s>highScore){highScore=s;localStorage.setItem('road-game-highscore',s);} }
   }
 }
 

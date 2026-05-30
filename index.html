@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="module">
-  import { inject } from '@vercel/speed-insights';
-  inject();
-</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Prince Tomar — When the field notes speak</title>
@@ -238,8 +234,54 @@
   }
   .cv-btn:hover { background: var(--paper); color: var(--accent); border-color: var(--accent); }
 
+  /* ------------ Hamburger / mobile nav ------------ */
+  .hamburger {
+    display: none;
+    flex-direction: column; justify-content: center; align-items: center;
+    gap: 5px;
+    width: 36px; height: 36px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 1px;
+    background: var(--ink);
+    transition: transform .3s ease, opacity .3s ease;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  .mobile-nav {
+    display: none;
+    position: fixed; top: 58px; left: 0; right: 0; z-index: 99;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    flex-direction: column;
+    padding: 16px var(--gutter) 20px;
+    gap: 0;
+    transform: translateY(-8px);
+    opacity: 0;
+    transition: transform .25s ease, opacity .25s ease;
+    box-shadow: 0 8px 24px rgba(28,24,20,0.08);
+  }
+  .mobile-nav.open {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .mobile-nav a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-soft);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: color .2s ease;
+  }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover { color: var(--ink); }
+
   @media (max-width: 980px) {
-    .topbar-right { gap: 0; }
+    .topbar-right { gap: 12px; }
+    .hamburger { display: flex; }
+    .mobile-nav { display: flex; }
   }
 
   /* ------------ Sections ------------ */
@@ -875,7 +917,23 @@
     .cv-link { padding: 10px 14px; }
   }
 
-  /* ===== Theme variants (via [data-theme] on body) ===== */
+  /* ===== Mobile performance & layout ===== */
+  @media (max-width: 980px) {
+    /* content-visibility speeds up off-screen section rendering */
+    section { content-visibility: auto; contain-intrinsic-size: 0 600px; }
+    /* Reduce heavy background grain computation on mobile */
+    body::before { display: none; }
+    /* Remove cursor readout on mobile (already hidden, but be explicit) */
+    #cursor-readout { display: none !important; }
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    .cursor-dot, .cursor-ring, .cursor-trail { display: none; }
+  }
+
+
   body[data-theme="midnight"] {
     --paper: #131211;
     --paper-2: #1c1a17;
@@ -1022,11 +1080,11 @@
   <div class="topbar-right">
     <nav>
       <a href="#bio" data-i18n="nav.about">About</a>
-      <a href="#regions" data-i18n="nav.regions">Borderlands</a>
+      <a href="#regions" data-i18n="nav.borderlands">Borderlands</a>
       <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
-      <a href="#writings" data-i18n="nav.writings">Writings</a>
+      <a href="#writings" data-i18n="nav.latest">Latest</a>
       <a href="#ai" data-i18n="nav.ai">Experiments</a>
-      <a href="#writing" data-i18n="nav.writing">Play</a>
+      <a href="#writing" data-i18n="nav.play">Play</a>
       <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
     </nav>
     <a class="cv-btn" href="cv.html" data-hover="link" data-i18n="nav.cv">CV</a>
@@ -1035,8 +1093,22 @@
       <span class="lt-opt en">EN</span>
       <span class="lt-opt hi">हि</span>
     </button>
+    <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation" type="button">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+
+<!-- Mobile nav drawer -->
+<nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+  <a href="#bio" data-i18n="nav.about">About</a>
+  <a href="#regions" data-i18n="nav.borderlands">Borderlands</a>
+  <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
+  <a href="#writings" data-i18n="nav.latest">Latest</a>
+  <a href="#ai" data-i18n="nav.ai">Experiments</a>
+  <a href="#writing" data-i18n="nav.play">Play</a>
+  <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
+</nav>
 
 <main id="top" data-screen-label="Portfolio">
 
@@ -1055,32 +1127,32 @@
           <path d="M0,680 C140,640 260,710 360,680 S500,640 600,700" />
         </g>
 
-        <!-- Tallinn · 59.43° N -->
+        <!-- Tallinn · 59.43° N · residence -->
         <g class="place">
-          <circle cx="300" cy="107" r="2" fill="currentColor" stroke="none" />
-          <text x="307" y="104" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none" letter-spacing="0.1em">TALLINN</text>
-          <text x="307" y="115" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="currentColor" stroke="none">59.43° N · 24.75° E</text>
+          <circle cx="300" cy="107" r="2.5" fill="none" stroke="currentColor" stroke-width="1" />
+          <text x="307" y="104" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none" letter-spacing="0.1em" opacity="0.55">TALLINN</text>
+          <text x="307" y="115" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="currentColor" stroke="none" opacity="0.45">59.43° N · 24.75° E</text>
         </g>
 
-        <!-- Ladakh · 34.02° N -->
+        <!-- Ladakh · 34.02° N · field site -->
         <g class="place">
-          <circle cx="210" cy="327" r="2" fill="currentColor" stroke="none" />
-          <text x="217" y="324" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none" letter-spacing="0.1em">LADAKH</text>
-          <text x="217" y="335" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="currentColor" stroke="none">34.16° N · 77.58° E</text>
+          <circle cx="210" cy="327" r="2.5" fill="#b15a3a" stroke="none" />
+          <text x="217" y="324" font-family="IBM Plex Mono" font-size="9" fill="#b15a3a" stroke="none" letter-spacing="0.1em">LADAKH</text>
+          <text x="217" y="335" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="#b15a3a" stroke="none" opacity="0.75">34.16° N · 77.58° E</text>
         </g>
 
-        <!-- Delhi · 28.61° N -->
+        <!-- Delhi · 28.61° N · residence -->
         <g class="place">
-          <circle cx="320" cy="430" r="2" fill="currentColor" stroke="none" />
-          <text x="327" y="427" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none" letter-spacing="0.1em">DELHI</text>
-          <text x="327" y="438" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="currentColor" stroke="none">28.61° N · 77.23° E</text>
+          <circle cx="320" cy="430" r="2.5" fill="none" stroke="currentColor" stroke-width="1" />
+          <text x="327" y="427" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none" letter-spacing="0.1em" opacity="0.55">DELHI</text>
+          <text x="327" y="438" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="currentColor" stroke="none" opacity="0.45">28.61° N · 77.23° E</text>
         </g>
 
-        <!-- Terai · 26.98° N -->
+        <!-- Terai · 26.98° N · field site -->
         <g class="place">
-          <circle cx="400" cy="487" r="2" fill="currentColor" stroke="none" />
-          <text x="407" y="484" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none" letter-spacing="0.1em">TERAI</text>
-          <text x="407" y="495" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="currentColor" stroke="none">26.98° N · 84.85° E</text>
+          <circle cx="400" cy="487" r="2.5" fill="#b15a3a" stroke="none" />
+          <text x="407" y="484" font-family="IBM Plex Mono" font-size="9" fill="#b15a3a" stroke="none" letter-spacing="0.1em">TERAI</text>
+          <text x="407" y="495" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="#b15a3a" stroke="none" opacity="0.75">26.98° N · 84.85° E</text>
         </g>
       </svg>
     </div>
@@ -1110,7 +1182,7 @@
     <div class="bio-grid">
       <div class="body">
         <p data-i18n="bio.p1"><span class="drop-cap">P</span>rince Tomar is a doctoral researcher at the Centre for Landscape and Culture, Tallinn University. He works with borderland communities along the Indian Himalaya, with a particular focus on the dynamics of road development — tracing the subtle interplay between infrastructure, territorialisation, and the region's intricate dance of history, geopolitics, and terrain.</p>
-        <p data-i18n="bio.p3">Beyond the academic work, he writes poems and is interested in the porous border between ethnography and literary studies — the way a field note can become a stanza, and a stanza can carry the weight of a census. His current project studies the spatial-temporal dimensions of change in the Indian Himalaya as the pace of road development quickens.</p>
+        <p data-i18n="bio.p3">Beyond the academic work, he writes poems and is interested in the porous border between ethnography and literary studies. His current project studies the spatial-temporal dimensions of change in the Indian Himalaya as the pace of road development quickens.</p>
         <p data-i18n="bio.p4"><span class="drop-cap">H</span>e keeps an open notebook here: photographs from the field, dispatches and small experiments with AI, and an epilogue of things being read, watched, listened to.</p>
       </div>
     </div>
@@ -1210,24 +1282,23 @@
 
   <!-- WRITING -->
   <section class="writings" id="writings" data-screen-label="05 Writing">
-    <div class="sec-label" data-chapter-name="Selected writing"><span class="num">§ 04</span> Writing <span class="rule"></span> Papers &amp; essays</div>
+    <div class="sec-label" data-chapter-name="Selected writing"><span class="num">§ 04</span> <span class="rule"></span> Papers &amp; essays</div>
     <div class="writings-head">
-      <h2 data-i18n="writings.h">Writings</h2>
     </div>
     <ol class="writing-list">
       <li class="w-row" data-hover="link">
         <span class="w-year">2027</span>
         <div class="w-body">
           <h3 class="w-title" data-i18n="writings.w3.t">Negotiating Remoteness: <span class="it">heterotopic roads and adventure tourism in Ladakh, India</span></h3>
-          <p class="w-desc"><span class="w-venue" data-i18n="writings.w3.v">Journal of Tourism and Cultural Change · Out for review</span></p>
+          <p class="w-desc"><span class="w-venue" data-i18n="writings.w3.v">Journal of Tourism and Cultural Change</span> · <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span> · Out for review</p>
         </div>
         <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
       </li>
       <li class="w-row" data-hover="link">
         <span class="w-year">2026</span>
         <div class="w-body">
-          <h3 class="w-title" data-i18n="writings.w1.t">“Toward the Dust”: <span class="it">border crossing and the state of infrastructure at the India–Nepal border</span></h3>
-          <p class="w-desc"><span class="w-venue" data-i18n="writings.w1.v">Asian Geographer · Forthcoming</span></p>
+          <h3 class="w-title" data-i18n="writings.w1.t">"Toward the Dust": <span class="it">border crossing and the state of infrastructure at the India–Nepal border</span></h3>
+          <p class="w-desc"><span class="w-venue" data-i18n="writings.w1.v">Asian Geographer</span> · <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span> · Forthcoming</p>
         </div>
         <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
       </li>
@@ -1235,7 +1306,15 @@
         <span class="w-year">2026</span>
         <div class="w-body">
           <h3 class="w-title" data-i18n="writings.w2.t">Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span></h3>
-          <p class="w-desc"><span class="w-venue" data-i18n="writings.w2.v">HIMALAYA · Forthcoming</span></p>
+          <p class="w-desc"><span class="w-venue" data-i18n="writings.w2.v">HIMALAYA</span> · <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span> · Forthcoming</p>
+        </div>
+        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
+      </li>
+      <li class="w-row" data-hover="link">
+        <span class="w-year">2025</span>
+        <div class="w-body">
+          <h3 class="w-title"><a href="https://doi.org/10.2218/himalaya.2025.10878" target="_blank" rel="noopener">Review of <span class="it">Pyre</span> (चिता) directed by Vinod Kapri</a></h3>
+          <p class="w-desc"><span class="w-venue">HIMALAYA</span> · <span class="w-kind">Film Review</span></p>
         </div>
         <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
       </li>
@@ -1261,7 +1340,7 @@
     <div class="ai-grid">
       <a class="ai-card" href="https://opal.google/app/1ptWkLqszsDuwhi3SLZgFU_dFcejuoWSO" target="_blank" rel="noopener" data-hover="link">
         <span class="num">No. 01</span>
-        <h4 data-i18n="ai.card1.h">Bard's <span class="it">Balm</span></h4>
+        <h4 data-i18n="ai.card1.h">Bard's <span class="it">Balm</span> · 2025</h4>
         <p data-i18n="ai.card1.p">Feeling the weight of academic life? Plotting revenge against reviewers? Shakespeare might help. Drop your mood and the Bard offers a verse — uplifting, or perhaps just the bare truth. Requires a Google account.</p>
         <div class="tag"><span>App · Appsheet</span><span>↗ Open</span></div>
       </a>
@@ -1288,7 +1367,7 @@
     </div>
     <div class="rg-foot">
       <span>Space · Tap · Jump over summits</span>
-      <span>3 ranges · ~4 min journey</span>
+      <span>3 ranges · ~3 min journey</span>
       <span>Mountains · Tunnels · Yaks · Goats · Road work · Landslides</span>
     </div>
   </section>
@@ -1378,7 +1457,7 @@
       <a href="#bio" data-i18n="nav.about">About</a>
       <a href="#regions" data-i18n="nav.regions">Border Regions</a>
       <a href="#gallery" data-i18n="nav.gallery">Fieldwork Gallery</a>
-      <a href="#writings" data-i18n="nav.writings">Writings</a>
+      <a href="#writings" data-i18n="nav.writings">Latest</a>
       <a href="#ai" data-i18n="nav.ai">Experiments with AI</a>
       <a href="#writing" data-i18n="nav.writing">Play</a>
       <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
@@ -1711,6 +1790,42 @@
   }
 })();
 </script>
+
+<!-- Hamburger / mobile nav -->
+<script>
+(function () {
+  var btn = document.getElementById('hamburger-btn');
+  var nav = document.getElementById('mobile-nav');
+  if (!btn || !nav) return;
+  btn.addEventListener('click', function () {
+    var open = btn.classList.toggle('open');
+    nav.classList.toggle('open', open);
+    nav.setAttribute('aria-hidden', String(!open));
+  });
+  // Close when a link is tapped
+  nav.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      btn.classList.remove('open');
+      nav.classList.remove('open');
+      nav.setAttribute('aria-hidden', 'true');
+    });
+  });
+  // Close on outside tap
+  document.addEventListener('click', function (e) {
+    if (!nav.contains(e.target) && !btn.contains(e.target)) {
+      btn.classList.remove('open');
+      nav.classList.remove('open');
+      nav.setAttribute('aria-hidden', 'true');
+    }
+  });
+})();
+</script>
+
+<!-- Vercel Speed Insights -->
+<script>
+window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 
 </body>
 </html>
