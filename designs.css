@@ -329,8 +329,11 @@ body[data-design="gallery"] .signoff-text { text-align: center; }
 body[data-design="gallery"] .topbar {
   background: linear-gradient(to bottom, var(--paper) 70%, transparent);
 }
-/* keep the contour map visible — wavy lines + Ladakh/Terai labels read clearly */
-body[data-design="gallery"] .hero-contour { opacity: 0.28; }
+/* keep the contour map visible — wavy lines faint, Leh/Delhi/Terai labels read dark */
+body[data-design="gallery"] .hero-contour { opacity: 1; }
+body[data-design="gallery"] .hero-contour .wave { opacity: 0.22; }
+body[data-design="gallery"] .hero-contour .place { opacity: 0.5; }
+body[data-design="gallery"] .hero-contour .place .coord { opacity: 0.8; }
 
 @media (max-width: 980px) {
   body[data-design="gallery"] .regions-grid { grid-template-columns: 1fr; gap: 56px; }

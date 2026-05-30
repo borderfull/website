@@ -562,6 +562,9 @@
   .field-map-panel { grid-template-columns: 1fr; }
   .panel-right { border-top: 1px solid var(--rule); border-right: 0; }
   .field-map-pin .name { font-size: 9px; padding: 1px 4px; }
+  /* Give the map more vertical room as it narrows (basemap stretches,
+     pins stay proportional). */
+  .field-map-stage { aspect-ratio: 1200 / 880; }
 }
 @media (max-width: 720px) {
   .field-map-head { flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -569,6 +572,13 @@
   .field-map-cartouche { display: none; }
   .field-map-nav { flex-wrap: wrap; }
   .field-map-nav button { flex: 1 0 50%; border-bottom: 1px solid var(--rule); }
+  /* Near-square stage so pins are large enough to tap comfortably. */
+  .field-map-stage { aspect-ratio: 1 / 1; }
+  /* Larger touch targets for the pin glyphs. */
+  .field-map-pin .glyph .dot { width: 18px; height: 18px; }
+  .field-map-pin .glyph .tri {
+    border-left-width: 11px; border-right-width: 11px; border-bottom-width: 19px;
+  }
 }
 
 /* When original design is active, the map still works; tone down the

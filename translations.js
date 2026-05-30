@@ -9,9 +9,11 @@
     'nav.about':    'परिचय',
     'nav.regions':  'सरहदें',
     'nav.gallery':  'चित्रशाला',
+    'nav.writings': 'लेखन',
     'nav.ai':       'प्रयोग',
-    'nav.writing':  'लेखन',
+    'nav.writing':  'खेल',
     'nav.epilogue': 'उपसंहार',
+    'nav.cv':       'सीवी',
 
     // Hero
     'hero.title': 'प्रिंस <span class="it">तोमर</span><br />— सरहदों का<br />एक संग्रह।',
@@ -52,12 +54,27 @@
     'ai.h':     'जब <span class="it">क्षेत्र-पोथी</span> स्वयं उत्तर देने लगे, तब क्या होता है?',
     'ai.blurb': 'एक छोटी, खुली प्रयोगशाला: संकेत, प्रतिमान, और मानवशास्त्र व यंत्र-पठन के संधि पर मौन उद्बोधन। निष्कर्ष नहीं — अनावरण।',
 
-    'ai.card1.h': 'एक भाषा-प्रतिमान <span class="it">ट्रांस-काराकोरम</span> में चलता है',
-    'ai.card1.p': '१९६२ की खंडित सड़क-सर्वेक्षण डायरियों को एक छोटे प्रतिमान को खिलाकर, उसे लुप्त किलोमीटरों का स्वप्न देखने को कहना।',
-    'ai.card2.h': 'अनुपस्थिति की <span class="it">मानचित्र-कलाएँ</span>',
-    'ai.card2.p': 'उपग्रह-चित्रों में जो नहीं है उसे पढ़ने के लिए प्रशिक्षित दृष्टि-प्रतिमान — अनदर्शित पथ, स्थानांतरित गाँव, और वह सड़क जो बनी ही नहीं।',
+    'ai.card1.h': 'बार्ड की <span class="it">बाम</span>',
+    'ai.card1.p': 'अकादमिक जीवन की थकान? समीक्षकों से प्रतिशोध का मन? शेक्सपियर मदद कर सकते हैं — अपना मन डालें, बार्ड एक छंद देता है; उत्साहवर्धक, या शायद केवल कड़वा सच। Google खाता आवश्यक।',
+    'ai.card2.h': 'एक भाषा-प्रतिमान <span class="it">ट्रांस-काराकोरम</span> में चलता है',
+    'ai.card2.p': '१९६२ की खंडित सड़क-सर्वेक्षण डायरियों को एक छोटे प्रतिमान को खिलाकर, उसे लुप्त किलोमीटरों का स्वप्न देखने को कहना।',
     'ai.card3.h': 'तीन ऊँचाइयों में एक <span class="it">कविता</span>',
     'ai.card3.p': 'मेरी एक छंद से सहलेखन — प्रतिमान के साथ, फिर वापस मोड़कर, फिर पुनः — यह देखने को कि किस ऊँचाई पर रचयिता विलीन हो जाता है।',
+
+    // Writing
+    'writings.h':   'शब्द, जो सड़क से <span class="it">धीमे चलते हैं।</span>',
+    'writings.cv':  '<span class="cv-ico" aria-hidden="true"></span><span class="cv-txt">सीवी डाउनलोड करें</span><span class="cv-meta">PDF</span>',
+    'writings.kind.peer': 'सहकर्मी-समीक्षित',
+    'writings.kind.blog': 'ब्लॉग',
+    'writings.w1.t': '“धूल की ओर”: <span class="it">भारत–नेपाल सीमा पर सीमा-पारगमन और अवसंरचना की स्थिति</span>',
+    'writings.w1.v': 'Asian Geographer · प्रकाशनार्थ',
+    'writings.w2.t': 'निर्माता, निर्माण, और निर्मित: <span class="it">लद्दाख और सड़क-विकास की घटना-शीलता</span>',
+    'writings.w2.v': 'HIMALAYA · प्रकाशनार्थ',
+    'writings.w3.t': 'दूरी की वार्ता: <span class="it">लद्दाख, भारत में विषमस्थानिक सड़कें और साहसिक पर्यटन</span>',
+    'writings.w3.v': 'Journal of Tourism and Cultural Change · समीक्षाधीन',
+    'writings.w4.t': 'क्षेत्र, सीमा, और मैं <span class="w-ext" aria-hidden="true">↗</span>',
+    'writings.w4.v': 'ethnomarginalia.com · निबंध',
+    'writings.note': 'वार्ताओं व कार्य-पत्रों की पूरी सूची सीवी पर है।',
 
     // Writing
     'writing.h': 'और सड़क, <span class="it">एक लम्बे वाक्य की भाँति,</span> आती है।',
@@ -95,6 +112,7 @@
     'foot.h.sections':    'खंड',
     'foot.h.affiliation': 'संस्थान',
     'foot.h.elsewhere':   'और कहीं',
+    'foot.cv':            'सीवी (PDF) ↓',
     'foot.affil.1': 'तालिन विश्वविद्यालय',
     'foot.affil.2': 'Centre for Landscape & Culture',
     'foot.affil.3': 'तालिन, एस्तोनिया',

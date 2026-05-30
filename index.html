@@ -5,12 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Prince Tomar — Field Notes</title>
 <meta name="description" content="Prince Tomar — doctoral researcher at Tallinn University. Field notes on ethnography, borders, and infrastructure across Ladakh and the Terai." />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="apple-touch-icon" href="favicon.svg" />
+<meta name="theme-color" content="#1c1814" />
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Prince Tomar — Field Notes" />
+<meta property="og:title" content="Prince Tomar — a portfolio of borderlands" />
+<meta property="og:description" content="Doctoral research on roads, borders, and infrastructure across the Indian Himalaya — Ladakh and the Terai." />
+<meta property="og:url" content="https://princetomar.com/" />
+<meta property="og:image" content="https://princetomar.com/images/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Prince Tomar — a portfolio of borderlands. Tallinn University." />
+
+<!-- Twitter / X card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Prince Tomar — a portfolio of borderlands" />
+<meta name="twitter:description" content="Doctoral research on roads, borders, and infrastructure across the Indian Himalaya — Ladakh and the Terai." />
+<meta name="twitter:image" content="https://princetomar.com/images/og-cover.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://unpkg.com" crossorigin />
 <link rel="dns-prefetch" href="https://unpkg.com" />
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" /></noscript>wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+Devanagari:wght@300;400;500;600&family=Noto+Sans+Mono+Devanagari:wght@300;400;500&display=swap" rel="stylesheet" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" /></noscript>
 <link rel="stylesheet" href="designs.css" />
 <style>
   :root {
@@ -201,6 +223,17 @@
   .lang-toggle:hover .lt-opt { color: var(--ink); }
   .lang-toggle[data-lang="en"] .lt-opt.en,
   .lang-toggle[data-lang="hi"] .lt-opt.hi { color: var(--paper); }
+  /* CV button in the top bar */
+  .cv-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 28px; padding: 0 14px;
+    border: 1px solid var(--accent); background: var(--accent); color: var(--paper);
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background .25s ease, color .25s ease, border-color .25s ease;
+  }
+  .cv-btn:hover { background: var(--paper); color: var(--accent); border-color: var(--accent); }
+
   @media (max-width: 980px) {
     .topbar-right { gap: 0; }
   }
@@ -284,10 +317,13 @@
   .hero-contour {
     position: absolute; right: 0; top: 0; bottom: 0;
     width: 50vw; max-width: 720px;
-    opacity: 0.22; pointer-events: none;
+    opacity: 1; pointer-events: none;
     color: var(--ink);
   }
   .hero-contour svg { width: 100%; height: 100%; }
+  .hero-contour .wave { opacity: 0.2; }
+  .hero-contour .place { opacity: 0.92; }
+  .hero-contour .place .coord { opacity: 0.7; }
 
   /* ===== BIO ===== */
   .bio { padding-top: calc(60px * var(--density)); }
@@ -456,11 +492,11 @@
   .gallery { padding-top: calc(70px * var(--density)); }
   .gallery-head {
     display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
   }
   .gallery-head h2 {
     font-family: var(--serif-display); font-weight: 300;
-    font-size: clamp(40px, 5vw, 76px); line-height: 0.95;
+    font-size: clamp(32px, 3.8vw, 58px); line-height: 0.95;
     max-width: 16ch;
   }
   .gallery-head h2 .it { font-style: italic; }
@@ -469,7 +505,7 @@
     font-size: 15.5px; line-height: 1.65; color: var(--ink-soft);
   }
   .gallery-grid {
-    display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 52px; gap: 14px;
+    display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 38px; gap: 10px;
   }
   .gphoto {
     position: relative; overflow: hidden; background: var(--paper-2);
@@ -517,7 +553,7 @@
     .gp-1, .gp-2, .gp-3, .gp-4 { grid-column: span 12; grid-row: span 4; }
   }
   .gallery-cta {
-    margin-top: 32px;
+    margin-top: 20px;
     display: flex; align-items: center; justify-content: space-between;
     border-top: 1px solid var(--rule); padding-top: 24px;
   }
@@ -553,6 +589,7 @@
     position: relative;
     transition: background .3s ease;
   }
+  .ai-card { color: inherit; text-decoration: none; }
   .ai-card:hover { background: #221d18; }
   .ai-card .num {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
@@ -570,31 +607,115 @@
   }
 
   /* ===== WRITING ===== */
-  .writing { padding: calc(120px * var(--density)) var(--gutter); }
-  .writing-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
-  .writing h2 {
+  .writings { background: var(--paper); }
+  .writings-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 32px; flex-wrap: wrap; margin-bottom: 44px;
+  }
+  .writings-head h2 {
     font-family: var(--serif-display); font-weight: 300;
-    font-size: clamp(40px, 5vw, 76px); line-height: 0.95;
-    max-width: 12ch;
+    font-size: clamp(36px, 4.6vw, 68px); line-height: 0.98; letter-spacing: -0.01em;
+    max-width: 18ch;
   }
-  .writing h2 .it { font-style: italic; }
-  .poem {
-    border-left: 1px solid var(--rule);
-    padding-left: 32px;
+  .writings-head h2 .it { font-style: italic; }
+  /* CV download link beside the heading */
+  .cv-link {
+    display: inline-flex; align-items: center; gap: 12px;
+    border: 1px solid var(--ink); padding: 11px 18px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink);
+    background: var(--paper);
+    transition: background .25s ease, color .25s ease;
+    white-space: nowrap;
   }
-  .poem .title {
-    font-family: var(--serif-display); font-style: italic; font-size: 24px;
-    color: var(--ink); margin-bottom: 20px;
+  .cv-link:hover { background: var(--ink); color: var(--paper); }
+  .cv-link .cv-ico {
+    width: 13px; height: 13px; position: relative; display: inline-block;
   }
-  .poem .stanza {
-    font-family: var(--serif-display); font-size: 22px; line-height: 1.5;
-    color: var(--ink-soft); font-weight: 300; margin-bottom: 20px;
-    white-space: pre-line;
+  .cv-link .cv-ico::before {
+    content: ""; position: absolute; left: 50%; top: 0; width: 1px; height: 9px;
+    background: currentColor; transform: translateX(-50%);
   }
-  .poem .stanza:last-of-type { margin-bottom: 28px; }
-  .poem .attr {
-    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+  .cv-link .cv-ico::after {
+    content: ""; position: absolute; left: 50%; top: 4px;
+    width: 7px; height: 7px; border-left: 1px solid currentColor; border-bottom: 1px solid currentColor;
+    transform: translateX(-50%) rotate(-45deg); transform-origin: center;
+  }
+  .cv-link .cv-meta { color: var(--accent); }
+  .cv-link:hover .cv-meta { color: var(--paper); }
+
+  .writing-list { list-style: none; border-top: 1px solid var(--rule); }
+  .w-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 20px; align-items: baseline;
+    padding: 16px 8px 14px;
+    border-bottom: 1px solid var(--rule);
+    transition: background .25s ease, padding-left .25s ease;
+  }
+  .w-row:hover { background: var(--paper-2); padding-left: 16px; }
+  .w-year {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    color: var(--accent); padding-top: 4px;
+  }
+  .w-title {
+    font-family: var(--serif-display); font-weight: 400;
+    font-size: clamp(18px, 1.7vw, 22px); line-height: 1.18; color: var(--ink);
+    text-wrap: pretty;
+  }
+  .w-title .it { font-style: italic; }
+  .w-title a { color: inherit; transition: color .2s ease; }
+  .w-title a:hover { color: var(--accent); }
+  .w-title .w-ext {
+    font-family: var(--mono); font-size: 0.6em; vertical-align: middle;
+    margin-left: 6px; color: var(--accent);
+  }
+  .w-desc {
+    font-size: 13px; line-height: 1.5; color: var(--ink-soft);
+    margin-top: 5px; max-width: 62ch;
+  }
+  .w-desc .w-venue {
+    display: inline; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em;
+    color: var(--ink-mute); text-transform: uppercase;
+  }
+  .w-kind {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--ink-mute);
+    padding-top: 4px; text-align: right; white-space: nowrap;
+  }
+  .writings-note {
+    margin-top: 26px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-mute);
+  }
+  @media (max-width: 720px) {
+    .w-row {
+      grid-template-columns: 1fr auto; gap: 6px 16px;
+    }
+    .w-year { grid-column: 1; grid-row: 1; padding-top: 0; }
+    .w-kind { grid-column: 2; grid-row: 1; padding-top: 0; }
+    .w-body { grid-column: 1 / -1; grid-row: 2; }
+    .w-row:hover { padding-left: 8px; }
+  }
+
+  /* ===== ROAD GAME ===== */
+  .road-game { padding: calc(80px * var(--density)) var(--gutter); }
+  .rg-wrap {
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    position: relative;
+    background: var(--paper2);
+    cursor: pointer;
+  }
+  #road-canvas { display: block; }
+  .rg-foot {
+    display: flex; gap: 28px; justify-content: space-between; flex-wrap: wrap;
+    margin-top: 18px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-mute);
+    border-top: 1px solid var(--rule); padding-top: 14px;
+  }
+  @media (max-width: 720px) {
+    .rg-foot { flex-direction: column; gap: 8px; }
   }
 
   /* ===== EPILOGUE ===== */
@@ -735,6 +856,18 @@
     .epilogue-grid { grid-template-columns: 1fr; gap: 32px; }
     .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
     .topbar nav { display: none; }
+    /* Hero contour: move to a faint top band so it never collides with
+       the bottom-aligned headline on narrow screens. */
+    .hero { min-height: auto; padding-top: 120px; padding-bottom: 48px; }
+    .hero-contour {
+      width: 100%; max-width: none;
+      top: 84px; bottom: auto; height: 38vh; right: 0;
+    }
+    .writings-head { gap: 20px; }
+  }
+  @media (max-width: 540px) {
+    .hero-contour { height: 30vh; opacity: 0.85; }
+    .cv-link { padding: 10px 14px; }
   }
 
   /* ===== Theme variants (via [data-theme] on body) ===== */
@@ -886,10 +1019,12 @@
       <a href="#bio" data-i18n="nav.about">About</a>
       <a href="#regions" data-i18n="nav.regions">Borderlands</a>
       <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
+      <a href="#writings" data-i18n="nav.writings">Writings</a>
       <a href="#ai" data-i18n="nav.ai">Experiments</a>
-      <a href="#writing" data-i18n="nav.writing">Writing</a>
+      <a href="#writing" data-i18n="nav.writing">Play</a>
       <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
     </nav>
+    <a class="cv-btn" href="cv.html" data-hover="link" data-i18n="nav.cv">CV</a>
     <button class="lang-toggle" data-lang="en" data-hover="link" aria-label="Switch language" type="button">
       <span class="lt-thumb" aria-hidden="true"></span>
       <span class="lt-opt en">EN</span>
@@ -904,23 +1039,49 @@
   <section class="hero" id="hero" data-screen-label="01 Hero">
     <div class="hero-contour" aria-hidden="true">
       <svg viewBox="0 0 600 800" fill="none" stroke="currentColor" stroke-width="0.6">
-        <path d="M0,180 C90,140 180,220 270,180 S420,140 600,200" />
-        <path d="M0,230 C90,200 180,270 270,230 S420,190 600,250" />
-        <path d="M0,290 C100,250 200,320 290,280 S430,250 600,310" />
-        <path d="M0,360 C110,320 220,400 310,360 S440,310 600,380" />
-        <path d="M0,440 C120,400 230,470 320,430 S460,390 600,460" />
-        <path d="M0,520 C120,480 240,550 330,510 S480,470 600,540" />
-        <path d="M0,600 C130,560 250,630 340,600 S490,560 600,620" />
-        <path d="M0,680 C140,640 260,710 360,680 S500,640 600,700" />
-        <circle cx="220" cy="320" r="2.5" fill="currentColor" stroke="none" />
-        <circle cx="420" cy="480" r="2.5" fill="currentColor" stroke="none" />
-        <text x="232" y="316" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none">LADAKH · 34.02° N</text>
-        <text x="432" y="476" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none">TERAI · 27.04° N</text>
+        <g class="wave">
+          <path d="M0,180 C90,140 180,220 270,180 S420,140 600,200" />
+          <path d="M0,230 C90,200 180,270 270,230 S420,190 600,250" />
+          <path d="M0,290 C100,250 200,320 290,280 S430,250 600,310" />
+          <path d="M0,360 C110,320 220,400 310,360 S440,310 600,380" />
+          <path d="M0,440 C120,400 230,470 320,430 S460,390 600,460" />
+          <path d="M0,520 C120,480 240,550 330,510 S480,470 600,540" />
+          <path d="M0,600 C130,560 250,630 340,600 S490,560 600,620" />
+          <path d="M0,680 C140,640 260,710 360,680 S500,640 600,700" />
+        </g>
+
+        <!-- Tallinn · 59.43° N -->
+        <g class="place">
+          <circle cx="300" cy="107" r="2" fill="currentColor" stroke="none" />
+          <text x="307" y="104" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none" letter-spacing="0.1em">TALLINN</text>
+          <text x="307" y="115" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="currentColor" stroke="none">59.43° N · 24.75° E</text>
+        </g>
+
+        <!-- Ladakh · 34.02° N -->
+        <g class="place">
+          <circle cx="210" cy="327" r="2" fill="currentColor" stroke="none" />
+          <text x="217" y="324" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none" letter-spacing="0.1em">LADAKH</text>
+          <text x="217" y="335" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="currentColor" stroke="none">34.16° N · 77.58° E</text>
+        </g>
+
+        <!-- Delhi · 28.61° N -->
+        <g class="place">
+          <circle cx="320" cy="430" r="2" fill="currentColor" stroke="none" />
+          <text x="327" y="427" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none" letter-spacing="0.1em">DELHI</text>
+          <text x="327" y="438" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="currentColor" stroke="none">28.61° N · 77.23° E</text>
+        </g>
+
+        <!-- Terai · 26.98° N -->
+        <g class="place">
+          <circle cx="400" cy="487" r="2" fill="currentColor" stroke="none" />
+          <text x="407" y="484" font-family="IBM Plex Mono" font-size="9" fill="currentColor" stroke="none" letter-spacing="0.1em">TERAI</text>
+          <text x="407" y="495" class="coord" font-family="IBM Plex Mono" font-size="7.5" fill="currentColor" stroke="none">26.98° N · 84.85° E</text>
+        </g>
       </svg>
     </div>
     <div class="hero-grid">
       <div>
-        <div class="sec-label"><span class="num">§ 00</span> Portfolio · Field Notes <span class="rule"></span> MMXXVI</div>
+        <div class="sec-label"><span class="num">§ 00</span> Portfolio <span class="rule"></span> Doctoral Research</div>
         <h1 data-i18n="hero.title">Prince <span class="it">Tomar</span><br />— a portfolio<br />of borderlands.</h1>
         <p class="sub" data-i18n="hero.sub">Doctoral researcher.</p>
       </div>
@@ -933,9 +1094,8 @@
       </div>
     </div>
     <div class="hero-foot">
-      <span>Vol. I — Edition 2026</span>
-      <a href="#bio" class="scroll">Scroll · Section 01 <span class="bar"></span></a>
-      <span>Tallinn · 59.43° N</span>
+      <span></span>
+      <a href="#bio" class="scroll">Scroll <span class="bar"></span></a>
     </div>
   </section>
 
@@ -1043,25 +1203,68 @@
     </div>
   </section>
 
+  <!-- WRITING -->
+  <section class="writings" id="writings" data-screen-label="05 Writing">
+    <div class="sec-label" data-chapter-name="Selected writing"><span class="num">§ 04</span> Writing <span class="rule"></span> Papers &amp; essays</div>
+    <div class="writings-head">
+      <h2 data-i18n="writings.h">Writings</h2>
+    </div>
+    <ol class="writing-list">
+      <li class="w-row" data-hover="link">
+        <span class="w-year">2027</span>
+        <div class="w-body">
+          <h3 class="w-title" data-i18n="writings.w3.t">Negotiating Remoteness: <span class="it">heterotopic roads and adventure tourism in Ladakh, India</span></h3>
+          <p class="w-desc"><span class="w-venue" data-i18n="writings.w3.v">Journal of Tourism and Cultural Change · Out for review</span></p>
+        </div>
+        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
+      </li>
+      <li class="w-row" data-hover="link">
+        <span class="w-year">2026</span>
+        <div class="w-body">
+          <h3 class="w-title" data-i18n="writings.w1.t">“Toward the Dust”: <span class="it">border crossing and the state of infrastructure at the India–Nepal border</span></h3>
+          <p class="w-desc"><span class="w-venue" data-i18n="writings.w1.v">Asian Geographer · Forthcoming</span></p>
+        </div>
+        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
+      </li>
+      <li class="w-row" data-hover="link">
+        <span class="w-year">2026</span>
+        <div class="w-body">
+          <h3 class="w-title" data-i18n="writings.w2.t">Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span></h3>
+          <p class="w-desc"><span class="w-venue" data-i18n="writings.w2.v">HIMALAYA · Forthcoming</span></p>
+        </div>
+        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
+      </li>
+      <li class="w-row" data-hover="link">
+        <span class="w-year">2019</span>
+        <div class="w-body">
+          <h3 class="w-title"><a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener" data-i18n="writings.w4.t">The field, the border, and I <span class="w-ext" aria-hidden="true">↗</span></a></h3>
+          <p class="w-desc"><span class="w-venue" data-i18n="writings.w4.v">ethnomarginalia.com · Essay</span></p>
+        </div>
+        <span class="w-kind" data-i18n="writings.kind.blog">Blog</span>
+      </li>
+    </ol>
+
+  </section>
+
   <!-- AI EXPERIMENTS -->
-  <section class="ai" id="ai" data-screen-label="05 Experiments">
-    <div class="sec-label" data-chapter-name="A sandbox"><span class="num">§ 04</span> Experiments with AI <span class="rule"></span> Sandbox</div>
+  <section class="ai" id="ai" data-screen-label="06 Experiments">
+    <div class="sec-label" data-chapter-name="A sandbox"><span class="num">§ 05</span> Experiments with AI <span class="rule"></span> Sandbox</div>
     <div class="ai-head">
       <h2 data-i18n="ai.h">What happens when the <span class="it">field notebook</span> learns to speak back?</h2>
       <p class="blurb" data-i18n="ai.blurb">A small open sandbox: prompts, models, and quiet provocations at the seam between ethnography and machine reading. Not conclusions — exposures.</p>
     </div>
     <div class="ai-grid">
-      <div class="ai-card" data-hover="link">
+      <a class="ai-card" href="https://opal.google/app/1ptWkLqszsDuwhi3SLZgFU_dFcejuoWSO" target="_blank" rel="noopener" data-hover="link">
         <span class="num">No. 01</span>
-        <h4 data-i18n="ai.card1.h">An LLM walks the <span class="it">Trans-Karakoram</span></h4>
-        <p data-i18n="ai.card1.p">Feeding fragmented road-survey diaries from 1962 into a small language model, then asking it to dream the missing kilometres.</p>
-        <div class="tag"><span>Prose · Model</span><span>2025</span></div>
-      </div>
+        <h4 data-i18n="ai.card1.h">Bard's <span class="it">Balm</span></h4>
+        <p data-i18n="ai.card1.p">Feeling the weight of academic life? Plotting revenge against reviewers? Shakespeare might help. Drop your mood and the Bard offers a verse — uplifting, or perhaps just the bare truth. Requires a Google account.</p>
+        <div class="tag"><span>App · Appsheet</span><span>↗ Open</span></div>
+      </a>
       <div class="ai-card" data-hover="link">
         <span class="num">No. 02</span>
-        <h4 data-i18n="ai.card2.h">Cartographies of <span class="it">absence</span></h4>
-        <p data-i18n="ai.card2.p">Vision models trained to read what is not on a satellite tile — the unmapped path, the moved village, the road that was not built.</p>
-        <div class="tag"><span>Vision · Maps</span><span>2025</span></div>
+        <h4 data-i18n="ai.card2.h">An LLM walks the <span class="it">Trans-Karakoram</span></h4>
+        <p data-i18n="ai.card2.p">Feeding fragmented road-survey diaries from 1962 into a small language model, then asking it to dream the missing kilometres.</p>
+        <div class="tag"><span>Prose · Model</span><span>2025</span></div>
       </div>
       <div class="ai-card" data-hover="link">
         <span class="num">No. 03</span>
@@ -1072,30 +1275,22 @@
     </div>
   </section>
 
-  <!-- WRITING -->
-  <section class="writing" id="writing" data-screen-label="06 Writing">
-    <div class="sec-label" data-chapter-name="A poem"><span class="num">§ 05</span> Selected Writing <span class="rule"></span> Poem</div>
-    <div class="writing-grid">
-      <div>
-        <h2 data-i18n="writing.h">And the road, <span class="it">like a long sentence,</span> arrives.</h2>
-      </div>
-      <div class="poem">
-        <div class="title" data-i18n="writing.poem.title">Ridge, with bulldozer</div>
-        <div class="stanza" data-i18n="writing.poem.s1">First the dust learned a new direction.
-Then the goats. Then the names of the goats.
-By winter the mountain had agreed
-to be measured in kilometres.</div>
-        <div class="stanza" data-i18n="writing.poem.s2">A road, I think, is a kind of grammar —
-it puts a verb where there used to be only
-the long, slow noun of a wall.</div>
-        <div class="attr" data-i18n="writing.poem.attr">— Excerpt · Field journal, Nubra, 2024</div>
-      </div>
+  <!-- ROAD GAME -->
+  <section class="road-game" id="writing" data-screen-label="07 Road">
+    <div class="sec-label" data-chapter-name="A game of the journey"><span class="num">§ 06</span> Play <span class="rule"></span> A game of the journey</div>
+    <div class="rg-wrap">
+      <canvas id="road-canvas" role="img" aria-label="Himalayan road game — press Space or tap to play"></canvas>
+    </div>
+    <div class="rg-foot">
+      <span>Space · Tap · Jump over summits</span>
+      <span>3 ranges · ~4 min journey</span>
+      <span>Mountains · Tunnels · Yaks · Goats · Road work · Landslides</span>
     </div>
   </section>
 
   <!-- EPILOGUE -->
-  <section class="epilogue" id="epilogue" data-screen-label="07 Epilogue">
-    <div class="sec-label" data-chapter-name="A small ledger"><span class="num">§ 06</span> Epilogue <span class="rule"></span> A small ledger</div>
+  <section class="epilogue" id="epilogue" data-screen-label="08 Epilogue">
+    <div class="sec-label" data-chapter-name="A small ledger"><span class="num">§ 07</span> Epilogue <span class="rule"></span> A small ledger</div>
     <div class="epilogue-head">
       <h2 data-i18n="epilogue.h">Currently <span class="it">reading, listening, thinking.</span></h2>
       <p class="lede" data-i18n="epilogue.lede">A loose, updated ledger — books on the desk, music in the headphones, ideas circling the kettle.</p>
@@ -1178,8 +1373,9 @@ the long, slow noun of a wall.</div>
       <a href="#bio" data-i18n="nav.about">About</a>
       <a href="#regions" data-i18n="nav.regions">Border Regions</a>
       <a href="#gallery" data-i18n="nav.gallery">Fieldwork Gallery</a>
+      <a href="#writings" data-i18n="nav.writings">Writings</a>
       <a href="#ai" data-i18n="nav.ai">Experiments with AI</a>
-      <a href="#writing" data-i18n="nav.writing">Writing</a>
+      <a href="#writing" data-i18n="nav.writing">Play</a>
       <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
     </div>
     <div class="foot-col">
@@ -1192,6 +1388,7 @@ the long, slow noun of a wall.</div>
       <h6 data-i18n="foot.h.elsewhere">Elsewhere</h6>
       <a href="http://gallery.princetomar.com" target="_blank" rel="noopener">Gallery ↗</a>
       <a href="mailto:ptomar@tlu.ee" data-hover="link">Email ↗</a>
+      <a href="cv.html" data-hover="link" data-i18n="foot.cv">CV (PDF) ↓</a>
       <a href="#" data-hover="link">Academia.edu ↗</a>
       <a href="https://orcid.org/0000-0001-6306-7710" target="_blank" rel="noopener" data-hover="link">ORCID ↗</a>
     </div>
@@ -1219,6 +1416,8 @@ the long, slow noun of a wall.</div>
     '.gallery-head .aside',
     '.gphoto',
     '.gallery-cta',
+    '.writings-head',
+    '.writing-list .w-row',
     '.ai-head h2',
     '.ai-head .blurb',
     '.ai-card',
@@ -1432,6 +1631,7 @@ the long, slow noun of a wall.</div>
 
 
 <script src="translations.js"></script>
+<script src="road-game.js"></script>
 
 <!-- Goodreads sync (currently-reading shelf) -->
 <!--
