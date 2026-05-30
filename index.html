@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Prince Tomar — Field Notes</title>
+<title>Prince Tomar — When the field notes speak</title>
 <meta name="description" content="Prince Tomar — doctoral researcher at Tallinn University. Field notes on ethnography, borders, and infrastructure across Ladakh and the Terai." />
 
 <!-- Favicon -->
@@ -289,6 +289,7 @@
   .hero-side {
     font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
     color: var(--ink-soft); text-transform: uppercase; line-height: 1.6;
+    max-width: 440px;
     margin-top: 20px;
   }
   .hero-side .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--rule); }
@@ -315,7 +316,7 @@
 
   /* Contour SVG behind hero */
   .hero-contour {
-    position: absolute; right: 0; top: 0; bottom: 0;
+    position: absolute; right: 0; top: -80px; bottom: 0;
     width: 50vw; max-width: 720px;
     opacity: 1; pointer-events: none;
     color: var(--ink);
@@ -1084,13 +1085,13 @@
         <div class="sec-label"><span class="num">§ 00</span> Portfolio <span class="rule"></span> Doctoral Research</div>
         <h1 data-i18n="hero.title">Prince <span class="it">Tomar</span><br />— a portfolio<br />of borderlands.</h1>
         <p class="sub" data-i18n="hero.sub">Doctoral researcher.</p>
-      </div>
-      <div class="hero-side">
-        <div class="row"><span class="k">Affiliation</span><span class="v">Tallinn University</span></div>
-        <div class="row"><span class="k">Centre</span><span class="v">Landscape & Culture</span></div>
-        <div class="row"><span class="k">Field</span><span class="v">Ethnography · Borders · Infrastructure</span></div>
-        <div class="row" style="height: 33px"><span class="k">Regions</span><span class="v">Ladakh · Terai</span></div>
-        <div class="row"><span class="k">Year</span><span class="v">2021–26</span></div>
+        <div class="hero-side">
+          <div class="row"><span class="k">Affiliation</span><span class="v">Tallinn University</span></div>
+          <div class="row"><span class="k">Centre</span><span class="v">Landscape & Culture</span></div>
+          <div class="row"><span class="k">Field</span><span class="v">Ethnography · Borders · Infrastructure</span></div>
+          <div class="row" style="height: 33px"><span class="k">Regions</span><span class="v">Ladakh · Terai</span></div>
+          <div class="row"><span class="k">Year</span><span class="v">2021–PRESENT</span></div>
+        </div>
       </div>
     </div>
     <div class="hero-foot">
@@ -1705,17 +1706,6 @@
     col.replaceChildren(frag);
   }
 })();
-</script>
-<script>
-  (function() {
-    if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && !window.location.hostname.includes('preview')) {
-      var script = document.createElement('script');
-      script.src = 'https://va.vercel-scripts.com/v1/script.js';
-      script.async = true;
-      script.data = 'key=' + (window.__VERCEL_SPEED_INSIGHTS_ENABLED ? 'true' : 'false');
-      document.head.appendChild(script);
-    }
-  })();
 </script>
 
 </body>
