@@ -1706,6 +1706,17 @@
   }
 })();
 </script>
+<script>
+  (function() {
+    if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && !window.location.hostname.includes('preview')) {
+      var script = document.createElement('script');
+      script.src = 'https://va.vercel-scripts.com/v1/script.js';
+      script.async = true;
+      script.data = 'key=' + (window.__VERCEL_SPEED_INSIGHTS_ENABLED ? 'true' : 'false');
+      document.head.appendChild(script);
+    }
+  })();
+</script>
 
 </body>
 </html>
