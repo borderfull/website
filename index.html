@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Prince Tomar — When the field notes speak</title>
+<title>Prince Tomar</title>
 <meta name="description" content="Prince Tomar — doctoral researcher at Tallinn University. Field notes on ethnography, borders, and infrastructure across Ladakh and the Terai." />
 
 <!-- Favicon -->
@@ -180,14 +180,31 @@
     display: flex; gap: 28px;
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--ink-soft);
+    position: relative;
   }
   .topbar nav a { position: relative; padding: 4px 0; transition: color .2s ease; }
   .topbar nav a:hover { color: var(--ink); }
+  .topbar nav a.nav-active { color: var(--ink); }
   .topbar nav a::after {
     content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 0;
     background: var(--accent); transition: width .25s ease;
   }
   .topbar nav a:hover::after { width: 100%; }
+  .topbar nav a.nav-active::after { width: 0; } /* bar handles active state */
+
+  /* Sliding terracotta nav indicator */
+  .nav-bar {
+    position: absolute; bottom: -3px; left: 0;
+    height: 1.5px; width: 0;
+    background: var(--accent);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      left   0.38s cubic-bezier(0.4, 0, 0.2, 1),
+      width  0.38s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.25s ease;
+  }
+  .nav-bar.visible { opacity: 1; }
   .topbar nav .ext::before { content: "↗ "; opacity: .6; }
 
   /* Language toggle */
@@ -889,6 +906,12 @@
     font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
     text-transform: uppercase; color: var(--ink-mute);
   }
+  .foot-base a {
+    transition: color .2s ease;
+  }
+  .foot-base a:hover {
+    color: var(--accent);
+  }
 
   /* ===== Responsive ===== */
   @media (max-width: 980px) {
@@ -1049,7 +1072,50 @@
   #lightbox .lb-nav:hover { background: rgba(241,233,216,0.16); }
   #lightbox .lb-prev { left: 22px; }
   #lightbox .lb-next { right: 22px; }
-  body.lb-open { /* overflow: hidden removed */ }
+  /* Scroll-lock when lightbox is open */
+  body.lb-open { overflow: hidden; touch-action: none; }
+
+  /* Lightbox z-index stacking — frame must sit BELOW nav/close buttons */
+  #lightbox .lb-frame { position: relative; z-index: 10; }
+  #lightbox .lb-close { z-index: 30; }
+  #lightbox .lb-nav   { z-index: 20; }
+
+  /* Mobile lightbox layout */
+  @media (max-width: 640px) {
+    #lightbox {
+      padding: 56px 12px 108px;
+      align-items: flex-start;
+    }
+    #lightbox .lb-frame {
+      width: 100%;
+      max-width: 100%;
+      max-height: calc(100svh - 164px);
+      padding: 8px 8px 44px;
+    }
+    #lightbox img {
+      max-width: 100%;
+      max-height: calc(100svh - 210px);
+    }
+    #lightbox .lb-close {
+      top: 10px; right: 10px;
+      width: 52px; height: 52px;
+      font-size: 28px;
+      background: rgba(20,16,12,0.7);
+      border-color: rgba(241,233,216,0.55);
+    }
+    #lightbox .lb-nav {
+      /* Move nav to bottom-centre so they're always reachable */
+      top: auto;
+      bottom: 20px;
+      transform: none;
+      width: 68px; height: 68px;
+      font-size: 30px;
+      background: rgba(241,233,216,0.13);
+    }
+    #lightbox .lb-prev { left: calc(50% - 76px); right: auto; }
+    #lightbox .lb-next { right: calc(50% - 76px); left: auto; }
+    #lightbox .lb-cap .lb-hint::before { content: "Swipe or tap arrows · "; }
+  }
 </style>
 </head>
 <body data-theme="parchment" data-accent="terracotta" data-density="standard" data-cursor-mode="cartographer" data-design="gallery">
@@ -1158,8 +1224,8 @@
     </div>
     <div class="hero-grid">
       <div>
-        <div class="sec-label"><span class="num">§ 00</span> Portfolio <span class="rule"></span> Doctoral Research</div>
-        <h1 data-i18n="hero.title">Prince <span class="it">Tomar</span><br />— a portfolio<br />of borderlands.</h1>
+        <div class="sec-label"><span class="num">§ 00</span> Portfolio <span class="rule"></span></div>
+        <h1 data-i18n="hero.title">Prince <span class="it">Tomar</span><br />— a portfolio<br />of <span class="it">borderlands</span>.</h1>
         <p class="sub" data-i18n="hero.sub">Doctoral researcher.</p>
         <div class="hero-side">
           <div class="row"><span class="k">Affiliation</span><span class="v">Tallinn University</span></div>
@@ -1178,7 +1244,8 @@
 
   <!-- BIO -->
   <section class="bio" id="bio" data-screen-label="02 About">
-    <div class="sec-label" data-chapter-name="On the practice"><span class="num">§ 01</span> About <span class="rule"></span> Bio · Practice</div>
+    <div class="sec-label" data-chapter-name="On the practice">§ 01
+ABOUT BIO</div>
     <div class="bio-grid">
       <div class="body">
         <p data-i18n="bio.p1"><span class="drop-cap">P</span>rince Tomar is a doctoral researcher at the Centre for Landscape and Culture, Tallinn University. He works with borderland communities along the Indian Himalaya, with a particular focus on the dynamics of road development — tracing the subtle interplay between infrastructure, territorialisation, and the region's intricate dance of history, geopolitics, and terrain.</p>
@@ -1190,13 +1257,15 @@
 
   <!-- BORDER REGIONS -->
   <section class="regions" id="regions" data-screen-label="03 Regions">
-    <div class="sec-label" data-chapter-name="Two field sites"><span class="num">§ 02</span> Border Regions <span class="rule"></span> Two field sites</div>
+    <div class="sec-label" data-chapter-name="Two field sites">§ 02
+BORDERLANDS</div>
     <div class="regions-grid">
       <article class="region">
         <div class="plate" data-hover="image" data-lightbox="images/ladakh-plate.jpg">
           <span class="label" data-i18n="regions.ladakh.label">Field Site 1 · Ladakh</span>
           <span class="coords">34.0216° N / 77.4444° E</span>
           <picture>
+            <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fladakh-plate-thumb.webp&w=480&q=72" type="image/webp" />
             <source srcset="images/ladakh-plate-thumb.webp" type="image/webp" />
             <img class="plate-photo" src="images/ladakh-plate-thumb.jpg" width="1100" height="825" loading="lazy" decoding="async" alt="Road construction crew at altitude along a Ladakh valley — workers resting beside a striped barrier." />
           </picture>
@@ -1219,6 +1288,7 @@
           <span class="label" data-i18n="regions.terai.label">Field Site 2 · Terai</span>
           <span class="coords">26.9806° N / 84.8465° E</span>
           <picture>
+            <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fterai-plate-thumb.webp&w=480&q=72" type="image/webp" />
             <source srcset="images/terai-plate-thumb.webp" type="image/webp" />
             <img class="plate-photo" src="images/terai-plate-thumb.jpg" width="1100" height="825" loading="lazy" decoding="async" alt="A solitary peepal tree on the open Terai plain near Raxaul–Birgunj, dirt tracks fanning out across dry grassland." />
           </picture>
@@ -1239,7 +1309,8 @@
 
   <!-- GALLERY -->
   <section class="gallery" id="gallery" data-screen-label="04 Gallery">
-    <div class="sec-label" data-chapter-name="The field, photographed"><span class="num">§ 03</span> Fieldwork Gallery <span class="rule"></span> Photographs</div>
+    <div class="sec-label" data-chapter-name="The field, photographed">§ 03
+FIELDWORK GALLERY </div>
     <div class="gallery-head">
       <h2 data-i18n="gallery.h">The field, photographed slowly.</h2>
       <p class="aside" data-i18n="gallery.aside">Grouped sets of photographs from the field, each circling a quiet theme — light, labour, weather, the look a road has when no one is on it yet. The full archive lives at the gallery subdomain.</p>
@@ -1247,6 +1318,7 @@
     <div class="gallery-grid">
       <figure class="gphoto gp-1" data-hover="image" data-lightbox="images/gallery-01-stonework.jpg">
         <picture>
+          <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fgallery-01-stonework-thumb.webp&w=480&q=72" type="image/webp" />
           <source srcset="images/gallery-01-stonework-thumb.webp" type="image/webp" />
           <img src="images/gallery-01-stonework-thumb.jpg" width="960" height="720" loading="lazy" decoding="async" alt="Road labourers building a stone retaining wall in a Ladakh valley, dust and rubble around them." />
         </picture>
@@ -1254,6 +1326,7 @@
       </figure>
       <figure class="gphoto gp-2" data-hover="image" data-lightbox="images/gallery-02-birgunj.jpg">
         <picture>
+          <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fgallery-02-birgunj-thumb.webp&w=480&q=72" type="image/webp" />
           <source srcset="images/gallery-02-birgunj-thumb.webp" type="image/webp" />
           <img src="images/gallery-02-birgunj-thumb.jpg" width="960" height="720" loading="lazy" decoding="async" alt="The ornate Nepal–India friendship gateway at Birgunj, with the handshake monument in the foreground." />
         </picture>
@@ -1261,6 +1334,7 @@
       </figure>
       <figure class="gphoto gp-3" data-hover="image" data-lightbox="images/gallery-03-roadwork-sign.jpg">
         <picture>
+          <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fgallery-03-roadwork-sign-thumb.webp&w=360&q=72" type="image/webp" />
           <source srcset="images/gallery-03-roadwork-sign-thumb.webp" type="image/webp" />
           <img src="images/gallery-03-roadwork-sign-thumb.jpg" width="800" height="1067" loading="lazy" decoding="async" alt="A red triangular men-at-work sign on a wooden post against a blue Ladakh sky and rocky mountain backdrop." />
         </picture>
@@ -1268,6 +1342,7 @@
       </figure>
       <figure class="gphoto gp-4" data-hover="image" data-lightbox="images/gallery-04-himank.jpg">
         <picture>
+          <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fgallery-04-himank-thumb.webp&w=480&q=72" type="image/webp" />
           <source srcset="images/gallery-04-himank-thumb.webp" type="image/webp" />
           <img src="images/gallery-04-himank-thumb.jpg" width="960" height="720" loading="lazy" decoding="async" alt="A painted yellow Himank Border Roads milestone reading 'No race, no rally — enjoy the beauty of valley'." />
         </picture>
@@ -1286,22 +1361,7 @@
     <div class="writings-head">
     </div>
     <ol class="writing-list">
-      <li class="w-row" data-hover="link">
-        <span class="w-year">2027</span>
-        <div class="w-body">
-          <h3 class="w-title" data-i18n="writings.w3.t">Negotiating Remoteness: <span class="it">heterotopic roads and adventure tourism in Ladakh, India</span></h3>
-          <p class="w-desc"><span class="w-venue" data-i18n="writings.w3.v">Journal of Tourism and Cultural Change</span> · <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span> · Out for review</p>
-        </div>
-        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
-      </li>
-      <li class="w-row" data-hover="link">
-        <span class="w-year">2026</span>
-        <div class="w-body">
-          <h3 class="w-title" data-i18n="writings.w1.t">"Toward the Dust": <span class="it">border crossing and the state of infrastructure at the India–Nepal border</span></h3>
-          <p class="w-desc"><span class="w-venue" data-i18n="writings.w1.v">Asian Geographer</span> · <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span> · Forthcoming</p>
-        </div>
-        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
-      </li>
+
       <li class="w-row" data-hover="link">
         <span class="w-year">2026</span>
         <div class="w-body">
@@ -1332,7 +1392,8 @@
 
   <!-- AI EXPERIMENTS -->
   <section class="ai" id="ai" data-screen-label="06 Experiments">
-    <div class="sec-label" data-chapter-name="A sandbox"><span class="num">§ 05</span> Experiments with AI <span class="rule"></span> Sandbox</div>
+    <div class="sec-label" data-chapter-name="A sandbox">§ 05
+EXPERIMENTS WITH AI</div>
     <div class="ai-head">
       <h2 data-i18n="ai.h">What happens when the <span class="it">field notebook</span> learns to speak back?</h2>
       <p class="blurb" data-i18n="ai.blurb">A small open sandbox: prompts, models, and quiet provocations at the seam between ethnography and machine reading. Not conclusions — exposures.</p>
@@ -1374,7 +1435,8 @@
 
   <!-- EPILOGUE -->
   <section class="epilogue" id="epilogue" data-screen-label="08 Epilogue">
-    <div class="sec-label" data-chapter-name="A small ledger"><span class="num">§ 07</span> Epilogue <span class="rule"></span> A small ledger</div>
+    <div class="sec-label" data-chapter-name="A small ledger">§ 07
+EPILOGUE</div>
     <div class="epilogue-head">
       <h2 data-i18n="epilogue.h">Currently <span class="it">reading, listening, thinking.</span></h2>
       <p class="lede" data-i18n="epilogue.lede">A loose, updated ledger — books on the desk, music in the headphones, ideas circling the kettle.</p>
@@ -1455,9 +1517,9 @@
     <div class="foot-col">
       <h6 data-i18n="foot.h.sections">Sections</h6>
       <a href="#bio" data-i18n="nav.about">About</a>
-      <a href="#regions" data-i18n="nav.regions">Border Regions</a>
+      <a href="#regions" data-i18n="nav.borderlands">Borderlands</a>
       <a href="#gallery" data-i18n="nav.gallery">Fieldwork Gallery</a>
-      <a href="#writings" data-i18n="nav.writings">Latest</a>
+      <a href="#writings" data-i18n="nav.latest">Latest</a>
       <a href="#ai" data-i18n="nav.ai">Experiments with AI</a>
       <a href="#writing" data-i18n="nav.writing">Play</a>
       <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
@@ -1473,8 +1535,9 @@
       <a href="http://gallery.princetomar.com" target="_blank" rel="noopener">Gallery ↗</a>
       <a href="mailto:ptomar@tlu.ee" data-hover="link">Email ↗</a>
       <a href="cv.html" data-hover="link" data-i18n="foot.cv">CV (PDF) ↓</a>
-      <a href="#" data-hover="link">Academia.edu ↗</a>
+
       <a href="https://orcid.org/0000-0001-6306-7710" target="_blank" rel="noopener" data-hover="link">ORCID ↗</a>
+      <a href="https://github.com/borderfull" target="_blank" rel="noopener" data-hover="link">GitHub ↗</a>
     </div>
   </div>
   <div class="foot-base">
@@ -1667,17 +1730,13 @@
     label.textContent = captionFor(el);
   }
 
-  function preventScroll(e) {
-    if (lb.classList.contains('open')) {
-      e.preventDefault();
-    }
-  }
+  function preventScroll(e) { e.preventDefault(); }
 
   function close(){
     lb.classList.remove('open');
     document.body.classList.remove('lb-open');
-    document.removeEventListener('wheel', preventScroll);
-    document.removeEventListener('touchmove', preventScroll);
+    document.removeEventListener('wheel', preventScroll, { passive: false });
+    document.removeEventListener('touchmove', preventScroll, { passive: false });
   }
 
   function open(i){
@@ -1690,26 +1749,48 @@
 
   items.forEach((el, i) => {
     el.addEventListener('click', (e) => {
-      // don't fire when clicking inner anchors (the plates don't have any, but safety)
       if (e.target.closest('a')) return;
+      e.preventDefault();
+      e.stopPropagation();
       open(i);
     });
   });
 
+  // Close on backdrop tap — not on frame or buttons
   lb.addEventListener('click', (e) => {
-    // Only close if clicking the background, not the frame or buttons
-    if (e.target === lb || e.target === frame) close();
+    if (e.target === lb) close();
   });
-  lb.querySelector('.lb-close')?.addEventListener('click', close);
-  lb.querySelector('.lb-prev')?.addEventListener('click', (e) => { e.stopPropagation(); show(idx - 1); });
-  lb.querySelector('.lb-next')?.addEventListener('click', (e) => { e.stopPropagation(); show(idx + 1); });
+  lb.querySelector('.lb-close').addEventListener('click', (e) => { e.stopPropagation(); close(); });
+  lb.querySelector('.lb-prev').addEventListener('click', (e) => { e.stopPropagation(); show(idx - 1); });
+  lb.querySelector('.lb-next').addEventListener('click', (e) => { e.stopPropagation(); show(idx + 1); });
 
+  // Keyboard nav
   document.addEventListener('keydown', (e) => {
     if (!lb.classList.contains('open')) return;
     if (e.key === 'Escape') close();
     else if (e.key === 'ArrowLeft')  show(idx - 1);
     else if (e.key === 'ArrowRight') show(idx + 1);
   });
+
+  // ── Touch swipe support ──────────────────────────────────────────────────
+  let tsX = 0, tsY = 0, tsMoved = false;
+  lb.addEventListener('touchstart', (e) => {
+    tsX = e.touches[0].clientX;
+    tsY = e.touches[0].clientY;
+    tsMoved = false;
+  }, { passive: true });
+  lb.addEventListener('touchmove', (e) => {
+    tsMoved = true;
+  }, { passive: true });
+  lb.addEventListener('touchend', (e) => {
+    if (!tsMoved) return; // pure tap — let click handler deal with it
+    const dx = e.changedTouches[0].clientX - tsX;
+    const dy = e.changedTouches[0].clientY - tsY;
+    // Horizontal swipe with enough distance and dominance
+    if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      dx < 0 ? show(idx + 1) : show(idx - 1);
+    }
+  }, { passive: true });
 })();
 </script>
 
@@ -1797,27 +1878,89 @@
   var btn = document.getElementById('hamburger-btn');
   var nav = document.getElementById('mobile-nav');
   if (!btn || !nav) return;
+
+  // Guard: prevent the document-level close from firing on the same gesture
+  // that just opened the nav (common on mobile where touch → synthetic click).
+  var justToggled = false;
+
+  function closeNav() {
+    btn.classList.remove('open');
+    nav.classList.remove('open');
+    nav.setAttribute('aria-hidden', 'true');
+  }
+
   btn.addEventListener('click', function () {
     var open = btn.classList.toggle('open');
     nav.classList.toggle('open', open);
     nav.setAttribute('aria-hidden', String(!open));
+    // Suppress the document listener for this tick
+    justToggled = true;
+    setTimeout(function () { justToggled = false; }, 50);
   });
-  // Close when a link is tapped
+
+  // Close when a nav link is tapped
   nav.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      btn.classList.remove('open');
-      nav.classList.remove('open');
-      nav.setAttribute('aria-hidden', 'true');
-    });
+    a.addEventListener('click', closeNav);
   });
-  // Close on outside tap
+
+  // Close on outside tap — but not the same tap that opened the nav
   document.addEventListener('click', function (e) {
+    if (justToggled) return;
     if (!nav.contains(e.target) && !btn.contains(e.target)) {
-      btn.classList.remove('open');
-      nav.classList.remove('open');
-      nav.setAttribute('aria-hidden', 'true');
+      closeNav();
     }
   });
+})();
+</script>
+
+<!-- Sliding nav active indicator -->
+<script>
+(function () {
+  var topNav = document.querySelector('.topbar nav');
+  if (!topNav) return;
+
+  // Inject the sliding bar element
+  var bar = document.createElement('span');
+  bar.className = 'nav-bar';
+  bar.setAttribute('aria-hidden', 'true');
+  topNav.appendChild(bar);
+
+  var links = Array.from(topNav.querySelectorAll('a[href^="#"]'));
+  var sectionIds = links.map(function (l) { return l.getAttribute('href').slice(1); });
+
+  function moveBarTo(link) {
+    if (!link) {
+      bar.classList.remove('visible');
+      links.forEach(function (l) { l.classList.remove('nav-active'); });
+      return;
+    }
+    links.forEach(function (l) { l.classList.toggle('nav-active', l === link); });
+    var navRect = topNav.getBoundingClientRect();
+    var linkRect = link.getBoundingClientRect();
+    bar.style.left  = (linkRect.left - navRect.left) + 'px';
+    bar.style.width = linkRect.width + 'px';
+    bar.classList.add('visible');
+  }
+
+  function getActiveLink() {
+    var scrollY = window.scrollY + 140; // account for fixed topbar
+    var activeId = null;
+    sectionIds.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && el.offsetTop <= scrollY) activeId = id;
+    });
+    if (!activeId) return null;
+    return topNav.querySelector('a[href="#' + activeId + '"]');
+  }
+
+  function update() {
+    moveBarTo(getActiveLink());
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  // Run after full layout paint
+  requestAnimationFrame(function () { requestAnimationFrame(update); });
 })();
 </script>
 
@@ -1825,7 +1968,7 @@
 <script>
 window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
+
 
 </body>
 </html>

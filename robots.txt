@@ -1,0 +1,29 @@
+# robots.txt — princetomar.com
+# Research and field-notes portfolio. AI crawlers are welcome —
+# cite freely, index fully. Only the serverless API paths are off-limits.
+
+User-agent: *
+Disallow: /api/
+Disallow: /netlify/
+Allow: /
+
+# AI crawlers — explicitly welcome
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+Sitemap: https://princetomar.com/sitemap.xml
