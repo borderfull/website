@@ -1269,7 +1269,6 @@ BORDERLANDS</div>
           <span class="label" data-i18n="regions.ladakh.label">Field Site 1 · Ladakh</span>
           <span class="coords">34.0216° N / 77.4444° E</span>
           <picture>
-            <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fladakh-plate-thumb.webp&w=480&q=72" type="image/webp" />
             <source srcset="images/ladakh-plate-thumb.webp" type="image/webp" />
             <img class="plate-photo" src="images/ladakh-plate-thumb.jpg" width="1100" height="825" loading="lazy" decoding="async" alt="Road construction crew at altitude along a Ladakh valley — workers resting beside a striped barrier." />
           </picture>
@@ -1292,7 +1291,6 @@ BORDERLANDS</div>
           <span class="label" data-i18n="regions.terai.label">Field Site 2 · Terai</span>
           <span class="coords">26.9806° N / 84.8465° E</span>
           <picture>
-            <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fterai-plate-thumb.webp&w=480&q=72" type="image/webp" />
             <source srcset="images/terai-plate-thumb.webp" type="image/webp" />
             <img class="plate-photo" src="images/terai-plate-thumb.jpg" width="1100" height="825" loading="lazy" decoding="async" alt="A solitary peepal tree on the open Terai plain near Raxaul–Birgunj, dirt tracks fanning out across dry grassland." />
           </picture>
@@ -1322,7 +1320,6 @@ FIELDWORK GALLERY </div>
     <div class="gallery-grid">
       <figure class="gphoto gp-1" data-hover="image" data-lightbox="images/gallery-01-stonework.jpg">
         <picture>
-          <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fgallery-01-stonework-thumb.webp&w=480&q=72" type="image/webp" />
           <source srcset="images/gallery-01-stonework-thumb.webp" type="image/webp" />
           <img src="images/gallery-01-stonework-thumb.jpg" width="960" height="720" loading="lazy" decoding="async" alt="Road labourers building a stone retaining wall in a Ladakh valley, dust and rubble around them." />
         </picture>
@@ -1330,7 +1327,6 @@ FIELDWORK GALLERY </div>
       </figure>
       <figure class="gphoto gp-2" data-hover="image" data-lightbox="images/gallery-02-birgunj.jpg">
         <picture>
-          <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fgallery-02-birgunj-thumb.webp&w=480&q=72" type="image/webp" />
           <source srcset="images/gallery-02-birgunj-thumb.webp" type="image/webp" />
           <img src="images/gallery-02-birgunj-thumb.jpg" width="960" height="720" loading="lazy" decoding="async" alt="The ornate Nepal–India friendship gateway at Birgunj, with the handshake monument in the foreground." />
         </picture>
@@ -1338,7 +1334,6 @@ FIELDWORK GALLERY </div>
       </figure>
       <figure class="gphoto gp-3" data-hover="image" data-lightbox="images/gallery-03-roadwork-sign.jpg">
         <picture>
-          <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fgallery-03-roadwork-sign-thumb.webp&w=360&q=72" type="image/webp" />
           <source srcset="images/gallery-03-roadwork-sign-thumb.webp" type="image/webp" />
           <img src="images/gallery-03-roadwork-sign-thumb.jpg" width="800" height="1067" loading="lazy" decoding="async" alt="A red triangular men-at-work sign on a wooden post against a blue Ladakh sky and rocky mountain backdrop." />
         </picture>
@@ -1346,7 +1341,6 @@ FIELDWORK GALLERY </div>
       </figure>
       <figure class="gphoto gp-4" data-hover="image" data-lightbox="images/gallery-04-himank.jpg">
         <picture>
-          <source media="(max-width: 640px)" srcset="/_vercel/image?url=%2Fimages%2Fgallery-04-himank-thumb.webp&w=480&q=72" type="image/webp" />
           <source srcset="images/gallery-04-himank-thumb.webp" type="image/webp" />
           <img src="images/gallery-04-himank-thumb.jpg" width="960" height="720" loading="lazy" decoding="async" alt="A painted yellow Himank Border Roads milestone reading 'No race, no rally — enjoy the beauty of valley'." />
         </picture>
@@ -1725,12 +1719,25 @@ EPILOGUE</div>
     return cap ? cap.textContent.trim() : '';
   }
 
+  // If the full-res image fails to load, fall back to the thumbnail that's
+  // already on the page so the viewer never appears "stuck" on a blank/old frame.
+  img.addEventListener('error', () => {
+    const el = items[idx];
+    const thumb = el && el.querySelector('img');
+    if (thumb && img.src !== thumb.currentSrc && img.src !== thumb.src) {
+      img.src = thumb.currentSrc || thumb.src;
+    }
+  });
+
   function show(i){
     idx = (i + items.length) % items.length;
     const el = items[idx];
-    const src = el.getAttribute('data-lightbox') || (el.querySelector('img') && el.querySelector('img').src);
+    const thumb = el.querySelector('img');
+    const src = el.getAttribute('data-lightbox') || (thumb && thumb.src);
+    // Clear first so a same-failed-src doesn't silently keep the old picture
+    img.removeAttribute('src');
     img.src = src;
-    img.alt = (el.querySelector('img') && el.querySelector('img').alt) || '';
+    img.alt = (thumb && thumb.alt) || '';
     label.textContent = captionFor(el);
   }
 
@@ -1776,25 +1783,42 @@ EPILOGUE</div>
     else if (e.key === 'ArrowRight') show(idx + 1);
   });
 
-  // ── Touch swipe support ──────────────────────────────────────────────────
-  let tsX = 0, tsY = 0, tsMoved = false;
+  // ── Touch handling: reliable taps on arrows + swipe to navigate ──────────
+  let tsX = 0, tsY = 0, tsMoved = false, tsTarget = null;
   lb.addEventListener('touchstart', (e) => {
     tsX = e.touches[0].clientX;
     tsY = e.touches[0].clientY;
     tsMoved = false;
+    tsTarget = e.target;
   }, { passive: true });
   lb.addEventListener('touchmove', (e) => {
-    tsMoved = true;
+    const dx = Math.abs(e.touches[0].clientX - tsX);
+    const dy = Math.abs(e.touches[0].clientY - tsY);
+    if (dx > 8 || dy > 8) tsMoved = true;
   }, { passive: true });
   lb.addEventListener('touchend', (e) => {
-    if (!tsMoved) return; // pure tap — let click handler deal with it
+    const navBtn = tsTarget && tsTarget.closest && tsTarget.closest('.lb-nav, .lb-close');
     const dx = e.changedTouches[0].clientX - tsX;
     const dy = e.changedTouches[0].clientY - tsY;
-    // Horizontal swipe with enough distance and dominance
-    if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+
+    // A tap (little/no movement) directly on a control: act now and swallow the
+    // ghost click so a slight finger wobble can't cancel the navigation.
+    if (navBtn && Math.abs(dx) < 24 && Math.abs(dy) < 24) {
+      e.preventDefault();
+      if (navBtn.classList.contains('lb-close'))      close();
+      else if (navBtn.classList.contains('lb-prev'))  show(idx - 1);
+      else if (navBtn.classList.contains('lb-next'))  show(idx + 1);
+      return;
+    }
+
+    if (!tsMoved) return; // pure tap on image/backdrop — let click handler deal with it
+
+    // Horizontal swipe anywhere on the lightbox navigates
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+      e.preventDefault();
       dx < 0 ? show(idx + 1) : show(idx - 1);
     }
-  }, { passive: true });
+  }, { passive: false });
 })();
 </script>
 
