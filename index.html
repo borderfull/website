@@ -1473,16 +1473,18 @@ EPILOGUE</div>
           <div class="a" data-i18n="epi.col2.i3.a">Raxaul, AM dial</div>
         </div>
       </div>
-      <div class="epi-col">
+      <div class="epi-col" data-ideas-col>
         <h5 data-i18n="epi.col3.h"><span>Circling</span><span class="num">/ ideas</span></h5>
-        <div class="epi-item">
-          <div class="t">Whether a road is a noun or a verb.</div>
-        </div>
-        <div class="epi-item">
-          <div class="t">The grammar of dust.</div>
-        </div>
-        <div class="epi-item">
-          <div class="t">How a glacier keeps its appointments.</div>
+        <div data-ideas-items>
+          <div class="epi-item">
+            <div class="t">Whether a road is a noun or a verb.</div>
+          </div>
+          <div class="epi-item">
+            <div class="t">The grammar of dust.</div>
+          </div>
+          <div class="epi-item">
+            <div class="t">How a glacier keeps its appointments.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1530,7 +1532,7 @@ EPILOGUE</div>
     <div class="foot-col">
       <h6 data-i18n="foot.h.elsewhere">Elsewhere</h6>
       <a href="http://gallery.princetomar.com" target="_blank" rel="noopener">Gallery ↗</a>
-      <a href="mailto:ptomar@tlu.ee" data-hover="link">Email ↗</a>
+      <a href="/cdn-cgi/l/email-protection#82f2f6edefe3f0c2f6eef7ace7e7" data-hover="link">Email ↗</a>
       <a href="cv.html" data-hover="link" data-i18n="foot.cv">CV (PDF) ↓</a>
 
       <a href="https://orcid.org/0000-0001-6306-7710" target="_blank" rel="noopener" data-hover="link">ORCID ↗</a>
@@ -1546,7 +1548,7 @@ EPILOGUE</div>
 <!-- Reveal-on-scroll: tag key elements and cascade them in.
      The CSS only animates these in the non-original design modes;
      in "original" the attribute is inert. -->
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function () {
   var REVEAL_SELECTORS = [
     'main section .sec-label',
@@ -1898,7 +1900,173 @@ EPILOGUE</div>
 })();
 </script>
 
-<!-- Hamburger / mobile nav -->
+<!-- ─────────────────────────────────────────────────────────────────────
+     Obsidian notes sync — hydrates the "Circling / ideas" column from
+     /notes/index.json (written by the local NoteSync watcher, pushed to
+     GitHub, deployed by Vercel). Each note becomes an .epi-item; clicking
+     one opens the full note in a parchment reading overlay.
+     If the fetch fails (static file / pre-deploy), the static ideas above
+     remain untouched as a graceful fallback.
+────────────────────────────────────────────────────────────────────── -->
+<style>
+  /* Make synced ideas read as quietly clickable */
+  [data-ideas-col] .epi-item.is-note { cursor: pointer; transition: padding-left .25s ease; }
+  [data-ideas-col] .epi-item.is-note:hover { padding-left: 8px; }
+  [data-ideas-col] .epi-item.is-note .t { transition: color .2s ease; }
+  [data-ideas-col] .epi-item.is-note:hover .t { color: var(--accent); }
+  [data-ideas-col] .epi-item.is-note .d {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 6px;
+  }
+
+  /* Reading overlay — letter-paper styling, echoes the lightbox */
+  #note-reader {
+    position: fixed; inset: 0; z-index: 10000;
+    background: rgba(20,16,12,0.88);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 64px 24px; overflow-y: auto;
+    opacity: 0; transition: opacity .28s ease;
+    cursor: zoom-out;
+  }
+  #note-reader.open { display: flex; opacity: 1; }
+  #note-reader .nr-sheet {
+    position: relative;
+    width: 100%; max-width: 64ch;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    box-shadow: 0 40px 90px rgba(0,0,0,0.5);
+    padding: 56px clamp(28px, 5vw, 72px) 64px;
+    cursor: default;
+    transform: translateY(10px);
+    transition: transform .32s cubic-bezier(.2,.7,.2,1);
+  }
+  #note-reader.open .nr-sheet { transform: translateY(0); }
+  #note-reader .nr-close {
+    position: absolute; top: 20px; right: 22px;
+    width: 38px; height: 38px; border-radius: 50%;
+    background: transparent; color: var(--ink);
+    border: 1px solid var(--rule);
+    font: 300 22px/1 var(--serif-display);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .2s ease, transform .3s ease, color .2s ease;
+  }
+  #note-reader .nr-close:hover { background: var(--ink); color: var(--paper); transform: rotate(90deg); }
+  #note-reader .nr-meta {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-mute);
+    padding-bottom: 16px; margin-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+  #note-reader .nr-meta .num { color: var(--accent); }
+  .nr-body { color: var(--ink-soft); }
+  .nr-body h1, .nr-body h2, .nr-body h3 {
+    font-family: var(--serif-display); font-weight: 400; color: var(--ink);
+    line-height: 1.15; margin: 1.1em 0 .45em;
+  }
+  .nr-body h1 { font-size: clamp(28px, 3.4vw, 40px); margin-top: 0; }
+  .nr-body h2 { font-size: 26px; } .nr-body h3 { font-size: 21px; }
+  .nr-body p { font-size: 17px; line-height: 1.75; margin-bottom: 1.1em; text-wrap: pretty; }
+  .nr-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .nr-body ul, .nr-body ol { margin: 0 0 1.1em 1.3em; }
+  .nr-body li { font-size: 17px; line-height: 1.7; margin-bottom: .4em; }
+  .nr-body blockquote {
+    border-left: 2px solid var(--accent); padding-left: 18px; margin: 0 0 1.1em;
+    font-family: var(--serif-display); font-style: italic; font-size: 20px; color: var(--ink-soft);
+  }
+  .nr-body code {
+    font-family: var(--mono); font-size: .85em; background: var(--paper-2);
+    padding: 2px 6px; border: 1px solid var(--rule);
+  }
+  .nr-body pre {
+    background: var(--ink); color: var(--paper); padding: 16px 18px;
+    overflow-x: auto; margin-bottom: 1.1em; font-family: var(--mono); font-size: 13px; line-height: 1.6;
+  }
+  .nr-body pre code { background: none; border: none; padding: 0; color: inherit; }
+  .nr-body hr { border: 0; height: 1px; background: var(--rule); margin: 2em 0; }
+  .nr-body img { margin: 1.2em 0; border: 1px solid var(--rule); }
+</style>
+
+<div id="note-reader" aria-hidden="true">
+  <article class="nr-sheet">
+    <button class="nr-close" type="button" aria-label="Close">&times;</button>
+    <div class="nr-meta" id="nr-meta"></div>
+    <div class="nr-body" id="nr-body"></div>
+  </article>
+</div>
+
+<script src="https://unpkg.com/marked@9.1.6/marked.min.js"></script>
+<script>
+(function () {
+  var col = document.querySelector('[data-ideas-col] [data-ideas-items]');
+  if (!col) return;
+
+  var reader = document.getElementById('note-reader');
+  var rBody  = document.getElementById('nr-body');
+  var rMeta  = document.getElementById('nr-meta');
+  var notes  = [];
+
+  fetch('notes/index.json', { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      if (!Array.isArray(data) || data.length === 0) return; // keep static fallback
+      notes = data;
+      render(notes.slice(0, 5));
+    })
+    .catch(function () { /* keep static fallback */ });
+
+  function render(list) {
+    var frag = document.createDocumentFragment();
+    list.forEach(function (n, i) {
+      var item = document.createElement('div');
+      item.className = 'epi-item is-note';
+
+      var t = document.createElement('div');
+      t.className = 't';
+      t.textContent = n.title || n.filename;
+      item.appendChild(t);
+
+      if (n.date) {
+        var d = document.createElement('div');
+        d.className = 'd';
+        d.textContent = n.date;
+        item.appendChild(d);
+      }
+
+      item.addEventListener('click', function () { open(n); });
+      frag.appendChild(item);
+    });
+    col.replaceChildren(frag);
+  }
+
+  function open(n) {
+    rMeta.innerHTML = '<span class="num">Note</span> &nbsp; ' + (n.date || '');
+    rBody.innerHTML = '<p style="color:var(--ink-mute)">Loading…</p>';
+    reader.classList.add('open');
+    reader.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lb-open');
+
+    fetch('notes/' + n.filename, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+      .then(function (md) {
+        // Strip YAML frontmatter before rendering
+        md = md.replace(/^---\n[\s\S]*?\n---\n/, '');
+        rBody.innerHTML = (window.marked ? marked.parse(md) : md);
+      })
+      .catch(function () { rBody.innerHTML = '<p style="color:var(--ink-mute)">Could not load this note.</p>'; });
+  }
+
+  function close() {
+    reader.classList.remove('open');
+    reader.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lb-open');
+  }
+
+  reader.addEventListener('click', function (e) { if (e.target === reader) close(); });
+  reader.querySelector('.nr-close').addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
 <script>
 (function () {
   var btn = document.getElementById('hamburger-btn');
