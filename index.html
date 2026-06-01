@@ -278,11 +278,15 @@
     gap: 0;
     transform: translateY(-8px);
     opacity: 0;
-    transition: transform .25s ease, opacity .25s ease;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform .25s ease, opacity .25s ease, visibility .25s ease;
     box-shadow: 0 8px 24px rgba(28,24,20,0.08);
   }
   .mobile-nav.open {
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
     transform: translateY(0);
   }
   .mobile-nav a {
@@ -1399,23 +1403,23 @@ EXPERIMENTS WITH AI</div>
       <p class="blurb" data-i18n="ai.blurb">A small open sandbox: prompts, models, and quiet provocations at the seam between ethnography and machine reading. Not conclusions — exposures.</p>
     </div>
     <div class="ai-grid">
-      <a class="ai-card" href="https://opal.google/app/1ptWkLqszsDuwhi3SLZgFU_dFcejuoWSO" target="_blank" rel="noopener" data-hover="link">
+      <a class="ai-card" href="https://tracker.princetomar.com" target="_blank" rel="noopener noreferrer" data-hover="link">
         <span class="num">No. 01</span>
+        <h4>Peer Review <span class="it">Tracker</span> · 2026</h4>
+        <p>Transform academic reviewer feedback into a structured, gamified roadmap for revision. Analyzes reviewer comments, organizes them by theme and importance, and generates prioritized daily tasks with XP rewards. Progress bars track your way through major and minor revisions — no accounts, no data collection, everything saves locally.</p>
+        <div class="tag"><span>Tool · AI</span><span>↗ Open</span></div>
+      </a>
+      <a class="ai-card" href="https://opal.google/app/1ptWkLqszsDuwhi3SLZgFU_dFcejuoWSO" target="_blank" rel="noopener" data-hover="link">
+        <span class="num">No. 02</span>
         <h4 data-i18n="ai.card1.h">Bard's <span class="it">Balm</span> · 2025</h4>
         <p data-i18n="ai.card1.p">Feeling the weight of academic life? Plotting revenge against reviewers? Shakespeare might help. Drop your mood and the Bard offers a verse — uplifting, or perhaps just the bare truth. Requires a Google account.</p>
         <div class="tag"><span>App · Appsheet</span><span>↗ Open</span></div>
       </a>
       <div class="ai-card" data-hover="link">
-        <span class="num">No. 02</span>
+        <span class="num">No. 03</span>
         <h4 data-i18n="ai.card2.h">An LLM walks the <span class="it">Trans-Karakoram</span></h4>
         <p data-i18n="ai.card2.p">Feeding fragmented road-survey diaries from 1962 into a small language model, then asking it to dream the missing kilometres.</p>
         <div class="tag"><span>Prose · Model</span><span>2025</span></div>
-      </div>
-      <div class="ai-card" data-hover="link">
-        <span class="num">No. 03</span>
-        <h4 data-i18n="ai.card3.h">A poem in <span class="it">three altitudes</span></h4>
-        <p data-i18n="ai.card3.p">Generative co-writing with a stanza of my own, then folded back, then again — to see at what height authorship breaks.</p>
-        <div class="tag"><span>Poetics · Co-write</span><span>2026</span></div>
       </div>
     </div>
   </section>

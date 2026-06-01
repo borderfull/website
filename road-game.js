@@ -11,7 +11,7 @@ const P = {
   accent:'#b15a3a', horizon:'#4a6d8c'
 };
 
-const GRAVITY = 0.52, JUMP_VY = -13.2, BX_FRAC = 0.22;
+const GRAVITY = 0.48, JUMP_VY = -12, BX_FRAC = 0.22;
 const OFFROAD_DUR = 8; // seconds biker is in off-road state
 
 /* ── Ranges ─────────────────────────────────────────────────────────── */
@@ -55,14 +55,14 @@ let highScore = parseInt(localStorage.getItem('road-game-highscore') || '0');
 function resize() {
   const dpr  = Math.min(window.devicePixelRatio || 1, 2);
   const cssW = canvas.parentElement.clientWidth || 900;
-  const cssH = Math.round(Math.min(300, Math.max(220, cssW * 0.3)));
+  const cssH = Math.round(Math.min(400, Math.max(320, cssW * 0.4)));
   W = cssW; H = cssH;
   canvas.style.width  = W + 'px';
   canvas.style.height = H + 'px';
   canvas.width  = Math.round(W * dpr);
   canvas.height = Math.round(H * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  GY = Math.round(H * 0.74);
+  GY = Math.round(H * 0.76);
   if (S !== 'playing') { bikerY = GY; bikerVY = 0; onGround = true; }
 }
 
