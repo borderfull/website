@@ -1472,6 +1472,7 @@ EPILOGUE</div>
           <div class="t">Bhojpuri border radio</div>
           <div class="a" data-i18n="epi.col2.i3.a">Raxaul, AM dial</div>
         </div>
+        <a class="goodreads-link" href="#" target="_blank" rel="noopener" data-hover="link" data-i18n="epi.col2.more">View full on SoundCloud <span class="arrow">↗</span></a>
       </div>
       <div class="epi-col" data-ideas-col>
         <h5 data-i18n="epi.col3.h"><span>Circling</span><span class="num">/ ideas</span></h5>
@@ -1918,6 +1919,17 @@ EPILOGUE</div>
     font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em;
     text-transform: uppercase; color: var(--ink-mute); margin-top: 6px;
   }
+  
+  /* Notes — scrollable when more than 3 */
+  [data-ideas-items] {
+    max-height: calc(3 * 62px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule) transparent;
+  }
+  [data-ideas-items]::-webkit-scrollbar { width: 2px; }
+  [data-ideas-items]::-webkit-scrollbar-track { background: transparent; }
+  [data-ideas-items]::-webkit-scrollbar-thumb { background: var(--rule); }
 
   /* Reading overlay — letter-paper styling, echoes the lightbox */
   #note-reader {
@@ -1932,7 +1944,7 @@ EPILOGUE</div>
   #note-reader.open { display: flex; opacity: 1; }
   #note-reader .nr-sheet {
     position: relative;
-    width: 100%; max-width: 64ch;
+    width: 100%; max-width: 88ch;
     background: var(--paper);
     border: 1px solid var(--rule);
     box-shadow: 0 40px 90px rgba(0,0,0,0.5);
@@ -2009,15 +2021,15 @@ EPILOGUE</div>
   fetch('notes/index.json', { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
-      if (!Array.isArray(data) || data.length === 0) return; // keep static fallback
+      if (!Array.isArray(data) || data.length === 0) return;
       notes = data;
-      render(notes.slice(0, 5));
+      render(notes);
     })
     .catch(function () { /* keep static fallback */ });
 
   function render(list) {
     var frag = document.createDocumentFragment();
-    list.forEach(function (n, i) {
+    list.forEach(function (n) {
       var item = document.createElement('div');
       item.className = 'epi-item is-note';
 
