@@ -1971,6 +1971,15 @@ EPILOGUE</div>
     border-bottom: 1px solid var(--rule);
   }
   #note-reader .nr-meta .num { color: var(--accent); }
+  #note-reader .nr-title {
+    font-family: var(--serif-display);
+    font-weight: 300;
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 16px 0 24px;
+    letter-spacing: -0.01em;
+  }
   .nr-body { color: var(--ink-soft); }
   .nr-body h1, .nr-body h2, .nr-body h3 {
     font-family: var(--serif-display); font-weight: 400; color: var(--ink);
@@ -2003,6 +2012,7 @@ EPILOGUE</div>
   <article class="nr-sheet">
     <button class="nr-close" type="button" aria-label="Close">&times;</button>
     <div class="nr-meta" id="nr-meta"></div>
+    <div class="nr-title" id="nr-title"></div>
     <div class="nr-body" id="nr-body"></div>
   </article>
 </div>
@@ -2051,8 +2061,11 @@ EPILOGUE</div>
     col.replaceChildren(frag);
   }
 
+  var rTitle = document.getElementById('nr-title');
+
   function open(n) {
     rMeta.innerHTML = '<span class="num">Note</span> &nbsp; ' + (n.date || '');
+    rTitle.textContent = n.title || n.filename || '';
     rBody.innerHTML = '<p style="color:var(--ink-mute)">Loading…</p>';
     reader.classList.add('open');
     reader.setAttribute('aria-hidden', 'false');
