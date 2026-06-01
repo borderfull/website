@@ -1087,23 +1087,23 @@
   /* Mobile lightbox layout */
   @media (max-width: 640px) {
     #lightbox {
-      padding: 56px 12px 108px;
+      padding: 76px 12px 108px;
       align-items: flex-start;
     }
     #lightbox .lb-frame {
       width: 100%;
       max-width: 100%;
-      max-height: calc(100svh - 164px);
+      max-height: calc(100svh - 184px);
       padding: 8px 8px 44px;
     }
     #lightbox img {
       max-width: 100%;
-      max-height: calc(100svh - 210px);
+      max-height: calc(100svh - 230px);
     }
     #lightbox .lb-close {
-      top: 10px; right: 10px;
-      width: 52px; height: 52px;
-      font-size: 28px;
+      top: 14px; right: 14px;
+      width: 48px; height: 48px;
+      font-size: 26px;
       background: rgba(20,16,12,0.7);
       border-color: rgba(241,233,216,0.55);
     }
@@ -1118,7 +1118,6 @@
     }
     #lightbox .lb-prev { left: calc(50% - 76px); right: auto; }
     #lightbox .lb-next { right: calc(50% - 76px); left: auto; }
-    #lightbox .lb-cap .lb-hint::before { content: "Swipe or tap arrows · "; }
   }
 </style>
 </head>
@@ -1248,7 +1247,7 @@
 
   <!-- BIO -->
   <section class="bio" id="bio" data-screen-label="02 About">
-    <div class="sec-label" data-chapter-name="On the practice">§ 01
+    <div class="sec-label" data-chapter-name="On the practice"><span class="num">§ 01</span>
 ABOUT BIO</div>
     <div class="bio-grid">
       <div class="body">
@@ -1261,7 +1260,7 @@ ABOUT BIO</div>
 
   <!-- BORDER REGIONS -->
   <section class="regions" id="regions" data-screen-label="03 Regions">
-    <div class="sec-label" data-chapter-name="Two field sites">§ 02
+    <div class="sec-label" data-chapter-name="Two field sites"><span class="num">§ 02</span>
 BORDERLANDS</div>
     <div class="regions-grid">
       <article class="region">
@@ -1311,7 +1310,7 @@ BORDERLANDS</div>
 
   <!-- GALLERY -->
   <section class="gallery" id="gallery" data-screen-label="04 Gallery">
-    <div class="sec-label" data-chapter-name="The field, photographed">§ 03
+    <div class="sec-label" data-chapter-name="The field, photographed"><span class="num">§ 03</span>
 FIELDWORK GALLERY </div>
     <div class="gallery-head">
       <h2 data-i18n="gallery.h">The field, photographed slowly.</h2>
@@ -1363,10 +1362,10 @@ FIELDWORK GALLERY </div>
       <li class="w-row" data-hover="link">
         <span class="w-year">2026</span>
         <div class="w-body">
-          <h3 class="w-title" data-i18n="writings.w2.t">Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span></h3>
-          <p class="w-desc"><span class="w-venue" data-i18n="writings.w2.v">HIMALAYA</span> · <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span> · Forthcoming</p>
+          <h3 class="w-title">Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span></h3>
+          <p class="w-desc"><span class="w-venue">HIMALAYA</span> · <span class="w-kind">Peer-reviewed</span> · Forthcoming</p>
         </div>
-        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
+        <span class="w-kind">Peer-reviewed</span>
       </li>
       <li class="w-row" data-hover="link">
         <span class="w-year">2025</span>
@@ -1374,15 +1373,15 @@ FIELDWORK GALLERY </div>
           <h3 class="w-title"><a href="https://doi.org/10.2218/himalaya.2025.10878" target="_blank" rel="noopener">Review of <span class="it">Pyre</span> (चिता) directed by Vinod Kapri</a></h3>
           <p class="w-desc"><span class="w-venue">HIMALAYA</span> · <span class="w-kind">Film Review</span></p>
         </div>
-        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
+        <span class="w-kind">Peer-reviewed</span>
       </li>
       <li class="w-row" data-hover="link">
         <span class="w-year">2019</span>
         <div class="w-body">
-          <h3 class="w-title"><a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener" data-i18n="writings.w4.t">The field, the border, and I <span class="w-ext" aria-hidden="true">↗</span></a></h3>
-          <p class="w-desc"><span class="w-venue" data-i18n="writings.w4.v">ethnomarginalia.com · Essay</span></p>
+          <h3 class="w-title"><a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener">The field, the border, and I <span class="w-ext" aria-hidden="true">↗</span></a></h3>
+          <p class="w-desc"><span class="w-venue">ethnomarginalia.com · Essay</span></p>
         </div>
-        <span class="w-kind" data-i18n="writings.kind.blog">Blog</span>
+        <span class="w-kind">Blog</span>
       </li>
     </ol>
 
@@ -1390,7 +1389,7 @@ FIELDWORK GALLERY </div>
 
   <!-- AI EXPERIMENTS -->
   <section class="ai" id="ai" data-screen-label="06 Experiments">
-    <div class="sec-label" data-chapter-name="A sandbox">§ 05
+    <div class="sec-label" data-chapter-name="A sandbox"><span class="num">§ 05</span>
 EXPERIMENTS WITH AI</div>
     <div class="ai-head">
       <h2 data-i18n="ai.h">What happens when the <span class="it">field notebook</span> learns to speak back?</h2>
@@ -1399,8 +1398,8 @@ EXPERIMENTS WITH AI</div>
     <div class="ai-grid">
       <a class="ai-card" href="https://tracker.princetomar.com" target="_blank" rel="noopener noreferrer" data-hover="link">
         <span class="num">No. 01</span>
-        <h4>Peer Review <span class="it">Tracker</span> · 2026</h4>
-        <p>Transform academic reviewer feedback into a structured, gamified roadmap for revision. Analyzes reviewer comments, organizes them by theme and importance, and generates prioritized daily tasks with XP rewards. Progress bars track your way through major and minor revisions — no accounts, no data collection, everything saves locally.</p>
+        <h4 data-i18n="ai.card0.h">Peer Review <span class="it">Tracker</span> · 2026</h4>
+        <p data-i18n="ai.card0.p">Transform academic reviewer feedback into a structured, gamified roadmap for revision. Analyzes reviewer comments, organizes them by theme and importance, and generates prioritized daily tasks with XP rewards. Progress bars track your way through major and minor revisions — no accounts, no data collection, everything saves locally.</p>
         <div class="tag"><span>Tool · AI</span><span>↗ Open</span></div>
       </a>
       <a class="ai-card" href="https://opal.google/app/1ptWkLqszsDuwhi3SLZgFU_dFcejuoWSO" target="_blank" rel="noopener" data-hover="link">
@@ -1433,7 +1432,7 @@ EXPERIMENTS WITH AI</div>
 
   <!-- EPILOGUE -->
   <section class="epilogue" id="epilogue" data-screen-label="08 Epilogue">
-    <div class="sec-label" data-chapter-name="A small ledger">§ 07
+    <div class="sec-label" data-chapter-name="A small ledger"><span class="num">§ 07</span>
 EPILOGUE</div>
     <div class="epilogue-head">
       <h2 data-i18n="epilogue.h">Currently <span class="it">reading, listening, thinking.</span></h2>
@@ -1462,7 +1461,7 @@ EPILOGUE</div>
       <div class="epi-col">
         <h5 data-i18n="epi.col2.h"><span>In the ears</span><span class="num">/ sound</span></h5>
         <div class="epi-item">
-          <div class="t" data-i18n="epi.col2.i1.t">Field recordings, Nubra valley</div>
+          <div class="t">Field recordings, Nubra valley</div>
           <div class="a" data-i18n="epi.col2.i1.a">own archive · 2024</div>
         </div>
         <div class="epi-item">
@@ -1470,20 +1469,20 @@ EPILOGUE</div>
           <div class="a" data-i18n="epi.col2.i2.a">on repeat, slowly</div>
         </div>
         <div class="epi-item">
-          <div class="t" data-i18n="epi.col2.i3.t">Bhojpuri border radio</div>
+          <div class="t">Bhojpuri border radio</div>
           <div class="a" data-i18n="epi.col2.i3.a">Raxaul, AM dial</div>
         </div>
       </div>
       <div class="epi-col">
         <h5 data-i18n="epi.col3.h"><span>Circling</span><span class="num">/ ideas</span></h5>
         <div class="epi-item">
-          <div class="t" data-i18n="epi.col3.i1.t">Whether a road is a noun or a verb.</div>
+          <div class="t">Whether a road is a noun or a verb.</div>
         </div>
         <div class="epi-item">
-          <div class="t" data-i18n="epi.col3.i2.t">The grammar of dust.</div>
+          <div class="t">The grammar of dust.</div>
         </div>
         <div class="epi-item">
-          <div class="t" data-i18n="epi.col3.i3.t">How a glacier keeps its appointments.</div>
+          <div class="t">How a glacier keeps its appointments.</div>
         </div>
       </div>
     </div>
@@ -1516,10 +1515,10 @@ EPILOGUE</div>
       <h6 data-i18n="foot.h.sections">Sections</h6>
       <a href="#bio" data-i18n="nav.about">About</a>
       <a href="#regions" data-i18n="nav.borderlands">Borderlands</a>
-      <a href="#gallery" data-i18n="nav.gallery">Fieldwork Gallery</a>
+      <a href="#gallery" data-i18n="foot.nav.gallery">Fieldwork Gallery</a>
       <a href="#writings" data-i18n="nav.latest">Latest</a>
-      <a href="#ai" data-i18n="nav.ai">Experiments with AI</a>
-      <a href="#writing" data-i18n="nav.writing">Play</a>
+      <a href="#ai" data-i18n="foot.nav.ai">Experiments with AI</a>
+      <a href="#writing" data-i18n="foot.nav.play">Play</a>
       <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
     </div>
     <div class="foot-col">
@@ -1704,7 +1703,6 @@ EPILOGUE</div>
       <img alt="" />
       <figcaption class="lb-cap">
         <span class="lb-label"></span>
-        <span class="lb-hint">Esc · click outside to close</span>
       </figcaption>
     </figure>`;
   document.body.appendChild(lb);
