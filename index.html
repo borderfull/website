@@ -1440,7 +1440,7 @@ EXPERIMENTS WITH AI</div>
       <a class="ai-card" href="https://tracker.princetomar.com" target="_blank" rel="noopener noreferrer" data-hover="link">
         <span class="num">No. 01</span>
         <h4 data-i18n="ai.card0.h">Peer Review <span class="it">Tracker</span> · 2026</h4>
-        <p data-i18n="ai.card0.p">Transform academic reviewer feedback into a structured, gamified roadmap for revision. Analyzes reviewer comments, organizes them by theme and importance, and generates prioritized daily tasks with XP rewards. Progress bars track your way through major and minor revisions — no accounts, no data collection, everything saves locally.</p>
+        <p data-i18n="ai.card0.p">Turn academic reviewer feedback into a structured, gamified roadmap for revision. Analyzes reviewer comments, organizes them by theme and importance, and generates prioritized daily tasks with XP rewards. Progress bars track your way through major and minor revisions — no accounts, no data collection, everything saves locally.</p>
         <div class="tag"><span>Tool · AI</span><span>↗ Open</span></div>
       </a>
       <a class="ai-card" href="https://opal.google/app/1ptWkLqszsDuwhi3SLZgFU_dFcejuoWSO" target="_blank" rel="noopener" data-hover="link">
@@ -2130,7 +2130,7 @@ EPILOGUE</div>
     reader.setAttribute('aria-hidden', 'false');
     document.body.classList.add('lb-open');
 
-    var safeFilename = (n.filename || '').replace(/[^a-zA-Z0-9._\-]/g, '');
+    var safeFilename = encodeURIComponent(n.filename || '');
     fetch('notes/' + safeFilename, { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
       .then(function (md) {
