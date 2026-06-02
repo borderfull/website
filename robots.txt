@@ -27,3 +27,6 @@ User-agent: cohere-ai
 Allow: /
 
 Sitemap: https://princetomar.com/sitemap.xml
+
+# LLM-readable site summary
+# https://princetomar.com/llms.txt

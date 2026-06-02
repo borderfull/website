@@ -27,6 +27,46 @@
 <meta name="twitter:title" content="Prince Tomar — a portfolio of borderlands" />
 <meta name="twitter:description" content="Doctoral research on roads, borders, and infrastructure across the Indian Himalaya — Ladakh and the Terai." />
 <meta name="twitter:image" content="https://princetomar.com/images/og-cover.png" />
+<!-- Canonical -->
+<link rel="canonical" href="https://princetomar.com/" />
+
+<!-- Structured data — Person schema for Google Knowledge Graph -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Prince Tomar",
+  "url": "https://princetomar.com",
+  "jobTitle": "Doctoral Researcher",
+  "affiliation": {
+    "@type": "Organization",
+    "name": "Tallinn University",
+    "department": "Centre for Landscape and Culture",
+    "url": "https://www.tlu.ee"
+  },
+  "description": "Doctoral researcher at the Centre for Landscape and Culture, Tallinn University. Works with borderland communities along the Indian Himalaya, studying road development, infrastructure, territorialisation, and geopolitics in Ladakh and the Terai.",
+  "knowsAbout": [
+    "Ethnography",
+    "Borderlands",
+    "Infrastructure",
+    "Road development",
+    "Indian Himalaya",
+    "Ladakh",
+    "Terai",
+    "Territorialisation",
+    "Geopolitics",
+    "Landscape studies",
+    "Literary ethnography",
+    "Field photography"
+  ],
+  "sameAs": [
+    "https://orcid.org/0000-0001-6306-7710",
+    "https://www.linkedin.com/in/prince-tomar-6930975a/",
+    "https://github.com/borderfull"
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://unpkg.com" crossorigin />
@@ -1253,7 +1293,8 @@ ABOUT BIO</div>
       <div class="body">
         <p data-i18n="bio.p1"><span class="drop-cap">P</span>rince Tomar is a doctoral researcher at the Centre for Landscape and Culture, Tallinn University. He works with borderland communities along the Indian Himalaya, with a particular focus on the dynamics of road development — tracing the subtle interplay between infrastructure, territorialisation, and the region's intricate dance of history, geopolitics, and terrain.</p>
         <p data-i18n="bio.p3">Beyond the academic work, he writes poems and is interested in the porous border between ethnography and literary studies. His current project studies the spatial-temporal dimensions of change in the Indian Himalaya as the pace of road development quickens.</p>
-        <p data-i18n="bio.p4"><span class="drop-cap">H</span>e keeps an open notebook here: photographs from the field, dispatches and small experiments with AI, and an epilogue of things being read, watched, listened to.</p>
+        <div style="border-top: 1px solid var(--rule); margin: 24px 0;"></div>
+        <p data-i18n="bio.p4"><span class="drop-cap">I</span> keep an open notebook here: photographs from the field, dispatches and small experiments with AI, and an epilogue of things being read, thought about, and listened to.</p>
       </div>
     </div>
   </section>
@@ -1436,7 +1477,7 @@ EXPERIMENTS WITH AI</div>
 EPILOGUE</div>
     <div class="epilogue-head">
       <h2 data-i18n="epilogue.h">Currently <span class="it">reading, listening, thinking.</span></h2>
-      <p class="lede" data-i18n="epilogue.lede">A loose, updated ledger — books on the desk, music in the headphones, ideas circling the kettle.</p>
+      <p class="lede" data-i18n="epilogue.lede">A loose, updated ledger — books on the desk, audio from the field, ideas circling the mind.</p>
     </div>
     <div class="epilogue-grid">
       <div class="epi-col" data-goodreads-col>
@@ -2018,6 +2059,7 @@ EPILOGUE</div>
 </div>
 
 <script src="https://unpkg.com/marked@9.1.6/marked.min.js"></script>
+<script src="https://unpkg.com/dompurify@3.1.6/dist/purify.min.js"></script>
 <script>
 (function () {
   var col = document.querySelector('[data-ideas-col] [data-ideas-items]');
@@ -2038,6 +2080,13 @@ EPILOGUE</div>
     .catch(function () { /* keep static fallback */ });
 
   function render(list) {
+    // Sort by first-sync date descending (newest on top)
+    list = list.slice().sort(function (a, b) {
+      var da = localStorage.getItem('note-sync-date:' + a.filename) || a.date || '';
+      var db = localStorage.getItem('note-sync-date:' + b.filename) || b.date || '';
+      return db.localeCompare(da);
+    });
+
     var frag = document.createDocumentFragment();
     list.forEach(function (n) {
       var item = document.createElement('div');
@@ -2048,10 +2097,19 @@ EPILOGUE</div>
       t.textContent = n.title || n.filename;
       item.appendChild(t);
 
-      if (n.date) {
+      // Store the first sync date in localStorage so it never updates
+      var storageKey = 'note-sync-date:' + n.filename;
+      var storedDate = localStorage.getItem(storageKey);
+      var displayDate = storedDate || n.date;
+      
+      if (!storedDate && n.date) {
+        localStorage.setItem(storageKey, n.date);
+      }
+
+      if (displayDate) {
         var d = document.createElement('div');
         d.className = 'd';
-        d.textContent = n.date;
+        d.textContent = displayDate;
         item.appendChild(d);
       }
 
@@ -2064,19 +2122,22 @@ EPILOGUE</div>
   var rTitle = document.getElementById('nr-title');
 
   function open(n) {
-    rMeta.innerHTML = '<span class="num">Note</span> &nbsp; ' + (n.date || '');
+    rMeta.innerHTML = '<span class="num">Note</span>';
+    if (n.date) { var rMetaDate = document.createTextNode('   ' + n.date); rMeta.appendChild(rMetaDate); }
     rTitle.textContent = n.title || n.filename || '';
     rBody.innerHTML = '<p style="color:var(--ink-mute)">Loading…</p>';
     reader.classList.add('open');
     reader.setAttribute('aria-hidden', 'false');
     document.body.classList.add('lb-open');
 
-    fetch('notes/' + n.filename, { cache: 'no-store' })
+    var safeFilename = (n.filename || '').replace(/[^a-zA-Z0-9._\-]/g, '');
+    fetch('notes/' + safeFilename, { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
       .then(function (md) {
         // Strip YAML frontmatter before rendering
         md = md.replace(/^---\n[\s\S]*?\n---\n/, '');
-        rBody.innerHTML = (window.marked ? marked.parse(md) : md);
+        var html = window.marked ? marked.parse(md) : md;
+        rBody.innerHTML = window.DOMPurify ? DOMPurify.sanitize(html) : html;
       })
       .catch(function () { rBody.innerHTML = '<p style="color:var(--ink-mute)">Could not load this note.</p>'; });
   }
