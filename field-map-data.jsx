@@ -43,6 +43,11 @@ const PINS = [
     nameAlign: 'left',
     note: 'The last village before the Line of Control — a single road, a watch-post, and a small school. Stories here move at the speed of permission slips.',
     caption: 'Field recording · Thang village, near dusk.',
+    photos: [
+      '../images/map/thang-2.jpg',
+      '../images/map/thang-1.jpg',
+      '../images/map/thang-3.jpg',
+    ],
   },
   {
     id: 'turtuk',
@@ -53,6 +58,13 @@ const PINS = [
     nameAlign: 'below',
     note: 'Balti-speaking villages reopened to outsiders in 2010. Apricot orchards, slate roofs, a quiet bilingualism of Urdu and Ladakhi.',
     caption: 'Conversation with an elder · Turtuk, morning light.',
+    photos: [
+      '../images/map/turtuk-2.jpg',
+      '../images/map/turtuk-1.jpg',
+      '../images/map/turtuk-3.jpg',
+      '../images/map/turtuk-4.jpg',
+      '../images/map/turtuk-5.jpg',
+    ],
   },
   {
     id: 'khardung-la',
@@ -63,6 +75,26 @@ const PINS = [
     nameAlign: 'right',
     note: 'A mountain pass on the road from Leh into the Nubra valley. Once described as the world\'s highest motorable pass — a claim contested, but the wind here doesn\'t care.',
     caption: 'Wind & passing trucks · Khardung La summit.',
+    photos: [
+      '../images/map/khardung-la-1.jpg',
+      '../images/map/khardung-la-2.jpg',
+      '../images/map/khardung-la-3.jpg',
+    ],
+  },
+  {
+    id: 'khardung-village',
+    name: 'Khardung Village',
+    kind: 'location',
+    lat: 34.2200, lon: 77.5700,
+    altitude: '3 900 m',
+    nameAlign: 'left',
+    note: 'A small settlement on the southern approach to Khardung La. Households here sit at the edge of two worlds — the quiet of the valley and the constant traffic of the pass above.',
+    caption: 'Afternoon in a courtyard · Khardung Village.',
+    photos: [
+      { src: '../images/map/khardung-village-1.jpg', position: '50% 78%' },
+      '../images/map/khardung-village-2.jpg',
+      '../images/map/khardung-village-3.jpg',
+    ],
   },
   {
     id: 'saspol',
@@ -73,6 +105,11 @@ const PINS = [
     nameAlign: 'left',
     note: 'Caves with eleventh-century frescoes above the Indus. The village below tends barley and ferries tourists across to the bank.',
     caption: 'Indus flow & a goat herd passing · Saspol.',
+    photos: [
+      '../images/map/saspol-3.jpg',
+      '../images/map/saspol-1.jpg',
+      '../images/map/saspol-2.jpg',
+    ],
   },
   {
     id: 'leh',
@@ -83,6 +120,13 @@ const PINS = [
     nameAlign: 'below',
     note: 'The capital and the gravitational centre of all fieldwork here. Markets, monasteries, the radio crackle of a regional bus stand.',
     caption: 'Leh market · evening azaan & Tibetan chant overlap.',
+    photos: [
+      { src: '../images/map/leh-4.jpg', position: '50% 90%' },
+      { src: '../images/map/leh-1.jpg', position: '50% 75%' },
+      '../images/map/leh-2.jpg',
+      '../images/map/leh-3.jpg',
+      '../images/map/leh-5.jpg',
+    ],
   },
   {
     id: 'chang-la',
@@ -93,6 +137,7 @@ const PINS = [
     nameAlign: 'right',
     note: 'The pass on the road east toward Pangong. Army tea-stall at the top, a small Shiva shrine, snow even in July.',
     caption: 'Tea-stall radio & wind · Chang La.',
+    photos: [],
   },
   {
     id: 'upshi',
@@ -103,6 +148,7 @@ const PINS = [
     nameAlign: 'left',
     note: 'The junction where the Manali–Leh highway meets the road east. Truckers stop here for noodles and diesel; an arch announces both directions at once.',
     caption: 'Trucks idling at the checkpoint · Upshi.',
+    photos: [],
   },
   {
     id: 'pangong-tso',
@@ -113,6 +159,22 @@ const PINS = [
     nameAlign: 'above',
     note: 'A long salt-water lake straddling the India–China line. The water changes colour through the day; the silence does not.',
     caption: 'Lakeshore at first light · Pangong Tso.',
+    photos: [],
+  },
+  {
+    id: 'umling-la',
+    name: 'Umling La',
+    kind: 'pass',
+    lat: 33.55, lon: 79.40,
+    altitude: '5 799 m',
+    nameAlign: 'left',
+    note: 'The world\'s highest motorable road — 19,024 feet above sea level, in the Changthang plateau. The landscape at the top is not dramatic; it is simply total. No trees, no sound, just the road continuing.',
+    caption: 'Wind at the summit · Umling La.',
+    photos: [
+      '../images/map/umling-la-2.jpg',
+      '../images/map/umling-la-1.jpg',
+      '../images/map/umling-la-3.jpg',
+    ],
   },
 ];
 

@@ -13,9 +13,11 @@ function FieldMap() {
   const active = pins.find((p) => p.id === activeId) || null;
   const hover = pins.find((p) => p.id === hoverId) || null;
 
-  // Keyboard nav: ←/→ jump between pins, Esc closes
+  // Keyboard nav: ←/→ jump between pins, Esc closes.
+  // If lightbox is open, let it handle keys exclusively.
   React.useEffect(() => {
     function onKey(e) {
+      if (document.querySelector('.map-lightbox')) return;
       if (e.key === 'Escape') {setActiveId(null);return;}
       if (!active) return;
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
@@ -165,7 +167,43 @@ function HoverLens({ pin }) {
 
 }
 
+function PhotoLightbox({ photos, index, onClose, onNav }) {
+  React.useEffect(function() {
+    function onKey(e) {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowRight') onNav(1);
+      if (e.key === 'ArrowLeft') onNav(-1);
+    }
+    window.addEventListener('keydown', onKey);
+    return function() { window.removeEventListener('keydown', onKey); };
+  }, [onClose, onNav]);
+
+  const src = photos[index];
+  return (
+    <div className="map-lightbox" onClick={onClose} role="dialog" aria-modal="true">
+      <button className="lb-close" onClick={onClose} aria-label="Close">×</button>
+      {index > 0 && (
+        <button className="lb-nav lb-prev" onClick={function(e){ e.stopPropagation(); onNav(-1); }} aria-label="Previous">‹</button>
+      )}
+      <img
+        className="lb-img"
+        src={src}
+        alt=""
+        onClick={function(e){ e.stopPropagation(); }}
+      />
+      {index < photos.length - 1 && (
+        <button className="lb-nav lb-next" onClick={function(e){ e.stopPropagation(); onNav(1); }} aria-label="Next">›</button>
+      )}
+      <div className="lb-counter">{index + 1} / {photos.length}</div>
+    </div>
+  );
+}
+
 function DetailPanel({ pin, onClose }) {
+  const [lightboxIdx, setLightboxIdx] = React.useState(null);
+
+  React.useEffect(function() { setLightboxIdx(null); }, [pin]);
+
   if (!pin) {
     return (
       <div className="field-map-panel is-empty">
@@ -173,10 +211,29 @@ function DetailPanel({ pin, onClose }) {
           Click any marker to open photographs, audio, and a field note.
         </div>
       </div>);
-
   }
+
+  // Normalise photo entries — each can be a string or {src, position}
+  function photoSrc(p) { return (p && typeof p === 'object') ? p.src : (p || ''); }
+  function photoPos(p) { return (p && typeof p === 'object') ? (p.position || '50% 50%') : '50% 50%'; }
+
+  const rawPhotos = (pin.photos && pin.photos.length > 0) ? pin.photos : [];
+  const hasPhotos = rawPhotos.length > 0;
+  const [main, ...thumbs] = hasPhotos ? rawPhotos : [null, null, null, null];
+
+  // For the lightbox we just need src strings
+  const photoSrcs = rawPhotos.map(photoSrc);
+
   return (
     <div className="field-map-panel">
+      {lightboxIdx !== null && hasPhotos && (
+        <PhotoLightbox
+          photos={photoSrcs}
+          index={lightboxIdx}
+          onClose={function(){ setLightboxIdx(null); }}
+          onNav={function(dir){ setLightboxIdx(function(i){ return Math.max(0, Math.min(photoSrcs.length - 1, i + dir)); }); }}
+        />
+      )}
       <div className="panel-left">
         <button className="panel-close" onClick={onClose} aria-label="Close">×</button>
         <div className="panel-head">
@@ -199,31 +256,45 @@ function DetailPanel({ pin, onClose }) {
 
       <div className="panel-right">
         <div className="panel-photos">
-          <div className="photo-main">
-            <image-slot id={`map-${pin.id}-1`}
-            shape="rect"
-            placeholder={`Drop a photograph of ${pin.name}`}
-            style={{ width: '100%', height: '100%' }}>
-            </image-slot>
+          <div
+            className={'photo-main' + (hasPhotos ? ' is-clickable' : '')}
+            onClick={hasPhotos ? function(){ setLightboxIdx(0); } : undefined}
+            title={hasPhotos ? 'Click to enlarge' : undefined}
+          >
+            <image-slot
+              id={`map-${pin.id}-1`}
+              shape="rect"
+              src={photoSrc(main)}
+              position={photoPos(main)}
+              placeholder={`Drop a photograph of ${pin.name}`}
+              style={{ width: '100%', height: '100%' }}
+            ></image-slot>
           </div>
-          <div className="photo-thumbs">
-            <image-slot id={`map-${pin.id}-2`} shape="rect"
-            placeholder=" "
-            style={{ width: '100%', height: '100%' }}>
-            </image-slot>
-            <image-slot id={`map-${pin.id}-3`} shape="rect"
-            placeholder=" "
-            style={{ width: '100%', height: '100%' }}>
-            </image-slot>
-            <image-slot id={`map-${pin.id}-4`} shape="rect"
-            placeholder=" "
-            style={{ width: '100%', height: '100%' }}>
-            </image-slot>
-          </div>
+          {thumbs.length > 0 && (
+            <div className="photo-thumbs">
+              {thumbs.map(function(photo, i) {
+                const src = photoSrc(photo);
+                return React.createElement('div', {
+                  key: i,
+                  className: 'thumb-wrap' + (src ? ' is-clickable' : ''),
+                  onClick: src ? function(){ setLightboxIdx(i + 1); } : undefined,
+                  title: src ? 'Click to enlarge' : undefined,
+                },
+                  React.createElement('image-slot', {
+                    id: `map-${pin.id}-${i + 2}`,
+                    shape: 'rect',
+                    src: src,
+                    position: photoPos(photo),
+                    placeholder: ' ',
+                    style: { width: '100%', height: '100%' }
+                  })
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>);
-
 }
 
 // =====================================================================
