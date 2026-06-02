@@ -1,4 +1,4 @@
-What can Thang teach us about adaptability among the adrenaline-charged borders of India and Pakistan?
+What can Thang village teach us about adaptability among the adrenaline-charged borders of India and Pakistan?
 
 With the India-Pakistan discourse in India that has been providing an adrenaline rush to a billion-plus people for decades, border regions like Baltistan and villages like Thang are always under the spotlight in expectation of their patriotism and their unfettered love toward Bharat Mata (Mother India). 
 Due to their dynamic identities across the changing northern borders of India, people in Baltistan, as in Kashmir, have always faced questions about their allegiance to the Indian state. There have been instances where arms and radio devices, among other things were suspected to be belonging to the Pakistani military, were found in the border villages, raising questions about villagers being involved in spying for the neighboring country. Rumors like this get circulated across India and tend to paint an anti-national picture of these border regions.
