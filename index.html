@@ -462,6 +462,15 @@
 
   /* ===== BORDER REGIONS ===== */
   .regions { background: var(--paper-2); }
+  .regions-head {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .regions-head h2 {
+    font-family: var(--serif-display); font-weight: 300;
+    font-size: clamp(32px, 3.8vw, 58px); line-height: 0.95;
+  }
+  .regions-head h2 .it { font-style: italic; }
   .regions-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
     margin-top: 32px;
@@ -680,7 +689,7 @@
   .ai-head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: end; margin-bottom: 56px; }
   .ai-head h2 {
     font-family: var(--serif-display); font-weight: 300;
-    font-size: clamp(40px, 5.4vw, 84px); line-height: 0.96; letter-spacing: -0.01em;
+    font-size: clamp(32px, 3.8vw, 58px); line-height: 0.95;
   }
   .ai-head h2 .it { font-style: italic; }
   .ai-head .blurb {
@@ -722,7 +731,7 @@
   }
   .writings-head h2 {
     font-family: var(--serif-display); font-weight: 300;
-    font-size: clamp(36px, 4.6vw, 68px); line-height: 0.98; letter-spacing: -0.01em;
+    font-size: clamp(32px, 3.8vw, 58px); line-height: 0.95;
     max-width: 18ch;
   }
   .writings-head h2 .it { font-style: italic; }
@@ -807,6 +816,37 @@
 
   /* ===== ROAD GAME ===== */
   .road-game { padding: calc(80px * var(--density)) var(--gutter); }
+  .rg-head {
+    max-width: 62ch;
+    margin: 0 auto 48px;
+    text-align: center;
+  }
+  .rg-title {
+    font-family: var(--serif-display);
+    font-weight: 300;
+    font-size: clamp(32px, 3.8vw, 58px);
+    line-height: 0.95;
+    margin-bottom: 28px;
+  }
+  .rg-title .it { font-style: italic; }
+  .rg-blurb p {
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 1em;
+    text-wrap: pretty;
+  }
+  .rg-blurb p em { font-style: italic; color: var(--ink); }
+  .rg-blurb .rg-coda {
+    font-family: var(--serif-display);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-bottom: 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
   .rg-wrap {
     border: 1px solid var(--rule);
     overflow: hidden;
@@ -831,7 +871,7 @@
   .epilogue-head { margin-bottom: 48px; max-width: 60ch; }
   .epilogue-head h2 {
     font-family: var(--serif-display); font-weight: 300;
-    font-size: clamp(40px, 5vw, 76px); line-height: 0.95; margin-bottom: 18px;
+    font-size: clamp(32px, 3.8vw, 58px); line-height: 0.95; margin-bottom: 18px;
   }
   .epilogue-head h2 .it { font-style: italic; }
   .epilogue-head .lede {
@@ -1191,7 +1231,7 @@
       <a href="#bio" data-i18n="nav.about">About</a>
       <a href="#regions" data-i18n="nav.borderlands">Borderlands</a>
       <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
-      <a href="#writings" data-i18n="nav.latest">Latest</a>
+      <a href="#writings" data-i18n="nav.latest">Writing</a>
       <a href="#ai" data-i18n="nav.ai">Experiments</a>
       <a href="#writing" data-i18n="nav.play">Play</a>
       <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
@@ -1213,7 +1253,7 @@
   <a href="#bio" data-i18n="nav.about">About</a>
   <a href="#regions" data-i18n="nav.borderlands">Borderlands</a>
   <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
-  <a href="#writings" data-i18n="nav.latest">Latest</a>
+  <a href="#writings" data-i18n="nav.latest">Writing</a>
   <a href="#ai" data-i18n="nav.ai">Experiments</a>
   <a href="#writing" data-i18n="nav.play">Play</a>
   <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
@@ -1287,11 +1327,10 @@
 
   <!-- BIO -->
   <section class="bio" id="bio" data-screen-label="02 About">
-    <div class="sec-label" data-chapter-name="On the practice"><span class="num">§ 01</span>
-ABOUT BIO</div>
+    <div class="sec-label" data-chapter-name="On the practice"><span class="num">§ 01</span> About <span class="rule"></span></div>
     <div class="bio-grid">
       <div class="body">
-        <p data-i18n="bio.p1"><span class="drop-cap">P</span>rince Tomar is a doctoral researcher at the Centre for Landscape and Culture, Tallinn University. He works with borderland communities along the Indian Himalaya, with a particular focus on the dynamics of road development — tracing the subtle interplay between infrastructure, territorialisation, and the region's intricate dance of history, geopolitics, and terrain.</p>
+        <p data-i18n="bio.p1"><span class="drop-cap">P</span>rince Tomar is a doctoral researcher at the Centre for Landscape and Culture, Tallinn University. He works with borderland communities along the Indian Himalaya, with a particular focus on the dynamics of road development — tracing the subtle interplay between infrastructure, territorialisation, and the region’s intricate dance of history, geopolitics, and terrain.</p>
         <p data-i18n="bio.p3">Beyond the academic work, he writes poems and is interested in the porous border between ethnography and literary studies. His current project studies the spatial-temporal dimensions of change in the Indian Himalaya as the pace of road development quickens.</p>
         <div style="border-top: 1px solid var(--rule); margin: 24px 0;"></div>
         <p data-i18n="bio.p4"><span class="drop-cap">I</span> keep an open notebook here: photographs from the field, dispatches and small experiments with AI, and an epilogue of things being read, thought about, and listened to.</p>
@@ -1303,6 +1342,9 @@ ABOUT BIO</div>
   <section class="regions" id="regions" data-screen-label="03 Regions">
     <div class="sec-label" data-chapter-name="Two field sites"><span class="num">§ 02</span>
 BORDERLANDS</div>
+    <div class="regions-head">
+      <h2 data-i18n="regions.h">The <span class="it">field sites.</span></h2>
+    </div>
     <div class="regions-grid">
       <article class="region">
         <div class="plate" data-hover="image" data-lightbox="images/ladakh-plate.jpg">
@@ -1317,7 +1359,7 @@ BORDERLANDS</div>
           <div class="meta"><span data-i18n="regions.ladakh.meta1">2024 — Ongoing</span><span data-i18n="regions.ladakh.meta2">Cold Desert · 3500m</span></div>
           <h3 data-i18n="regions.ladakh.h">Ladakh, <span class="it">the cold frontier.</span></h3>
         </div>
-        <p data-i18n="regions.ladakh.p">A study of strategic roadwork along the Indus and Shyok valleys: how the asphalt's slow arrival reorders pastoral routes, kinship, and the granular politics of a militarised altitude.</p>
+        <p data-i18n="regions.ladakh.p">A study of strategic roadwork along India’s borders with China and Pakistan. What is behind the asphalt’s arrival, the place of the mountains, and the arrival of tourism in a land long defined by its remoteness?</p>
         <a class="read" href="border-regions/ladakh.html" data-i18n="regions.read">Read further <span class="arrow">→</span></a>
         <a class="atlas-cta" href="border-regions/ladakh.html#field-map">
           <span class="atlas-cta-marker" aria-hidden="true"></span>
@@ -1339,7 +1381,7 @@ BORDERLANDS</div>
           <div class="meta"><span data-i18n="regions.terai.meta1">2023 — Ongoing</span><span data-i18n="regions.terai.meta2">Lowland · 80m</span></div>
           <h3 data-i18n="regions.terai.h">Terai, <span class="it">a porous edge.</span></h3>
         </div>
-        <p data-i18n="regions.terai.p">Twin-towns Raxaul and Birgunj, a comma between two republics. Roads as conduits of trade, smuggling, faith, and rumour — the everyday architecture of an open border.</p>
+        <p data-i18n="regions.terai.p">Twin-towns Raxaul and Birgunj, a comma between two republics. A borderless borderland held tight with the fabric of a web of centuries of culture, connections, faith, and now the economy.</p>
         <a class="read" href="border-regions/terai.html" data-i18n="regions.read">Read further <span class="arrow">→</span></a>
       </article>
     </div>
@@ -1355,7 +1397,7 @@ BORDERLANDS</div>
 FIELDWORK GALLERY </div>
     <div class="gallery-head">
       <h2 data-i18n="gallery.h">The field, photographed slowly.</h2>
-      <p class="aside" data-i18n="gallery.aside">Grouped sets of photographs from the field, each circling a quiet theme — light, labour, weather, the look a road has when no one is on it yet. The full archive lives at the gallery subdomain.</p>
+      <p class="aside" data-i18n="gallery.aside">Grouped sets of photographs from the field, each circling a quiet theme. The full archive lives at the gallery subdomain.</p>
     </div>
     <div class="gallery-grid">
       <figure class="gphoto gp-1" data-hover="image" data-lightbox="images/gallery-01-stonework.jpg">
@@ -1363,7 +1405,7 @@ FIELDWORK GALLERY </div>
           <source srcset="images/gallery-01-stonework-thumb.webp" type="image/webp" />
           <img src="images/gallery-01-stonework-thumb.jpg" width="960" height="720" loading="lazy" decoding="async" alt="Road labourers building a stone retaining wall in a Ladakh valley, dust and rubble around them." />
         </picture>
-        <span class="cap">Plate 01 · Stonework, Ladakh valley</span>
+        <span class="cap">Plate 01 · Road safety barrier, Ladakh</span>
       </figure>
       <figure class="gphoto gp-2" data-hover="image" data-lightbox="images/gallery-02-birgunj.jpg">
         <picture>
@@ -1395,7 +1437,7 @@ FIELDWORK GALLERY </div>
 
   <!-- WRITING -->
   <section class="writings" id="writings" data-screen-label="05 Writing">
-    <div class="sec-label" data-chapter-name="Selected writing"><span class="num">§ 04</span> <span class="rule"></span> Papers &amp; essays</div>
+    <div class="sec-label" data-chapter-name="Selected writing"><span class="num">§ 04</span> Latest Writing <span class="rule"></span></div>
     <div class="writings-head">
     </div>
     <ol class="writing-list">
@@ -1403,26 +1445,26 @@ FIELDWORK GALLERY </div>
       <li class="w-row" data-hover="link">
         <span class="w-year">2026</span>
         <div class="w-body">
-          <h3 class="w-title">Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span></h3>
-          <p class="w-desc"><span class="w-venue">HIMALAYA</span> · <span class="w-kind">Peer-reviewed</span> · Forthcoming</p>
+          <h3 class="w-title" data-i18n="writings.w2.t">Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span></h3>
+          <p class="w-desc"><span class="w-venue">HIMALAYA</span> · Forthcoming</p>
         </div>
-        <span class="w-kind">Peer-reviewed</span>
+        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
       </li>
       <li class="w-row" data-hover="link">
         <span class="w-year">2025</span>
         <div class="w-body">
-          <h3 class="w-title"><a href="https://doi.org/10.2218/himalaya.2025.10878" target="_blank" rel="noopener">Review of <span class="it">Pyre</span> (चिता) directed by Vinod Kapri</a></h3>
-          <p class="w-desc"><span class="w-venue">HIMALAYA</span> · <span class="w-kind">Film Review</span></p>
+          <h3 class="w-title" data-i18n="writings.pyre.t"><a href="https://doi.org/10.2218/himalaya.2025.10878" target="_blank" rel="noopener">Review of <span class="it">Pyre</span> (चिता) directed by Vinod Kapri</a></h3>
+          <p class="w-desc"><span class="w-venue">HIMALAYA</span></p>
         </div>
-        <span class="w-kind">Peer-reviewed</span>
+        <span class="w-kind" data-i18n="writings.kind.review">Film Review</span>
       </li>
       <li class="w-row" data-hover="link">
         <span class="w-year">2019</span>
         <div class="w-body">
-          <h3 class="w-title"><a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener">The field, the border, and I <span class="w-ext" aria-hidden="true">↗</span></a></h3>
-          <p class="w-desc"><span class="w-venue">ethnomarginalia.com · Essay</span></p>
+          <h3 class="w-title" data-i18n="writings.w4.t"><a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener">The field, the border, and I <span class="w-ext" aria-hidden="true">↗</span></a></h3>
+          <p class="w-desc"><span class="w-venue">ethnomarginalia.com</span></p>
         </div>
-        <span class="w-kind">Blog</span>
+        <span class="w-kind" data-i18n="writings.kind.essay">Essay</span>
       </li>
     </ol>
 
@@ -1433,7 +1475,7 @@ FIELDWORK GALLERY </div>
     <div class="sec-label" data-chapter-name="A sandbox"><span class="num">§ 05</span>
 EXPERIMENTS WITH AI</div>
     <div class="ai-head">
-      <h2 data-i18n="ai.h">What happens when the <span class="it">field notebook</span> learns to speak back?</h2>
+      <h2 data-i18n="ai.h">Beyond the <span class="it">notebook.</span></h2>
       <p class="blurb" data-i18n="ai.blurb">A small open sandbox: prompts, models, and quiet provocations at the seam between ethnography and machine reading. Not conclusions — exposures.</p>
     </div>
     <div class="ai-grid">
@@ -1445,13 +1487,13 @@ EXPERIMENTS WITH AI</div>
       </a>
       <a class="ai-card" href="https://opal.google/app/1ptWkLqszsDuwhi3SLZgFU_dFcejuoWSO" target="_blank" rel="noopener" data-hover="link">
         <span class="num">No. 02</span>
-        <h4 data-i18n="ai.card1.h">Bard's <span class="it">Balm</span> · 2025</h4>
+        <h4 data-i18n="ai.card1.h">Bard’s <span class="it">Balm</span> · 2025</h4>
         <p data-i18n="ai.card1.p">Feeling the weight of academic life? Plotting revenge against reviewers? Shakespeare might help. Drop your mood and the Bard offers a verse — uplifting, or perhaps just the bare truth. Requires a Google account.</p>
         <div class="tag"><span>App · Appsheet</span><span>↗ Open</span></div>
       </a>
       <div class="ai-card" data-hover="link">
         <span class="num">No. 03</span>
-        <h4 data-i18n="ai.card2.h">An LLM walks the <span class="it">Trans-Karakoram</span></h4>
+        <h4 data-i18n="ai.card2.h">An LLM walks the <span class="it">Trans-Himalaya</span></h4>
         <p data-i18n="ai.card2.p">Feeding fragmented road-survey diaries from 1962 into a small language model, then asking it to dream the missing kilometres.</p>
         <div class="tag"><span>Prose · Model</span><span>2025</span></div>
       </div>
@@ -1461,13 +1503,20 @@ EXPERIMENTS WITH AI</div>
   <!-- ROAD GAME -->
   <section class="road-game" id="writing" data-screen-label="07 Road">
     <div class="sec-label" data-chapter-name="A game of the journey"><span class="num">§ 06</span> Play <span class="rule"></span> A game of the journey</div>
+    <div class="rg-head">
+      <h2 class="rg-title" data-i18n="rg.title">An <span class="it">anti-game.</span></h2>
+      <div class="rg-blurb">
+        <p data-i18n="rg.p1">If games are about fast-paced collection of achievements and scores, then this is an anti-game. Through an interactive 3 minutes, it shares a learning that came from my work in Ladakh: <em>One is never on the mountains, but in them.</em> For our dreams of travel takes us to such places in search of a familiar difference, that stays hidden somewhere in us, while we look for it elsewhere. Until we let the place and the mind alter each other and realize that what we are looking for is in those exact moments of awaiting.</p>
+        <p class="rg-coda" data-i18n="rg.coda">Enjoy this game of collecting moments, not by doing something but by waiting, and letting the mountains do their thing.</p>
+      </div>
+    </div>
     <div class="rg-wrap">
       <canvas id="road-canvas" role="img" aria-label="Himalayan road game — press Space or tap to play"></canvas>
     </div>
     <div class="rg-foot">
-      <span>Space · Tap · Jump over summits</span>
-      <span>3 ranges · ~3 min journey</span>
-      <span>Mountains · Tunnels · Yaks · Goats · Road work · Landslides</span>
+      <span data-i18n="rg.foot.1">Space · Tap · Jump over summits</span>
+      <span data-i18n="rg.foot.2">3 ranges · ~3 min journey</span>
+      <span data-i18n="rg.foot.3">Mountains · Tunnels · Yaks · Goats · Road work · Landslides</span>
     </div>
   </section>
 
@@ -1540,7 +1589,7 @@ EPILOGUE</div>
       </div>
       <div class="signoff-text">
         <div class="signoff-name">— Prince <span class="it">Tomar</span></div>
-        <div class="signoff-place">Delhi · MMXXVI</div>
+        <div class="signoff-place">Delhi · MMXXII–MMXXVI</div>
         <div class="signoff-coords">28.7041° N / 77.1025° E</div>
       </div>
     </div>
@@ -1559,9 +1608,9 @@ EPILOGUE</div>
       <h6 data-i18n="foot.h.sections">Sections</h6>
       <a href="#bio" data-i18n="nav.about">About</a>
       <a href="#regions" data-i18n="nav.borderlands">Borderlands</a>
-      <a href="#gallery" data-i18n="foot.nav.gallery">Fieldwork Gallery</a>
-      <a href="#writings" data-i18n="nav.latest">Latest</a>
-      <a href="#ai" data-i18n="foot.nav.ai">Experiments with AI</a>
+      <a href="#gallery" data-i18n="foot.nav.gallery">Gallery</a>
+      <a href="#writings" data-i18n="nav.latest">Writing</a>
+      <a href="#ai" data-i18n="foot.nav.ai">Experiments</a>
       <a href="#writing" data-i18n="foot.nav.play">Play</a>
       <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
     </div>
@@ -1582,7 +1631,7 @@ EPILOGUE</div>
     </div>
   </div>
   <div class="foot-base">
-    <span>© MMXXVI — Prince Tomar</span>
+    <span>© MMXXII–MMXXVI — Prince Tomar</span>
     <span>28.7041° N / 77.1025° E</span>
   </div>
 </footer>

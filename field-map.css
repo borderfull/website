@@ -630,22 +630,50 @@
   transform: translateY(-1px);
 }
 
+/* Mobile prev/next arrows */
+.field-map-mobile-nav {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--ink);
+  border-top: 0;
+  background: var(--paper);
+  padding: 0;
+}
+.field-map-mobile-nav .fm-arrow {
+  width: 56px; height: 52px;
+  background: none; border: 0;
+  font-family: var(--serif-display);
+  font-size: 22px; color: var(--ink);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.field-map-mobile-nav .fm-arrow:active { background: var(--paper-2); }
+.field-map-mobile-nav .fm-current {
+  font-family: var(--mono);
+  font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  text-align: center;
+  padding: 0 8px;
+}
+
 /* Responsive */
 @media (max-width: 980px) {
   .field-map { margin-top: 56px; }
   .field-map-panel { grid-template-columns: 1fr; }
   .panel-right { border-top: 1px solid var(--rule); border-right: 0; }
   .field-map-pin .name { font-size: 9px; padding: 1px 4px; }
-  /* Give the map more vertical room as it narrows (basemap stretches,
-     pins stay proportional). */
   .field-map-stage { aspect-ratio: 1200 / 880; }
 }
 @media (max-width: 720px) {
   .field-map-head { flex-direction: column; align-items: flex-start; gap: 8px; }
   .field-map-pin .name { display: none; }
   .field-map-cartouche { display: none; }
-  .field-map-nav { flex-wrap: wrap; }
-  .field-map-nav button { flex: 1 0 50%; border-bottom: 1px solid var(--rule); }
+  /* Replace full strip with prev/next arrows */
+  .field-map-nav { display: none; }
+  .field-map-mobile-nav { display: flex; }
   /* Near-square stage so pins are large enough to tap comfortably. */
   .field-map-stage { aspect-ratio: 1 / 1; }
   /* Larger touch targets for the pin glyphs. */
@@ -653,6 +681,13 @@
   .field-map-pin .glyph .tri {
     border-left-width: 11px; border-right-width: 11px; border-bottom-width: 19px;
   }
+  /* Fix panel cropping */
+  .field-map-panel { overflow: hidden; }
+  .panel-left, .panel-right { padding: 20px 16px; }
+  .panel-head { flex-wrap: wrap; gap: 8px; padding-right: 44px; }
+  .panel-head .coords { text-align: left; white-space: normal; }
+  .panel-head .name { font-size: clamp(28px, 7vw, 44px); }
+  .panel-note { font-size: 15px; }
 }
 
 /* When original design is active, the map still works; tone down the

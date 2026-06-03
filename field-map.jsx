@@ -8,13 +8,19 @@ function FieldMap() {
   const pins = window.FieldMapPins || [];
   const [activeId, setActiveId] = React.useState(null);
   const [hoverId, setHoverId] = React.useState(null);
+  const [touchStartX, setTouchStartX] = React.useState(null);
   const stageRef = React.useRef(null);
 
   const active = pins.find((p) => p.id === activeId) || null;
   const hover = pins.find((p) => p.id === hoverId) || null;
 
+  function navTo(dir) {
+    const i = activeId ? pins.findIndex(p => p.id === activeId) : -1;
+    const next = (i + dir + pins.length) % pins.length;
+    setActiveId(pins[next].id);
+  }
+
   // Keyboard nav: ←/→ jump between pins, Esc closes.
-  // If lightbox is open, let it handle keys exclusively.
   React.useEffect(() => {
     function onKey(e) {
       if (document.querySelector('.map-lightbox')) return;
@@ -22,19 +28,14 @@ function FieldMap() {
       if (!active) return;
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         e.preventDefault();
-        const i = pins.findIndex((p) => p.id === active.id);
-        const next = e.key === 'ArrowRight' ?
-        (i + 1) % pins.length :
-        (i - 1 + pins.length) % pins.length;
-        setActiveId(pins[next].id);
+        navTo(e.key === 'ArrowRight' ? 1 : -1);
       }
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [active, pins]);
 
-  // When opening a pin, scroll the panel softly into view (only if it's
-  // off-screen) — without yanking the page.
+  // Scroll panel into view when opening a pin.
   React.useEffect(() => {
     if (!active) return;
     const panel = document.querySelector('.field-map-panel');
@@ -44,6 +45,16 @@ function FieldMap() {
       window.scrollBy({ top: r.bottom - window.innerHeight + 32, behavior: 'smooth' });
     }
   }, [active && active.id]);
+
+  // Swipe handlers on the map stage.
+  function onTouchStart(e) { setTouchStartX(e.touches[0].clientX); }
+  function onTouchEnd(e) {
+    if (touchStartX === null) return;
+    const diff = e.changedTouches[0].clientX - touchStartX;
+    setTouchStartX(null);
+    if (Math.abs(diff) < 40) return;
+    navTo(diff < 0 ? 1 : -1);
+  }
 
   return (
     <div className="field-map">
@@ -55,11 +66,11 @@ function FieldMap() {
         </div>
       </div>
 
-      <div className="field-map-stage" ref={stageRef}>
+      <div className="field-map-stage" ref={stageRef}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}>
         <window.FieldMapBasemap />
 
-        {/* Overlay matches the SVG's coordinate area exactly (inset 6px
-                  to clear the inner border), so pin %s map cleanly. */}
         <div className="field-map-overlay">
           {pins.map((p) => {
             const { left, top } = window.projectToPercent(p.lat, p.lon);
@@ -83,17 +94,13 @@ function FieldMap() {
                 </span>
                 <span className="name">{p.name}</span>
               </button>);
-
           })}
 
-          {/* Hover lens preview — only when hovering AND no pin actively
-                    open with that same id; never blocks pointer events. */}
           {hover && (!active || active.id !== hover.id) &&
           <HoverLens pin={hover} />
           }
         </div>
 
-        {/* Cartouche — title block inside the map */}
         <div className="field-map-cartouche">
           <span className="t">Ladakh</span>
           Fieldwork Atlas
@@ -101,10 +108,17 @@ function FieldMap() {
         </div>
       </div>
 
-      {/* Detail panel — below the map, never covers the geography */}
+      {/* Detail panel */}
       <DetailPanel pin={active} onClose={() => setActiveId(null)} />
 
-      {/* Pin navigator strip — quick hop between sites */}
+      {/* Mobile prev/next arrows — hidden on desktop */}
+      <div className="field-map-mobile-nav">
+        <button className="fm-arrow" onClick={() => navTo(-1)} aria-label="Previous site">←</button>
+        <span className="fm-current">{active ? active.name : 'Tap a pin or swipe'}</span>
+        <button className="fm-arrow" onClick={() => navTo(1)} aria-label="Next site">→</button>
+      </div>
+
+      {/* Pin navigator strip — desktop only */}
       <div className="field-map-nav" role="tablist">
         {pins.map((p) =>
         <button key={p.id}
@@ -119,7 +133,6 @@ function FieldMap() {
         )}
       </div>
     </div>);
-
 }
 
 function HoverLens({ pin }) {
