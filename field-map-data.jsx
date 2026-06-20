@@ -57,7 +57,7 @@ const PINS = [
     altitude: '2 900 m',
     nameAlign: 'below',
     note: 'Reopened to tourism in 2010. Currently undergoing a tourism boom. Apricot orchards, vegetable farming, and the sincere sound of Balti language honor the place.',
-    caption: 'Conversation with an elder · Turtuk, morning light.',
+    caption: '',
     photos: [
       '../images/map/turtuk-2.jpg',
       '../images/map/turtuk-1.jpg',
