@@ -103,7 +103,7 @@ function FieldRecorderPlayer({ pin }) {
           <span className="rec-dot" aria-hidden="true"></span>
           <span>{state.playing ? 'REC · PLAYING' : 'FIELD RECORDING'}</span>
         </span>
-        <span>{`R-07 · ${pin.id.toUpperCase()}`}</span>
+        <span>{`R-07 · ${pin.altitude ? pin.altitude.toUpperCase() : pin.id.toUpperCase()}`}</span>
       </div>
 
       <div className="rec-body">

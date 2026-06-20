@@ -122,13 +122,7 @@ function FieldMapBasemap() {
         <text x="170" y="475" fontSize="12" opacity="0.6" fontStyle="italic" letterSpacing="1">Sham Valley</text>
       </g>
 
-      {/* Boundary / line-of-control trace, dashed */}
-      <g stroke="#6b5230" strokeWidth="0.7" fill="none" opacity="0.55" strokeDasharray="6,4">
-        <path d="M 35 38 Q 90 55 130 85 Q 175 120 220 165 Q 270 215 310 270"/>
-        <path d="M 1140 290 Q 1150 380 1160 450 Q 1175 530 1190 600"/>
-      </g>
-      <text x="40" y="170" fontFamily="IBM Plex Mono, monospace" fontSize="8"
-            fill="#6b5230" letterSpacing="1" opacity="0.65" transform="rotate(48 40 170)">LINE OF CONTROL</text>
+
 
       {/* Compass rose top-right */}
       <g transform="translate(1130, 80)">

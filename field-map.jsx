@@ -108,9 +108,6 @@ function FieldMap() {
         </div>
       </div>
 
-      {/* Detail panel */}
-      <DetailPanel pin={active} onClose={() => setActiveId(null)} />
-
       {/* Mobile prev/next arrows — hidden on desktop */}
       <div className="field-map-mobile-nav">
         <button className="fm-arrow" onClick={() => navTo(-1)} aria-label="Previous site">←</button>
@@ -132,6 +129,9 @@ function FieldMap() {
           </button>
         )}
       </div>
+
+      {/* Detail panel */}
+      <DetailPanel pin={active} onClose={() => setActiveId(null)} />
     </div>);
 }
 

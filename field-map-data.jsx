@@ -41,8 +41,8 @@ const PINS = [
     lat: 34.8500, lon: 76.7800,
     altitude: '2 700 m',
     nameAlign: 'left',
-    note: 'The last village before the Line of Control — a single road, a watch-post, and a small school. Stories here move at the speed of permission slips.',
-    caption: 'Field recording · Thang village, near dusk.',
+    note: 'The last village before the Line of Control — a single road leading up to binoculars, guides, food, and the Line of Control (LoC).',
+    caption: 'Construction underway · Thang village.',
     photos: [
       '../images/map/thang-2.jpg',
       '../images/map/thang-1.jpg',
@@ -56,7 +56,7 @@ const PINS = [
     lat: 34.8460, lon: 76.8300,
     altitude: '2 900 m',
     nameAlign: 'below',
-    note: 'Balti-speaking villages reopened to outsiders in 2010. Apricot orchards, slate roofs, a quiet bilingualism of Urdu and Ladakhi.',
+    note: 'Reopened to tourism in 2010. Currently undergoing a tourism boom. Apricot orchards, vegetable farming, and the sincere sound of Balti language honor the place.',
     caption: 'Conversation with an elder · Turtuk, morning light.',
     photos: [
       '../images/map/turtuk-2.jpg',
@@ -73,11 +73,11 @@ const PINS = [
     lat: 34.2780, lon: 77.6040,
     altitude: '5 359 m',
     nameAlign: 'right',
-    note: 'A mountain pass on the road from Leh into the Nubra valley. Once described as the world\'s highest motorable pass — a claim contested, but the wind here doesn\'t care.',
-    caption: 'Wind & passing trucks · Khardung La summit.',
+    note: 'Once, the world\'s highest motorable road, it still charms tourists into visiting it irrespective of the altitude struggles and the excitement of "the" instagram story.',
+    caption: 'Traffic maintenance at 5 359 m.',
     photos: [
-      '../images/map/khardung-la-1.jpg',
       '../images/map/khardung-la-2.jpg',
+      '../images/map/khardung-la-1.jpg',
       '../images/map/khardung-la-3.jpg',
     ],
   },
@@ -88,8 +88,8 @@ const PINS = [
     lat: 34.2200, lon: 77.5700,
     altitude: '3 900 m',
     nameAlign: 'left',
-    note: 'A small settlement on the southern approach to Khardung La. Households here sit at the edge of two worlds — the quiet of the valley and the constant traffic of the pass above.',
-    caption: 'Afternoon in a courtyard · Khardung Village.',
+    note: 'A small village that passes its name to the mighty pass of Khardung La. Farming women, road building workers, Buddhist prayers on elders\' lips, and the steady rush of vehicles enjoying coming down the pass.',
+    caption: '',
     photos: [
       { src: '../images/map/khardung-village-1.jpg', position: '50% 78%' },
       '../images/map/khardung-village-2.jpg',
@@ -103,8 +103,8 @@ const PINS = [
     lat: 34.3050, lon: 77.2000,
     altitude: '3 200 m',
     nameAlign: 'left',
-    note: 'Caves with eleventh-century frescoes above the Indus. The village below tends barley and ferries tourists across to the bank.',
-    caption: 'Indus flow & a goat herd passing · Saspol.',
+    note: 'Caves with eleventh-century frescoes above the Indus. Apricot orchards, mulberry trees, sound of water streams, and a road.',
+    caption: '',
     photos: [
       '../images/map/saspol-3.jpg',
       '../images/map/saspol-1.jpg',
@@ -118,8 +118,8 @@ const PINS = [
     lat: 34.1525, lon: 77.5770,
     altitude: '3 524 m',
     nameAlign: 'below',
-    note: 'The capital and the gravitational centre of all fieldwork here. Markets, monasteries, the radio crackle of a regional bus stand.',
-    caption: 'Leh market · evening azaan & Tibetan chant overlap.',
+    note: 'The capital and the gravitational centre of all fieldwork here. Markets, monasteries, and the chatter at bike rentals.',
+    caption: 'Community dancing in the market · Leh.',
     photos: [
       { src: '../images/map/leh-4.jpg', position: '50% 90%' },
       { src: '../images/map/leh-1.jpg', position: '50% 75%' },
@@ -129,47 +129,14 @@ const PINS = [
     ],
   },
   {
-    id: 'chang-la',
-    name: 'Chang La',
-    kind: 'pass',
-    lat: 34.0500, lon: 77.9200,
-    altitude: '5 360 m',
-    nameAlign: 'right',
-    note: 'The pass on the road east toward Pangong. Army tea-stall at the top, a small Shiva shrine, snow even in July.',
-    caption: 'Tea-stall radio & wind · Chang La.',
-    photos: [],
-  },
-  {
-    id: 'upshi',
-    name: 'Upshi',
-    kind: 'location',
-    lat: 33.8500, lon: 77.8500,
-    altitude: '3 380 m',
-    nameAlign: 'left',
-    note: 'The junction where the Manali–Leh highway meets the road east. Truckers stop here for noodles and diesel; an arch announces both directions at once.',
-    caption: 'Trucks idling at the checkpoint · Upshi.',
-    photos: [],
-  },
-  {
-    id: 'pangong-tso',
-    name: 'Pangong Tso',
-    kind: 'location',
-    lat: 33.9000, lon: 78.7000,
-    altitude: '4 250 m',
-    nameAlign: 'above',
-    note: 'A long salt-water lake straddling the India–China line. The water changes colour through the day; the silence does not.',
-    caption: 'Lakeshore at first light · Pangong Tso.',
-    photos: [],
-  },
-  {
     id: 'umling-la',
     name: 'Umling La',
     kind: 'pass',
     lat: 33.55, lon: 79.40,
     altitude: '5 799 m',
     nameAlign: 'left',
-    note: 'The world\'s highest motorable road — 19,024 feet above sea level, in the Changthang plateau. The landscape at the top is not dramatic; it is simply total. No trees, no sound, just the road continuing.',
-    caption: 'Wind at the summit · Umling La.',
+    note: 'The world\'s 2nd highest motorable road — 19,024 feet above sea level, in the Changthang plateau. No trees, no sound, just the road continuing. When at the top, you must ask, why here?',
+    caption: '',
     photos: [
       '../images/map/umling-la-2.jpg',
       '../images/map/umling-la-1.jpg',
@@ -187,6 +154,6 @@ function fmtCoord(lat, lon) {
 
 // Try common audio extensions for a pin. We let the <audio> element
 // itself decide by listing multiple <source>s; whichever decodes wins.
-const AUDIO_EXTENSIONS = ['mp3', 'm4a', 'ogg', 'wav'];
+const AUDIO_EXTENSIONS = ['mp3', 'm4a', 'ogg', 'opus', 'wav'];
 
 Object.assign(window, { FieldMapPins: PINS, FieldMapBounds: FIELD_MAP_BOUNDS, projectToPercent, fmtCoord, AUDIO_EXTENSIONS });
