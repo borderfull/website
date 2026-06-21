@@ -42,7 +42,7 @@ const PINS = [
     altitude: '2 700 m',
     nameAlign: 'left',
     note: 'The last village before the Line of Control — a single road leading up to binoculars, guides, food, and the Line of Control (LoC).',
-    caption: 'Construction underway · Thang village.',
+    caption: 'Construction underway.',
     photos: [
       '../images/map/thang-2.jpg',
       '../images/map/thang-1.jpg',
@@ -119,7 +119,7 @@ const PINS = [
     altitude: '3 524 m',
     nameAlign: 'below',
     note: 'The capital and the gravitational centre of all fieldwork here. Markets, monasteries, and the chatter at bike rentals.',
-    caption: 'Community dancing in the market · Leh.',
+    caption: 'Community dancing in the market.',
     photos: [
       { src: '../images/map/leh-4.jpg', position: '50% 90%' },
       { src: '../images/map/leh-1.jpg', position: '50% 75%' },
