@@ -70,15 +70,10 @@
     'writings.kind.review': 'फ़िल्म समीक्षा',
     'writings.kind.essay': 'निबंध',
     'writings.pyre.t': '<a href="https://doi.org/10.2218/himalaya.2025.10878" target="_blank" rel="noopener">समीक्षा: <span class="it">चिता</span> (Pyre) — निर्देशक विनोद कपरि</a>',
-    'writings.w1.t': '“धूल की ओर”: <span class="it">भारत–नेपाल सीमा पर सीमा-पारगमन और अवसंरचना की स्थिति</span>',
-    'writings.w1.v': 'Asian Geographer · प्रकाशनार्थ',
     'writings.w2.t': 'निर्माता, निर्माण, और निर्मित: <span class="it">लद्दाख और सड़क-विकास की घटना-शीलता</span>',
     'writings.w2.v': 'HIMALAYA · प्रकाशनार्थ',
-    'writings.w3.t': 'दूरी की वार्ता: <span class="it">लद्दाख, भारत में विषमस्थानिक सड़कें और साहसिक पर्यटन</span>',
-    'writings.w3.v': 'Journal of Tourism and Cultural Change · समीक्षाधीन',
     'writings.w4.t': '<a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener">क्षेत्र, सीमा, और मैं <span class="w-ext" aria-hidden="true">↗</span></a>',
     'writings.w4.v': 'ethnomarginalia.com · निबंध',
-    'writings.note': 'वार्ताओं व कार्य-पत्रों की पूरी सूची सीवी पर है।',
 
     // Writing
     'writing.h': 'और सड़क, <span class="it">एक लम्बे वाक्य की भाँति,</span> आती है।',
