@@ -1,7 +1,7 @@
 // =====================================================================
 // Field Map (Ladakh) — interactive topographic atlas.
 //
-// Eight hand-placed pins over a hand-drawn topographic SVG of Ladakh.
+// Seven hand-placed pins over a hand-drawn topographic SVG of Ladakh.
 // Hover any pin: a small lens preview opens. Click: a detail panel opens
 // below the map (never covers it) with photos, a field-recorder audio
 // player, and a field note. Keyboard ←/→ to jump between pins, Esc to
