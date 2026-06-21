@@ -29,9 +29,9 @@
 <header class="topbar">
   <a class="back" href="../index.html#regions">
     <span class="arrow">←</span>
-    <span>Back to portfolio</span>
+    <span data-i18n="back.label">Back to portfolio</span>
   </a>
-  <div class="mark">Prince <span class="it">Tomar</span> · Field Notes</div>
+  <div class="mark" data-i18n="topbar.fieldnotes">Prince <span class="it">Tomar</span> · Field Notes</div>
 </header>
 
 <main>
@@ -40,7 +40,7 @@
   <div class="hero">
     <div class="hero-plate">
       <img src="../images/ladakh-plate-thumb.jpg" alt="Road construction crew at altitude along a Ladakh valley — workers resting beside a striped barrier, an excavator carving the dirt track into the mountainside." />
-      <span class="label">Field Site 1 · Ladakh</span>
+      <span class="label" data-i18n="ladakh.site.label">Field Site 1 · Ladakh</span>
       <span class="coords">34.0216° N / 77.4444° E</span>
     </div>
   </div>
@@ -51,12 +51,12 @@
       <span class="num">§ 02.1</span>
       <span>Border Regions · Field Site 1</span>
       <span class="rule"></span>
-      <span>Cold Desert · 3500m · 2024 — Ongoing</span>
+      <span data-i18n="ladakh.seclabel.meta">Cold Desert · 3500m · 2024 — Ongoing</span>
     </div>
-    <h1>Ladakh, <span class="it">the cold frontier.</span></h1>
+    <h1 data-i18n="ladakh.h1">Ladakh, <span class="it">the cold frontier.</span></h1>
     <div class="meta">
-      <span>Indus &amp; Shyok valleys</span>
-      <span>Ladakh, India</span>
+      <span data-i18n="ladakh.meta.1">Indus &amp; Shyok valleys</span>
+      <span data-i18n="ladakh.meta.2">Ladakh, India</span>
       <span>34.0216° N / 77.4444° E</span>
       <span>Altitude ≈ 3500 m</span>
     </div>
@@ -65,13 +65,13 @@
   <!-- Body: lede + long-form description placeholder -->
   <article class="body">
 
-    <h2>The Place</h2>
+    <h2 data-i18n="ladakh.place.h">The Place</h2>
 
-    <p>At the northern end of India, beyond the Himalaya, lies a vast expanse of land with rugged terrain and harsh weather. The culture is considered Tibetan, the population Buddhist, and the location <span class="it">’sensitive’</span>. It sits between Tibet and the Himalaya, which made it an important center for trans-Himalayan trade, hence the name <span class="it">"pass-country"</span> or <span class="it">"country of passes."</span> <span class="it">’La’</span> for ’pass’ and <span class="it">’Dakh’</span> for ’land/country’ — with their roots in Tibetan — give rise to the name Ladakh. This region is one of the most unique parts of the country, with its distinct culture and history.</p>
+    <p data-i18n="ladakh.place.p1">At the northern end of India, beyond the Himalaya, lies a vast expanse of land with rugged terrain and harsh weather. The culture is considered Tibetan, the population Buddhist, and the location <span class="it">’sensitive’</span>. It sits between Tibet and the Himalaya, which made it an important center for trans-Himalayan trade, hence the name <span class="it">"pass-country"</span> or <span class="it">"country of passes."</span> <span class="it">’La’</span> for ’pass’ and <span class="it">’Dakh’</span> for ’land/country’ — with their roots in Tibetan — give rise to the name Ladakh. This region is one of the most unique parts of the country, with its distinct culture and history.</p>
 
     <p>Ladakh’s unique history is marked by trade, invasions, and wars between its South, North, and Central Asian neighbors. Famous for its Pashmina goats and trade routes, the region was ruled by the Namgyals from 1490–1842. The Dogra army, led by General Zorawar Singh Kahluria, conquered Ladakh during the Dogra–Tibetan war of 1841–42, leading to the region’s incorporation into the princely state of Jammu. Later, it became part of the Indian state of Jammu and Kashmir.</p>
 
-    <p>Since Independence, Ladakh’s experience has been characterised by peripherality, war, and clashes. The recent constitutional changes, including the abrogation of Article 370, have led to Ladakh becoming a Union Territory. After a long struggle, Ladakh is now partially under central government administration, free from the political dominance of Jammu and Kashmir that began 180 years ago. The fight for regional power continues as Ladakh seeks the sixth schedule under the Indian constitution and statehood to grant its people more political power in the region.</p>
+    <p data-i18n="ladakh.place.p3">Since Independence, Ladakh’s experience has been characterised by peripherality, war, and clashes. The recent constitutional changes, including the abrogation of Article 370, have led to Ladakh becoming a Union Territory. After a long struggle, Ladakh is now partially under central government administration, free from the political dominance of Jammu and Kashmir that began 180 years ago. The fight for regional power continues as Ladakh seeks the sixth schedule under the Indian constitution and statehood to grant its people more political power in the region.</p>
 
     <h2 data-i18n="ladakh.study.h">What this study asks</h2>
 
@@ -97,12 +97,12 @@
   <!-- Bottom nav: cross-link to other field site + back to portfolio -->
   <nav class="bot-nav">
     <a href="terai.html">
-      <span class="tag">Next field site →</span>
-      <span class="title-line">Terai, <span class="it">a porous edge.</span></span>
+      <span class="tag" data-i18n="ladakh.botnav.next">Next field site →</span>
+      <span class="title-line" data-i18n="ladakh.botnav.next.title">Terai, <span class="it">a porous edge.</span></span>
     </a>
     <a class="right" href="../index.html#regions">
-      <span class="tag">← Back to portfolio</span>
-      <span class="title-line">Prince <span class="it">Tomar</span></span>
+      <span class="tag" data-i18n="back.portfolio">← Back to portfolio</span>
+      <span class="title-line" data-i18n="topbar.name.short">Prince <span class="it">Tomar</span></span>
     </a>
   </nav>
 
@@ -116,7 +116,6 @@
 <!-- Field-map runtime: image-slot for photos, React + Babel, then the
      field-map components. Loaded at end of body so they don't block
      the article above. -->
-<script src="../translations.js"></script>
 <script src="../image-slot.js"></script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
