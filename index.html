@@ -73,7 +73,8 @@
 <link rel="dns-prefetch" href="https://unpkg.com" />
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" /></noscript>
-<link rel="stylesheet" href="designs.css" />
+<link rel="preload" href="designs.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="designs.css" /></noscript>
 <style>
   :root {
     /* Parchment — warm editorial */
@@ -1359,7 +1360,7 @@ BORDERLANDS</div>
           <span class="label" data-i18n="regions.ladakh.label">Field Site 1 · Ladakh</span>
           <span class="coords">34.0216° N / 77.4444° E</span>
           <picture>
-            <source srcset="images/ladakh-plate-thumb.webp" type="image/webp" />
+            <source srcset="images/ladakh-plate-thumb.webp" sizes="(max-width: 768px) 90vw, 45vw" type="image/webp" />
             <img class="plate-photo" src="images/ladakh-plate-thumb.jpg" width="1100" height="825" loading="lazy" decoding="async" alt="Road construction crew at altitude along a Ladakh valley — workers resting beside a striped barrier." />
           </picture>
         </div>
@@ -1381,7 +1382,7 @@ BORDERLANDS</div>
           <span class="label" data-i18n="regions.terai.label">Field Site 2 · Terai</span>
           <span class="coords">26.9806° N / 84.8465° E</span>
           <picture>
-            <source srcset="images/terai-plate-thumb.webp" type="image/webp" />
+            <source srcset="images/terai-plate-thumb.webp" sizes="(max-width: 768px) 90vw, 45vw" type="image/webp" />
             <img class="plate-photo" src="images/terai-plate-thumb.jpg" width="1100" height="825" loading="lazy" decoding="async" alt="A solitary peepal tree on the open Terai plain near Raxaul–Birgunj, dirt tracks fanning out across dry grassland." />
           </picture>
         </div>
@@ -1920,8 +1921,8 @@ EPILOGUE</div>
 </script>
 
 
-<script src="translations.js"></script>
-<script src="road-game.js"></script>
+<script src="translations.js" defer></script>
+<script src="road-game.js" defer></script>
 
 <!-- Goodreads sync (currently-reading shelf) -->
 <!--
@@ -2113,8 +2114,8 @@ EPILOGUE</div>
   </article>
 </div>
 
-<script src="https://unpkg.com/marked@9.1.6/marked.min.js"></script>
-<script src="https://unpkg.com/dompurify@3.1.6/dist/purify.min.js"></script>
+<script src="https://unpkg.com/marked@9.1.6/marked.min.js" async></script>
+<script src="https://unpkg.com/dompurify@3.1.6/dist/purify.min.js" async></script>
 <script>
 (function () {
   var col = document.querySelector('[data-ideas-col] [data-ideas-items]');

@@ -2,7 +2,7 @@
 
 > Doctoral researcher at Tallinn University. Field notes on ethnography, borders, infrastructure, and the Indian Himalaya.
 
-## Who is Prince Tomar?
+## About
 
 Prince Tomar is a doctoral researcher at the Centre for Landscape and Culture, Tallinn University (Estonia). He works with borderland communities along the Indian Himalaya — with a particular focus on road development, tracing the interplay between infrastructure, territorialisation, and the region's history, geopolitics, and terrain.
 
@@ -10,22 +10,37 @@ His current project studies the spatial-temporal dimensions of change in the Ind
 
 Beyond his academic work, he writes poems and is interested in the porous border between ethnography and literary studies.
 
+## Field Sites
+
+- [Ladakh — The Cold Frontier](https://princetomar.com/border-regions/ladakh.html): Field Site 1. Cold desert at 3500m. Road development, borderlands, and infrastructure in the Indian Himalaya. Fieldwork 2022 — ongoing.
+- [Terai — A Porous Edge](https://princetomar.com/border-regions/terai.html): Field Site 2. Lowland at 80m. Cross-border mobility at the Raxaul–Birgunj checkpoint, India–Nepal border. Fieldwork 2020 — ongoing.
+
+## Writing & Publications
+
+- [The Field, the Border, and I](https://ethnomarginalia.com/the-field-the-border-and-i/): Essay published on ethnomarginalia.com.
+- *Maker, Making, and Made: The Eventfulness of Road-building in Ladakh* — under review, HIMALAYA journal.
+- *Review: Pyre (dir. Vinod Kapri)* — published in HIMALAYA journal. [DOI: 10.2218/himalaya.2025.10878](https://doi.org/10.2218/himalaya.2025.10878)
+
+## Experiments with AI
+
+- [Peer Review Tracker](https://tracker.princetomar.com): A gamified revision tool for academic peer-review feedback.
+- [Bard's Balm](https://opal.google/app/1ptWkLqszsDuwhi3SLZgFU_dFcejuoWSO): Shakespeare-verse generator for academic moods.
+- *An LLM walks the trans-Himalaya* — ongoing comparison of human memory vs LLM interpretation of fieldwork photographs.
+
+## Photography
+
+- [Gallery / Exhibitions](https://gallery.princetomar.com): Documentary photography from the field, grouped by theme.
+
+## CV & Contact
+
+- [CV Download](https://princetomar.com/Prince-Tomar-CV.pdf): Full academic CV in PDF.
+- Institution: Tallinn University, Estonia
+- Department: Centre for Landscape and Culture
+- Email: via princetomar.com
+- ORCID: [0000-0001-6306-7710](https://orcid.org/0000-0001-6306-7710)
+- GitHub: [borderfull](https://github.com/borderfull)
+- LinkedIn: [prince-tomar-6930975a](https://www.linkedin.com/in/prince-tomar-6930975a/)
+
 ## Research Keywords
 
 Ethnography, borderlands, infrastructure, road development, Indian Himalaya, Ladakh, Terai, territorialisation, geopolitics, landscape studies, literary ethnography, field photography, Tallinn University, Centre for Landscape and Culture.
-
-## This Website
-
-princetomar.com is Prince Tomar's personal site and open notebook. It contains:
-
-- **Field notes & dispatches** — writing from fieldwork in Ladakh and the Himalaya
-- **Photographs** — documentary photography from the field
-- **Experiments with AI** — small, ongoing explorations at the intersection of research and AI tools
-- **Epilogue** — a running ledger of books being read, audio from the field, and ideas circling the mind
-- **Synced notes** — short, live-updated notes from an Obsidian notebook, reflecting ongoing thinking
-
-## Contact / Affiliation
-
-- Institution: Tallinn University, Estonia
-- Department: Centre for Landscape and Culture
-- Website: https://princetomar.com
