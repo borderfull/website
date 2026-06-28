@@ -54,9 +54,12 @@ let highScore = parseInt(localStorage.getItem('road-game-highscore') || '0');
 /* ── Resize ────────────────────────────────────────────────────────── */
 function resize() {
   const dpr  = Math.min(window.devicePixelRatio || 1, 2);
-  const cssW = canvas.parentElement.clientWidth || 900;
+  // Read geometry in one batch before any style writes to avoid forced reflow
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const cssW = rect.width || 900;
   const cssH = Math.round(Math.min(400, Math.max(320, cssW * 0.4)));
   W = cssW; H = cssH;
+  // Write styles after reads
   canvas.style.width  = W + 'px';
   canvas.style.height = H + 'px';
   canvas.width  = Math.round(W * dpr);

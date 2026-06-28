@@ -71,10 +71,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://unpkg.com" crossorigin />
 <link rel="dns-prefetch" href="https://unpkg.com" />
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" /></noscript>
-<link rel="preload" href="designs.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="designs.css" /></noscript>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=fallback" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=fallback" /></noscript>
+<link rel="stylesheet" href="designs.css" />
 <style>
   :root {
     /* Parchment — warm editorial */
@@ -275,10 +274,10 @@
     flex: 1; display: inline-flex; align-items: center; justify-content: center;
     font-size: 10.5px; letter-spacing: 0.18em;
     color: var(--ink-soft);
-    transition: color .25s ease;
+    transition: opacity .25s ease;
     user-select: none;
   }
-  .lang-toggle:hover .lt-opt { color: var(--ink); }
+  .lang-toggle:hover .lt-opt { opacity: 1; }
   .lang-toggle[data-lang="en"] .lt-opt.en,
   .lang-toggle[data-lang="hi"] .lt-opt.hi { color: var(--paper); }
   /* CV button in the top bar */
@@ -288,7 +287,7 @@
     border: 1px solid var(--accent); background: var(--accent); color: var(--paper);
     font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
     text-transform: uppercase;
-    transition: background .25s ease, color .25s ease, border-color .25s ease;
+    transition: background .25s ease, border-color .25s ease;
   }
   .cv-btn:hover { background: var(--paper); color: var(--accent); border-color: var(--accent); }
 
@@ -375,7 +374,9 @@
     grid-template-columns: 1fr minmax(0, 320px);
     gap: 56px;
     align-items: end;
+    min-height: 420px;
   }
+  /* Reserve space for h1 font swap — prevents hero CLS */
   .hero h1 {
     font-family: var(--serif-display);
     font-weight: 300;
@@ -383,6 +384,7 @@
     line-height: 0.92;
     letter-spacing: -0.015em;
     color: var(--ink);
+    min-height: 1.84em; /* 2 line reserve at 0.92 line-height */
   }
   .hero h1 .it { font-style: italic; font-weight: 300; }
   .hero .sub {
@@ -1469,7 +1471,7 @@ FIELDWORK GALLERY </div>
         <span class="w-kind" data-i18n="writings.kind.review">Film Review</span>
       </li>
       <li class="w-row" data-hover="link">
-        <span class="w-year">2019</span>
+        <span class="w-year">2021</span>
         <div class="w-body">
           <h3 class="w-title" data-i18n="writings.w4.t"><a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener">The field, the border, and I <span class="w-ext" aria-hidden="true">↗</span></a></h3>
           <p class="w-desc"><span class="w-venue">ethnomarginalia.com</span></p>
@@ -1627,8 +1629,8 @@ EPILOGUE</div>
     </div>
     <div class="foot-col">
       <h6 data-i18n="foot.h.elsewhere">Elsewhere</h6>
-      <a href="https://gallery.princetomar.com" target="_blank" rel="noopener">Gallery ↗</a>
-      <a href="/cdn-cgi/l/email-protection#82f2f6edefe3f0c2f6eef7ace7e7" data-hover="link">Email ↗</a>
+      <a href="https://gallery.princetomar.com" target="_blank" rel="noopener">Exhibitions ↗</a>
+      <a id="foot-email" data-hover="link">Email ↗</a>
       <a href="cv.html" data-hover="link" data-i18n="foot.cv">CV (PDF) ↓</a>
 
       <a href="https://orcid.org/0000-0001-6306-7710" target="_blank" rel="noopener" data-hover="link">ORCID ↗</a>
@@ -1923,6 +1925,13 @@ EPILOGUE</div>
 
 <script src="translations.js" defer></script>
 <script src="road-game.js" defer></script>
+<script>
+// Write email via JS to prevent Cloudflare injecting render-blocking decode script
+(function(){
+  var el = document.getElementById('foot-email');
+  if(el){ var u='prince',d='princetomar.com'; el.href='mailto:'+u+'@'+d; }
+})();
+</script>
 
 <!-- Goodreads sync (currently-reading shelf) -->
 <!--
