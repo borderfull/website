@@ -194,7 +194,7 @@ function PhotoLightbox({ photos, index, onClose, onNav }) {
   const src = photos[index];
   return (
     <div className="map-lightbox" onClick={onClose} role="dialog" aria-modal="true">
-      <button className="lb-close" onClick={onClose} aria-label="Close">×</button>
+      <button className="lb-close" onClick={onClose} aria-label="Close"></button>
       {index > 0 && (
         <button className="lb-nav lb-prev" onClick={function(e){ e.stopPropagation(); onNav(-1); }} aria-label="Previous">‹</button>
       )}
@@ -248,7 +248,7 @@ function DetailPanel({ pin, onClose }) {
         />
       )}
       <div className="panel-left">
-        <button className="panel-close" onClick={onClose} aria-label="Close">×</button>
+        <button className="panel-close" onClick={onClose} aria-label="Close"></button>
         <div className="panel-head">
           <div>
             <div className="label">

@@ -59,8 +59,13 @@ const __TWEAKS_STYLE = `
     padding:10px 8px 10px 14px;cursor:move;user-select:none}
   .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
   .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
-    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
-  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+    width:22px;height:22px;cursor:pointer;padding:0;
+    position:relative;display:flex;align-items:center;justify-content:center;
+    opacity:.45;transition:opacity .15s ease}
+  .twk-x::before,.twk-x::after{content:"";position:absolute;width:11px;height:1px;background:currentColor}
+  .twk-x::before{transform:rotate(45deg)}
+  .twk-x::after{transform:rotate(-45deg)}
+  .twk-x:hover{opacity:1;background:transparent}
   .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
     overflow-y:auto;overflow-x:hidden;min-height:0;
     scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
@@ -296,7 +301,7 @@ function TweaksPanel({ title = 'Tweaks', noDeckControls = false, children }) {
           <b>{title}</b>
           <button className="twk-x" aria-label="Close tweaks"
                   onMouseDown={(e) => e.stopPropagation()}
-                  onClick={dismiss}>✕</button>
+                  onClick={dismiss}></button>
         </div>
         <div className="twk-body">
           {children}
