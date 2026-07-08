@@ -68,10 +68,10 @@
     'writings.kind.blog': 'ब्लॉग',
     'writings.kind.review': 'फ़िल्म समीक्षा',
     'writings.kind.essay': 'निबंध',
-    'writings.pyre.t': '<a href="https://doi.org/10.2218/himalaya.2025.10878" target="_blank" rel="noopener">समीक्षा: <span class="it">चिता</span> (Pyre) — निर्देशक विनोद कपरि</a>',
-    'writings.w2.t': 'निर्माता, निर्माण, और निर्मित: <span class="it">लद्दाख और सड़क-विकास की घटना-शीलता</span>',
+    'writings.pyre.t': '<a href="https://doi.org/10.2218/himalaya.2025.10878" target="_blank" rel="noopener">Review of <span class="it">Pyre</span> directed by Vinod Kapri</a>',
+    'writings.w2.t': 'Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span>',
     'writings.w2.v': 'HIMALAYA · प्रकाशनार्थ',
-    'writings.w4.t': '<a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener">क्षेत्र, सीमा, और मैं <span class="w-ext" aria-hidden="true">↗</span></a>',
+    'writings.w4.t': '<a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener">The field, the border, and I <span class="w-ext" aria-hidden="true">↗</span></a>',
     'writings.w4.v': 'ethnomarginalia.com · निबंध',
 
     // Writing

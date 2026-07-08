@@ -729,7 +729,11 @@ if('IntersectionObserver' in window){
   startLoop(); // fallback
 }
 
-resize();
-window.addEventListener('resize',resize);
+  requestAnimationFrame(resize);
+  if (window.ResizeObserver) {
+    new ResizeObserver(resize).observe(canvas.parentElement);
+  } else {
+    window.addEventListener('resize', resize);
+  }
 
 })();
