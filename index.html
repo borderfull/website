@@ -71,8 +71,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://unpkg.com" crossorigin />
 <link rel="dns-prefetch" href="https://unpkg.com" />
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=fallback" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=fallback" /></noscript>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+Devanagari:wght@400;500&family=Noto+Sans+Mono+Devanagari:wght@400&display=swap" /></noscript>
 <style id="design-variants">
 /* =====================================================================
    Design variants — three "whiter, slower" treatments.
@@ -1707,7 +1707,7 @@ BORDERLANDS</div>
           <span class="coords">34.0216° N / 77.4444° E</span>
           <picture>
             <source srcset="images/ladakh-plate-thumb.webp" sizes="(max-width: 768px) 90vw, 45vw" type="image/webp" />
-            <img class="plate-photo" src="images/ladakh-plate-thumb.jpg" width="1100" height="825" loading="lazy" decoding="async" alt="Road construction crew at altitude along a Ladakh valley — workers resting beside a striped barrier." />
+            <img class="plate-photo" src="images/ladakh-plate-thumb.jpg" width="1100" height="825" fetchpriority="high" decoding="async" alt="Road construction crew at altitude along a Ladakh valley — workers resting beside a striped barrier." />
           </picture>
         </div>
         <div>
@@ -1729,7 +1729,7 @@ BORDERLANDS</div>
           <span class="coords">26.9806° N / 84.8465° E</span>
           <picture>
             <source srcset="images/terai-plate-thumb.webp" sizes="(max-width: 768px) 90vw, 45vw" type="image/webp" />
-            <img class="plate-photo" src="images/terai-plate-thumb.jpg" width="1100" height="825" loading="lazy" decoding="async" alt="A solitary peepal tree on the open Terai plain near Raxaul–Birgunj, dirt tracks fanning out across dry grassland." />
+            <img class="plate-photo" src="images/terai-plate-thumb.jpg" width="1100" height="825" loading="lazy" fetchpriority="low" decoding="async" alt="A solitary peepal tree on the open Terai plain near Raxaul–Birgunj, dirt tracks fanning out across dry grassland." />
           </picture>
         </div>
         <div>
@@ -2285,11 +2285,12 @@ EPILOGUE</div>
   the existing static items remain untouched as a graceful fallback.
 -->
 <script>
+window.addEventListener('load', function() { setTimeout(function() {
 (function () {
   var col = document.querySelector('[data-goodreads-col] [data-goodreads-items]');
   if (!col) return;
 
-  fetch('/api/goodreads', { cache: 'no-store' })
+  fetch('/api/goodreads', { cache: 'default' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
       if (!data || !Array.isArray(data.books) || data.books.length === 0) return;
@@ -2349,6 +2350,7 @@ EPILOGUE</div>
     col.replaceChildren(frag);
   }
 })();
+}, 400); }, { once: true });
 </script>
 
 <!-- ─────────────────────────────────────────────────────────────────────
@@ -2483,14 +2485,16 @@ EPILOGUE</div>
   var rMeta  = document.getElementById('nr-meta');
   var notes  = [];
 
-  fetch('notes/index.json', { cache: 'no-store' })
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (data) {
-      if (!Array.isArray(data) || data.length === 0) return;
-      notes = data;
-      render(notes);
-    })
-    .catch(function () { /* keep static fallback */ });
+  setTimeout(function() {
+    fetch('notes/index.json', { cache: 'default' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!Array.isArray(data) || data.length === 0) return;
+        notes = data;
+        render(notes);
+      })
+      .catch(function () { /* keep static fallback */ });
+  }, 600);
 
   function render(list) {
     // Sort by first-sync date descending (newest on top)
