@@ -64,7 +64,7 @@
     // Writing
     'writings.h':   'शब्द, जो सड़क से <span class="it">धीमे चलते हैं।</span>',
     'writings.cv':  '<span class="cv-ico" aria-hidden="true"></span><span class="cv-txt">सीवी डाउनलोड करें</span><span class="cv-meta">PDF</span>',
-    'writings.underreview': 'समीक्षाधीन',
+    'writings.underreview': 'Under review',
     'writings.kind.peer': 'सहकर्मी-समीक्षित',
     'writings.kind.blog': 'ब्लॉग',
     'writings.kind.review': 'फ़िल्म समीक्षा',
