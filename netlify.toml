@@ -24,6 +24,12 @@
   to = "/.netlify/functions/goodreads"
   status = 200
 
+[[redirects]]
+  from = "/llms.txt"
+  to = "/.netlify/functions/llms"
+  status = 200
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]

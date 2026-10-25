@@ -10,6 +10,8 @@ His current project studies the spatial-temporal dimensions of change in the Ind
 
 Beyond his academic work, he writes poems and is interested in the porous border between ethnography and literary studies.
 
+His website (https://princetomar.com) is an open notebook: photographs from the field, writing, small experiments with AI, a road game, and an epilogue of things being read and thought about. The site is available in English and Hindi.
+
 ## Field Sites
 
 - [Ladakh — The Cold Frontier](https://princetomar.com/border-regions/ladakh.html): Field Site 1. Cold desert at 3500m. Road development, borderlands, and infrastructure in the Indian Himalaya. Fieldwork 2022 — ongoing.
@@ -17,29 +19,42 @@ Beyond his academic work, he writes poems and is interested in the porous border
 
 ## Writing & Publications
 
-- [The Field, the Border, and I](https://ethnomarginalia.com/the-field-the-border-and-i/): Essay published on ethnomarginalia.com.
-- *Builders, Building, and the Built: Ladakh and the eventfulness of road development* — under review, HIMALAYA journal.
-- *Review: Pyre (dir. Vinod Kapri)* — published in HIMALAYA journal. [DOI: 10.2218/himalaya.2025.10878](https://doi.org/10.2218/himalaya.2025.10878)
+- 2026 — [Are They the Infrastructure?](https://bangalorereview.com/2026/10/are-they-the-infrastructure/): Ethnographic essay, The Bangalore Review.
+- 2026 — [Builders, Building, and the Built: Ladakh and the eventfulness of road development](https://doi.org/10.2218/himalaya.2026.10981): Peer-reviewed article, HIMALAYA journal. DOI: 10.2218/himalaya.2026.10981
+- 2026 — "Toward the Dust": Border Crossing and the State of Infrastructure at the India-Nepal Border: Peer-reviewed article, under review at Asian Geographer.
+- 2026 — Negotiating Remoteness: Heterotopic Roads and Border Tourism in Ladakh, India: Peer-reviewed article, under review at Journal of Tourism and Cultural Change.
+- 2025 — [Review of Pyre directed by Vinod Kapri](https://doi.org/10.2218/himalaya.2025.10878): Film review, HIMALAYA journal. DOI: 10.2218/himalaya.2025.10878
+- 2021 — [The field, the border, and I](https://ethnomarginalia.com/the-field-the-border-and-i/): Essay, Ethnographic Marginalia.
 
 ## Experiments with AI
 
-- [Peer Review Tracker](https://tracker.princetomar.com): A gamified revision tool for academic peer-review feedback.
-- [Bard's Balm](https://opal.google/app/1ptWkLqszsDuwhi3SLZgFU_dFcejuoWSO): Shakespeare-verse generator for academic moods.
+- [Peer Review Tracker](https://tracker.princetomar.com) (2026): Turns academic reviewer feedback into a structured, gamified revision roadmap. No accounts, data saved locally.
+- [Bard's Balm](https://opal.google/app/1ptWkLqszsDuwhi3SLZgFU_dFcejuoWSO) (2025): Shakespeare-verse generator for academic moods.
 - *An LLM walks the trans-Himalaya* — ongoing comparison of human memory vs LLM interpretation of fieldwork photographs.
+
+## Play
+
+- [Road game](https://princetomar.com/#writing): An "anti-game" of the journey through the Himalaya, about waiting and letting the mountains do their thing.
 
 ## Photography
 
 - [Gallery / Exhibitions](https://gallery.princetomar.com): Documentary photography from the field, grouped by theme.
 
+## Epilogue — Currently Reading & Thinking
+
+Live shelf: https://www.goodreads.com/user/show/59268469-prince
+
 ## CV & Contact
 
 - [CV Download](https://princetomar.com/Prince-Tomar-CV.pdf): Full academic CV in PDF.
+- [CV page](https://princetomar.com/cv.html)
 - Institution: Tallinn University, Estonia
 - Department: Centre for Landscape and Culture
 - Email: via princetomar.com
 - ORCID: [0000-0001-6306-7710](https://orcid.org/0000-0001-6306-7710)
 - GitHub: [borderfull](https://github.com/borderfull)
 - LinkedIn: [prince-tomar-6930975a](https://www.linkedin.com/in/prince-tomar-6930975a/)
+- Goodreads: [Prince](https://www.goodreads.com/user/show/59268469-prince)
 
 ## Research Keywords
 

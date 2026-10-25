@@ -1,4 +1,5 @@
 {
+  "rewrites": [{ "source": "/llms.txt", "destination": "/api/llms" }],
   "headers": [
     {
       "source": "/(.*)",

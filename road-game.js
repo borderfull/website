@@ -548,7 +548,11 @@ canvas.addEventListener('click', doJump);
 canvas.addEventListener('touchstart', e=>{ e.preventDefault(); doJump(); }, {passive:false});
 
 /* ── Game control ──────────────────────────────────────────────────── */
+let gameT0=0;
+function gTrack(n,p){ if(window.trackEvent) window.trackEvent(n,p); }
+function gEnd(result){ gTrack('game_end',{result:result,score:Math.floor(moments),jumps:totalJumps,duration_seconds:Math.round((performance.now()-gameT0)/1000)}); }
 function startGame() {
+  gameT0=performance.now(); gTrack('game_start',{});
   S='playing'; rangeIdx=0; rangeT=0; moments=0; worldX=0;
   obstacles=[]; obsQueue=[]; nextObsIn=620; timeSinceSpawn=0;
   bikerY=GY; bikerVY=0; onGround=true; bikerBob=0; wheelAngle=0;
@@ -591,7 +595,7 @@ function update(dt) {
     return;
   }
 
-  if(S==='crashed') { crashTimer+=dt; updatePops(dt); if(crashTimer>=1.2) { S='gameover'; const s=Math.floor(moments); if(s>highScore){highScore=s;localStorage.setItem('road-game-highscore',s);} } return; }
+  if(S==='crashed') { crashTimer+=dt; updatePops(dt); if(crashTimer>=1.2) { S='gameover'; gEnd('crashed'); const s=Math.floor(moments); if(s>highScore){highScore=s;localStorage.setItem('road-game-highscore',s);} } return; }
   if(S==='transition') { transT-=dt; if(transT<=0) S='playing'; return; }
   if(S==='gameover') return;
   if(S==='done') return;
@@ -680,7 +684,7 @@ function update(dt) {
     if(rangeIdx<RANGES.length-1){
       rangeIdx++;rangeT=0;obstacles=[];obsQueue=[];nextObsIn=820;
       S='transition';transT=3.5;setupRange(rangeIdx);
-    } else { S='done'; const s=Math.floor(moments); if(s>highScore){highScore=s;localStorage.setItem('road-game-highscore',s);} }
+    } else { S='done'; gEnd('completed'); const s=Math.floor(moments); if(s>highScore){highScore=s;localStorage.setItem('road-game-highscore',s);} }
   }
 }
 

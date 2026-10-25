@@ -67,6 +67,14 @@
 }
 </script>
 
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"ScholarlyArticle","name":"Builders, Building, and the Built: Ladakh and the eventfulness of road development","url":"https://doi.org/10.2218/himalaya.2026.10981","datePublished":"2026","isPartOf":{"@type":"Periodical","name":"HIMALAYA"},"author":{"@type":"Person","name":"Prince Tomar","url":"https://princetomar.com"}},
+{"@type":"Article","name":"Are They the Infrastructure?","url":"https://bangalorereview.com/2026/10/are-they-the-infrastructure/","datePublished":"2026-10","publisher":{"@type":"Organization","name":"The Bangalore Review"},"author":{"@type":"Person","name":"Prince Tomar","url":"https://princetomar.com"}},
+{"@type":"Review","name":"Review of Pyre directed by Vinod Kapri","url":"https://doi.org/10.2218/himalaya.2025.10878","datePublished":"2025","publisher":{"@type":"Periodical","name":"HIMALAYA"},"author":{"@type":"Person","name":"Prince Tomar","url":"https://princetomar.com"}},
+{"@type":"Article","name":"The field, the border, and I","url":"https://ethnomarginalia.com/the-field-the-border-and-i/","datePublished":"2021","publisher":{"@type":"Organization","name":"Ethnographic Marginalia"},"author":{"@type":"Person","name":"Prince Tomar","url":"https://princetomar.com"}}
+]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://unpkg.com" crossorigin />
@@ -1225,7 +1233,7 @@ body[data-design="gallery"] .hero-contour .place .coord { opacity: 0.8; }
     font-size: 20px; color: var(--ink-soft); line-height: 1.5; font-weight: 300;
   }
   .epilogue-grid {
-    display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 48px;
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px;
   }
   .epi-col h5 {
     font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em;
@@ -1554,10 +1562,15 @@ body[data-design="gallery"] .hero-contour .place .coord { opacity: 0.8; }
     gtag('js', new Date());
     gtag('config', 'G-G3LPX71J7E');
     window.addEventListener('load', function() {
-      var s = document.createElement('script');
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-G3LPX71J7E';
-      s.async = true;
-      document.head.appendChild(s);
+      var go = function() {
+        if (window.__gaLoaded) return; window.__gaLoaded = 1;
+        var s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-G3LPX71J7E';
+        s.async = true;
+        document.head.appendChild(s);
+      };
+      ['scroll','pointerdown','keydown'].forEach(function(e){ addEventListener(e, go, { once: true, passive: true }); });
+      setTimeout(go, 4000);
     }, { once: true });
   </script>
 </head>
@@ -1593,7 +1606,7 @@ body[data-design="gallery"] .hero-contour .place .coord { opacity: 0.8; }
       <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
       <a href="#writings" data-i18n="nav.latest">Writing</a>
       <a href="#ai" data-i18n="nav.ai">Experiments</a>
-      <a href="#writing" data-i18n="nav.play">Play</a>
+      <a href="#road-game" data-i18n="nav.play">Play</a>
       <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
     </nav>
     <a class="cv-btn" href="cv.html" data-hover="link" data-i18n="nav.cv">CV</a>
@@ -1615,7 +1628,7 @@ body[data-design="gallery"] .hero-contour .place .coord { opacity: 0.8; }
   <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
   <a href="#writings" data-i18n="nav.latest">Writing</a>
   <a href="#ai" data-i18n="nav.ai">Experiments</a>
-  <a href="#writing" data-i18n="nav.play">Play</a>
+  <a href="#road-game" data-i18n="nav.play">Play</a>
   <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
 </nav>
 
@@ -1686,20 +1699,20 @@ body[data-design="gallery"] .hero-contour .place .coord { opacity: 0.8; }
   </section>
 
   <!-- BIO -->
-  <section class="bio" id="bio" data-screen-label="02 About">
+  <section class="bio" id="bio" data-track="about" data-screen-label="02 About">
     <div class="sec-label" data-chapter-name="On the practice"><span class="num">§ 01</span> ABOUT <span class="rule"></span></div>
     <div class="bio-grid">
       <div class="body">
         <p data-i18n="bio.p1"><span class="drop-cap">P</span>rince Tomar is a doctoral researcher at the Centre for Landscape and Culture, Tallinn University. He works with borderland communities along the Indian Himalaya, with a particular focus on the dynamics of road development — tracing the subtle interplay between infrastructure, territorialisation, and the region’s intricate dance of history, geopolitics, and terrain.</p>
         <p data-i18n="bio.p3">Beyond the academic work, he writes poems and is interested in the porous border between ethnography and literary studies. His current project studies the spatial-temporal dimensions of change in the Indian Himalaya as the pace of road development quickens.</p>
         <div style="border-top: 1px solid var(--rule); margin: 24px 0;"></div>
-        <p data-i18n="bio.p4"><span class="drop-cap">I</span> keep an open notebook here: photographs from the field, dispatches and small experiments with AI, and an epilogue of things being read, thought about, and listened to.</p>
+        <p data-i18n="bio.p4"><span class="drop-cap">I</span> keep an open notebook here: photographs from the field, dispatches and small experiments with AI, and an epilogue of things being read and thought about.</p>
       </div>
     </div>
   </section>
 
   <!-- BORDER REGIONS -->
-  <section class="regions" id="regions" data-screen-label="03 Regions">
+  <section class="regions" id="regions" data-track="borderlands" data-screen-label="03 Regions">
     <div class="sec-label" data-chapter-name="Two field sites"><span class="num">§ 02</span>
 BORDERLANDS</div>
     <div class="regions-head">
@@ -1796,18 +1809,42 @@ FIELDWORK GALLERY </div>
   </section>
 
   <!-- WRITING -->
-  <section class="writings" id="writings" data-screen-label="05 Writing">
+  <section class="writings" id="writings" data-track="writing" data-screen-label="05 Writing">
     <div class="sec-label" data-chapter-name="Selected writing"><span class="num">§ 04</span> LATEST WRITING <span class="rule"></span></div>
     <div class="writings-head">
       <h2 data-i18n="writings.h">Words that move <span class="it">slower than the road.</span></h2>
     </div>
     <ol class="writing-list">
+      <li class="w-row" data-hover="link">
+        <span class="w-year">2026</span>
+        <div class="w-body">
+          <h3 class="w-title"><a href="https://bangalorereview.com/2026/10/are-they-the-infrastructure/" target="_blank" rel="noopener">Are They the Infrastructure? <span class="w-ext" aria-hidden="true">↗</span></a></h3>
+          <p class="w-desc"><span class="w-venue">The Bangalore Review</span></p>
+        </div>
+        <span class="w-kind" data-i18n="writings.kind.essay">Essay</span>
+      </li>
 
       <li class="w-row" data-hover="link">
         <span class="w-year">2026</span>
         <div class="w-body">
-          <h3 class="w-title" data-i18n="writings.w2.t">Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span></h3>
-          <p class="w-desc"><span class="w-venue">HIMALAYA</span> · Forthcoming</p>
+          <h3 class="w-title" data-i18n="writings.w2.t"><a href="https://doi.org/10.2218/himalaya.2026.10981" target="_blank" rel="noopener">Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span></a></h3>
+          <p class="w-desc"><span class="w-venue">HIMALAYA</span></p>
+        </div>
+        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
+      </li>
+      <li class="w-row" data-hover="link">
+        <span class="w-year">2026</span>
+        <div class="w-body">
+          <h3 class="w-title">“Toward the Dust”: <span class="it">Border Crossing and the State of Infrastructure at the India-Nepal Border</span></h3>
+          <p class="w-desc"><span class="w-venue">Asian Geographer</span> · <span data-i18n="writings.underreview">Under review</span></p>
+        </div>
+        <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
+      </li>
+      <li class="w-row" data-hover="link">
+        <span class="w-year">2026</span>
+        <div class="w-body">
+          <h3 class="w-title">Negotiating Remoteness: <span class="it">Heterotopic Roads and Border Tourism in Ladakh, India</span></h3>
+          <p class="w-desc"><span class="w-venue">Journal of Tourism and Cultural Change</span> · <span data-i18n="writings.underreview">Under review</span></p>
         </div>
         <span class="w-kind" data-i18n="writings.kind.peer">Peer-reviewed</span>
       </li>
@@ -1823,7 +1860,7 @@ FIELDWORK GALLERY </div>
         <span class="w-year">2021</span>
         <div class="w-body">
           <h3 class="w-title" data-i18n="writings.w4.t"><a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener">The field, the border, and I <span class="w-ext" aria-hidden="true">↗</span></a></h3>
-          <p class="w-desc"><span class="w-venue">ethnomarginalia.com</span></p>
+          <p class="w-desc"><span class="w-venue">Ethnographic Marginalia</span></p>
         </div>
         <span class="w-kind" data-i18n="writings.kind.essay">Essay</span>
       </li>
@@ -1832,7 +1869,7 @@ FIELDWORK GALLERY </div>
   </section>
 
   <!-- AI EXPERIMENTS -->
-  <section class="ai" id="ai" data-screen-label="06 Experiments">
+  <section class="ai" id="ai" data-track="ai-experiments" data-screen-label="06 Experiments">
     <div class="sec-label" data-chapter-name="A sandbox"><span class="num">§ 05</span>
 EXPERIMENTS WITH AI</div>
     <div class="ai-head">
@@ -1861,7 +1898,7 @@ EXPERIMENTS WITH AI</div>
   </section>
 
   <!-- ROAD GAME -->
-  <section class="road-game" id="writing" data-screen-label="07 Road">
+  <section class="road-game" id="road-game" data-screen-label="07 Road">
     <div class="sec-label" data-chapter-name="A game of the journey"><span class="num">§ 06</span> Play <span class="rule"></span> A game of the journey</div>
     <div class="rg-head">
       <h2 class="rg-title" data-i18n="rg.title">An <span class="it">anti-game.</span></h2>
@@ -1885,8 +1922,8 @@ EXPERIMENTS WITH AI</div>
     <div class="sec-label" data-chapter-name="A small ledger"><span class="num">§ 07</span>
 EPILOGUE</div>
     <div class="epilogue-head">
-      <h2 data-i18n="epilogue.h">Currently <span class="it">reading, listening, thinking.</span></h2>
-      <p class="lede" data-i18n="epilogue.lede">A loose, updated ledger — books on the desk, audio from the field, ideas circling the mind.</p>
+      <h2 data-i18n="epilogue.h">Currently <span class="it">reading, thinking.</span></h2>
+      <p class="lede" data-i18n="epilogue.lede">A loose, updated ledger — books on the desk, ideas circling the mind.</p>
     </div>
     <div class="epilogue-grid">
       <div class="epi-col" data-goodreads-col>
@@ -1907,18 +1944,6 @@ EPILOGUE</div>
           </div>
         </div>
         <a class="goodreads-link" href="https://www.goodreads.com/user/show/59268469-prince" target="_blank" rel="noopener" data-hover="link" data-i18n="epi.col1.more">View full shelf on Goodreads <span class="arrow">↗</span></a>
-      </div>
-      <div class="epi-col">
-        <h5 data-i18n="epi.col2.h"><span>In the ears</span><span class="num">/ sound</span></h5>
-        <div class="epi-item">
-          <div class="t">Field recordings, Nubra valley</div>
-          <div class="a" data-i18n="epi.col2.i1.a">own archive · 2026</div>
-        </div>
-        <div class="epi-item">
-          <div class="t">Arvo Pärt — <span class="it">Tabula Rasa</span></div>
-        </div>
-
-        <div class="goodreads-link" data-i18n="epi.col2.more">View full on SoundCloud <span class="arrow">↗</span></div>
       </div>
       <div class="epi-col" data-ideas-col>
         <h5 data-i18n="epi.col3.h"><span>Circling</span><span class="num">/ ideas</span></h5>
@@ -1954,7 +1979,7 @@ EPILOGUE</div>
 </main>
 
 <!-- Footer -->
-<footer>
+<footer id="contact">
   <div class="foot-grid">
     <div>
       <div class="foot-mark" data-i18n="footer.mark">Prince <span class="it">Tomar</span>.</div>
@@ -1967,7 +1992,7 @@ EPILOGUE</div>
       <a href="#gallery" data-i18n="foot.nav.gallery">Gallery</a>
       <a href="#writings" data-i18n="nav.latest">Writing</a>
       <a href="#ai" data-i18n="foot.nav.ai">Experiments</a>
-      <a href="#writing" data-i18n="foot.nav.play">Play</a>
+      <a href="#road-game" data-i18n="foot.nav.play">Play</a>
       <a href="#epilogue" data-i18n="nav.epilogue">Epilogue</a>
     </div>
     <div class="foot-col">
@@ -2674,5 +2699,6 @@ window.si = window.si || function () { (window.siq = window.siq || []).push(argu
 </script>
 
 
+<script src="analytics.js" defer></script>
 </body>
 </html>

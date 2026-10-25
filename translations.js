@@ -22,7 +22,7 @@
     // Bio
     'bio.p1':   '<span class="drop-cap">प्रिं</span>स तोमर तालिन विश्वविद्यालय के Centre for Landscape and Culture में डॉक्टरल शोधार्थी हैं। वे भारतीय हिमालय की सरहदी जनसंख्या के बीच कार्य करते हैं, विशेष रूप से सड़क-निर्माण की गतिकी पर — अवसंरचना, क्षेत्रीकरण, और इतिहास, भू-राजनीति व भूगोल के सूक्ष्म नृत्य के बीच के सम्बन्धों का अनुसरण करते हुए।',
     'bio.p3':   'अकादमिक कार्य से परे, वे कविताएँ लिखते हैं और मानवशास्त्र व साहित्य के बीच की पारगम्य सीमा में रुचि रखते हैं। उनकी वर्तमान परियोजना सड़क-निर्माण की त्वरित होती गति के साथ भारतीय हिमालय में परिवर्तन के स्थानिक-कालिक आयामों का अध्ययन करती है।',
-    'bio.p4':   '<span class="drop-cap">मैं</span> यहाँ एक खुली पोथी रखता हूँ: क्षेत्र से छायाचित्र, संदेश और AI के साथ छोटे प्रयोग, और एक उपसंहार — जो पढ़ा, सोचा और सुना जा रहा है, उसका लेखा।',
+    'bio.p4':   '<span class="drop-cap">मैं</span> यहाँ एक खुली पोथी रखता हूँ: क्षेत्र से छायाचित्र, संदेश और AI के साथ छोटे प्रयोग, और एक उपसंहार — जो पढ़ा और सोचा जा रहा है, उसका लेखा।',
 
     // Regions — Ladakh
     // Regions
@@ -64,15 +64,15 @@
     // Writing
     'writings.h':   'शब्द, जो सड़क से <span class="it">धीमे चलते हैं।</span>',
     'writings.cv':  '<span class="cv-ico" aria-hidden="true"></span><span class="cv-txt">सीवी डाउनलोड करें</span><span class="cv-meta">PDF</span>',
+    'writings.underreview': 'समीक्षाधीन',
     'writings.kind.peer': 'सहकर्मी-समीक्षित',
     'writings.kind.blog': 'ब्लॉग',
     'writings.kind.review': 'फ़िल्म समीक्षा',
     'writings.kind.essay': 'निबंध',
     'writings.pyre.t': '<a href="https://doi.org/10.2218/himalaya.2025.10878" target="_blank" rel="noopener">Review of <span class="it">Pyre</span> directed by Vinod Kapri</a>',
-    'writings.w2.t': 'Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span>',
-    'writings.w2.v': 'HIMALAYA · प्रकाशनार्थ',
+    'writings.w2.t': '<a href="https://doi.org/10.2218/himalaya.2026.10981" target="_blank" rel="noopener">Builders, Building, and the Built: <span class="it">Ladakh and the eventfulness of road development</span></a>',
     'writings.w4.t': '<a href="https://ethnomarginalia.com/the-field-the-border-and-i/" target="_blank" rel="noopener">The field, the border, and I <span class="w-ext" aria-hidden="true">↗</span></a>',
-    'writings.w4.v': 'ethnomarginalia.com · निबंध',
+    'writings.w4.v': 'Ethnographic Marginalia · निबंध',
 
     // Writing
     'writing.h': 'और सड़क, <span class="it">एक लम्बे वाक्य की भाँति,</span> आती है।',
@@ -82,24 +82,17 @@
     'writing.poem.attr':  '— अंश · क्षेत्र-पोथी, नुब्रा, २०२४',
 
     // Epilogue
-    'epilogue.h':    'इन दिनों <span class="it">पठन, श्रवण, चिंतन।</span>',
-    'epilogue.lede': 'एक खुली, अद्यतन सूची — मेज़ पर रखी पुस्तकें, क्षेत्र से ध्वनियाँ, और मन में घूमते विचार।',
+    'epilogue.h':    'इन दिनों <span class="it">पठन, चिंतन।</span>',
+    'epilogue.lede': 'एक खुली, अद्यतन सूची — मेज़ पर रखी पुस्तकें और मन में घूमते विचार।',
 
     'epi.col1.h': '<span>मेज़ पर</span><span class="num">/ पुस्तकें</span>',
-    'epi.col2.h': '<span>कानों में</span><span class="num">/ ध्वनि</span>',
     'epi.col3.h': '<span>मन में</span><span class="num">/ विचार</span>',
 
     'epi.col1.i1.a': 'यी-फू तुआन · १९७७',
     'epi.col1.i2.a': 'एदुआर्दो गालेआनो पर · पुनः-पठन',
     'epi.col1.i3.a': 'नैन शेपर्ड · १९७७',
     'epi.col1.more': 'गुडरीड्स पर पूरी सूची देखें <span class="arrow">↗</span>',
-    'epi.col2.more': 'SoundCloud पर सम्पूर्ण सूची देखें <span class="arrow">↗</span>',
 
-    'epi.col2.i1.t': 'क्षेत्र-ध्वनियाँ, नुब्रा घाटी',
-    'epi.col2.i1.a': 'स्व-संग्रह · २०२६',
-    'epi.col2.i2.a': 'धीरे, बार-बार',
-    'epi.col2.i3.t': 'भोजपुरी सीमा-रेडियो',
-    'epi.col2.i3.a': 'रक्सौल, AM डायल',
 
     'epi.col3.i1.t': 'सड़क संज्ञा है या क्रिया।',
     'epi.col3.i2.t': 'धूल का व्याकरण।',
