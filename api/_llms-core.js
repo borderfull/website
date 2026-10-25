@@ -24,7 +24,7 @@ His website (${SITE}) is an open notebook: photographs from the field, writing, 
 
 ## Writing & Publications
 
-- 2026 — [Are They the Infrastructure?](https://bangalorereview.com/2026/10/are-they-the-infrastructure/): Ethnographic essay, The Bangalore Review.
+- 2026 — [Are they the infrastructure?](https://bangalorereview.com/2026/10/are-they-the-infrastructure/): Ethnographic essay, The Bangalore Review.
 - 2026 — [Builders, Building, and the Built: Ladakh and the eventfulness of road development](https://doi.org/10.2218/himalaya.2026.10981): Peer-reviewed article, HIMALAYA journal. DOI: 10.2218/himalaya.2026.10981
 - 2026 — "Toward the Dust": Border Crossing and the State of Infrastructure at the India-Nepal Border: Peer-reviewed article, under review at Asian Geographer.
 - 2026 — Negotiating Remoteness: Heterotopic Roads and Border Tourism in Ladakh, India: Peer-reviewed article, under review at Journal of Tourism and Cultural Change.
