@@ -92,6 +92,6 @@
     b.style.cssText='background:none;border:0;padding:8px 0;margin:0;font:inherit;color:inherit;opacity:.6;cursor:pointer;text-decoration:underline;text-underline-offset:3px';
     b.onclick=banner;f.appendChild(b);
   }
-  function initConsent(){footerLink();if(!saved())banner();}
+  function initConsent(){footerLink();if(!saved()){var show=function(){setTimeout(banner,3500);};if(document.readyState==='complete')show();else window.addEventListener('load',show,{once:true});}}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initConsent);else initConsent();
 })();
