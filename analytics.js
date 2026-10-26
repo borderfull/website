@@ -66,6 +66,12 @@
     });
   });
   window.addEventListener('pagehide', flush);
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('[data-idea]');
+    if (el) send('idea_click', { idea_name: el.getAttribute('data-idea') });
+    var p = e.target.closest && e.target.closest('[data-piece]');
+    if (p) send('writing_click', { piece_title: p.getAttribute('data-piece') });
+  });
 
   /* ---- Cookie consent banner (Consent Mode v2) ---- */
   var KEY='pt-consent';

@@ -83,7 +83,7 @@
 
     // Epilogue
     'epilogue.h':    'इन दिनों <span class="it">पठन, चिंतन।</span>',
-    'epilogue.lede': 'एक खुली, अद्यतन सूची — मेज़ पर रखी पुस्तकें और मन में घूमते विचार।',
+    'epilogue.lede': 'एक खुली, निरंतर अद्यतन होती सूची — मेज़ पर रखी पुस्तकें और मन में घूमते विचार।',
 
     'epi.col1.h': '<span>मेज़ पर</span><span class="num">/ पुस्तकें</span>',
     'epi.col3.h': '<span>मन में</span><span class="num">/ विचार</span>',
