@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     });
     if (!r.ok) throw new Error(`upstream ${r.status}`);
     books = parseProfile(await r.text());
-    await Promise.all(books.map(async (b) => { b.year = await fetchYear(b.link); }));
+    await Promise.all(books.map(async (b) => { b.year = (await fetchYear(b.link)) || (await olYear(b.title, b.author)); }));
     if (!books.length) error = 'no currently-reading books found on profile';
   } catch (e) {
     error = String(e && e.message || e);
@@ -60,6 +60,18 @@ function parseProfile(html) {
     });
   }
   return out;
+}
+
+async function olYear(title, author) {
+  try {
+    const q = new URLSearchParams({ title, limit: '1', fields: 'first_publish_year' });
+    if (author) q.set('author', author);
+    const r = await fetch('https://openlibrary.org/search.json?' + q, { signal: AbortSignal.timeout(6000) });
+    if (!r.ok) return '';
+    const d = await r.json();
+    const y = d.docs && d.docs[0] && d.docs[0].first_publish_year;
+    return y ? String(y) : '';
+  } catch (e) { return ''; }
 }
 
 async function fetchYear(link) {
