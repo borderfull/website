@@ -2330,6 +2330,18 @@ window.addEventListener('load', function() { setTimeout(function() {
     .catch(function () { /* keep static fallback */ });
 
   function render(books) {
+    var known = {};
+    col.querySelectorAll('.epi-item').forEach(function (el) {
+      var ti = el.querySelector('.t'), ai = el.querySelector('.a');
+      var y = ai && (ai.textContent.match(/\b(1[5-9]\d\d|20\d\d)\b/) || [])[1];
+      if (ti && y) known[ti.textContent.trim().toLowerCase()] = y;
+    });
+    books.forEach(function (b) {
+      if (!b.year && b.title) {
+        var k = b.title.trim().toLowerCase();
+        b.year = known[k] || (Object.keys(known).filter(function (x) { return x.indexOf(k) === 0 || k.indexOf(x) === 0; }).map(function (x) { return known[x]; })[0]) || '';
+      }
+    });
     var frag = document.createDocumentFragment();
     books.forEach(function (b) {
       var item = document.createElement('div');
