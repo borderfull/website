@@ -20,6 +20,7 @@ export default async function handler(req, res) {
     });
     if (!r.ok) throw new Error(`upstream ${r.status}`);
     books = parseProfile(await r.text());
+    await Promise.all(books.map(async (b) => { b.year = await fetchYear(b.link); }));
     if (!books.length) error = 'no currently-reading books found on profile';
   } catch (e) {
     error = String(e && e.message || e);
@@ -59,6 +60,21 @@ function parseProfile(html) {
     });
   }
   return out;
+}
+
+async function fetchYear(link) {
+  try {
+    const r = await fetch(link, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36', 'Accept-Language': 'en-US,en;q=0.9' },
+      signal: AbortSignal.timeout(6000),
+    });
+    if (!r.ok) return '';
+    const h = await r.text();
+    const m = h.match(/First published[^<\d]{0,20}(?:[A-Za-z]+\s+\d{1,2},\s+)?(\d{4})/i) || h.match(/Published[^<\d]{0,20}(?:[A-Za-z]+\s+\d{1,2},\s+)?(\d{4})/i);
+    if (m) return m[1];
+    const t = h.match(/"publicationTime"\s*:\s*(-?\d{6,})/);
+    return t ? String(new Date(Number(t[1])).getUTCFullYear()) : '';
+  } catch (e) { return ''; }
 }
 
 function abs(u) { return u.startsWith('http') ? u : 'https://www.goodreads.com' + u; }
