@@ -5,6 +5,12 @@
 
 const USER_ID = '59268469';
 
+// Books the profile page doesn't list (Goodreads only shows the 3 most recent). Appended if missing.
+// Remove an entry once you finish the book.
+const EXTRA = [
+  { title: 'Poetry of the First World War', author: 'Tim Kendall', year: '2013', link: `https://www.goodreads.com/review/list/${USER_ID}?shelf=currently-reading` },
+];
+
 export default async function handler(req, res) {
   const url = `https://www.goodreads.com/user/show/${USER_ID}`;
   let books = [];
@@ -43,7 +49,8 @@ export default async function handler(req, res) {
         }
       } catch (e) { debug.push('shelf ' + String(e && e.message || e)); }
     }
-    await Promise.all(books.map(async (b) => { b.year = (await fetchYear(b.link)) || (await olYear(b.title, b.author)); }));
+    if (books.length) for (const x of EXTRA) { if (!books.some((b) => b.title.toLowerCase() === x.title.toLowerCase())) books.push({ image: '', isbn: '', note: '', dateAdded: '', ...x }); }
+    await Promise.all(books.map(async (b) => { b.year = b.year || (await fetchYear(b.link)) || (await olYear(b.title, b.author)); }));
     if (!books.length) error = 'no currently-reading books found on profile';
   } catch (e) {
     error = String(e && e.message || e);
