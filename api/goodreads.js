@@ -9,6 +9,7 @@ export default async function handler(req, res) {
   const url = `https://www.goodreads.com/user/show/${USER_ID}`;
   let books = [];
   let error = null;
+  const debug = [];
   try {
     const r = await fetch(url, {
       headers: {
@@ -20,15 +21,28 @@ export default async function handler(req, res) {
     });
     if (!r.ok) throw new Error(`upstream ${r.status}`);
     books = parseProfile(await r.text());
-    try {
-      const sr = await fetch(`https://www.goodreads.com/review/list/${USER_ID}?shelf=currently-reading&per_page=100&sort=date_added&order=a`, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36', 'Accept-Language': 'en-US,en;q=0.9' }, signal: AbortSignal.timeout(8000) });
-      if (sr.ok) {
-        const shelf = parseShelf(await sr.text());
-        const id = (l) => (l.match(/book\/show\/(\d+)/) || [])[1] || l;
-        const have = new Set(shelf.map((b) => id(b.link)));
-        books = shelf.concat(books.filter((b) => !have.has(id(b.link))));
-      }
-    } catch (e) {}
+    const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
+    const urls = [
+      `https://www.goodreads.com/review/list/${USER_ID}?shelf=currently-reading&per_page=100&sort=date_added&order=a`,
+      `https://www.goodreads.com/review/list/${USER_ID}?shelf=currently-reading&view=table&per_page=100`,
+      `https://www.goodreads.com/review/list/${USER_ID}?shelf=currently-reading`,
+    ];
+    const id = (l) => (l.match(/book\/show\/(\d+)/) || [])[1] || l;
+    for (const u of urls) {
+      try {
+        const sr = await fetch(u, { headers: { 'User-Agent': UA, 'Accept-Language': 'en-US,en;q=0.9' }, signal: AbortSignal.timeout(8000) });
+        if (!sr.ok) { debug.push(`shelf ${sr.status}`); continue; }
+        const html = await sr.text();
+        let shelf = parseShelf(html);
+        if (!shelf.length) shelf = parseLoose(html);
+        debug.push(`shelf parsed ${shelf.length}`);
+        if (shelf.length) {
+          const have = new Set(shelf.map((x) => id(x.link)));
+          books = shelf.concat(books.filter((x) => !have.has(id(x.link))));
+          break;
+        }
+      } catch (e) { debug.push('shelf ' + String(e && e.message || e)); }
+    }
     await Promise.all(books.map(async (b) => { b.year = (await fetchYear(b.link)) || (await olYear(b.title, b.author)); }));
     if (!books.length) error = 'no currently-reading books found on profile';
   } catch (e) {
@@ -39,7 +53,7 @@ export default async function handler(req, res) {
     ? 'public, s-maxage=3600, stale-while-revalidate=86400'
     : 'public, s-maxage=300');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.status(200).json({ shelf: 'currently-reading', source: 'profile', fetchedAt: new Date().toISOString(), error, books });
+  res.status(200).json({ shelf: 'currently-reading', source: 'profile', fetchedAt: new Date().toISOString(), error, debug, books });
 }
 
 function parseShelf(html) {
@@ -54,6 +68,18 @@ function parseShelf(html) {
     if (author.includes(',')) author = author.split(',').slice(1).join(',').trim() + ' ' + author.split(',')[0].trim();
     const title = decode(t[2]);
     out.push({ title: title.replace(/\s*[:(].*$/, '').trim() || title, author, year: '', image: im ? decode(im[1]) : '', link: abs(decode(t[1])), isbn: '', note: '', dateAdded: '' });
+  }
+  return out;
+}
+
+function parseLoose(html) {
+  const out = [];
+  const seen = new Set();
+  for (const m of html.matchAll(/<a[^>]+href="([^"]*\/book\/show\/(\d+)[^"]*)"[^>]*title="([^"]+)"/gi)) {
+    if (seen.has(m[2])) continue;
+    seen.add(m[2]);
+    const title = decode(m[3]);
+    out.push({ title: title.replace(/\s*[:(].*$/, '').trim() || title, author: '', year: '', image: '', link: abs(decode(m[1])), isbn: '', note: '', dateAdded: '' });
   }
   return out;
 }
