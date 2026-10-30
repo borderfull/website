@@ -5,14 +5,10 @@
 
 const USER_ID = '59268469';
 
-// Books the profile page doesn't list (Goodreads only shows the 3 most recent). Appended if missing.
-// Remove an entry once you finish the book.
 // Fixes a wrong year the lookups return. Key = lowercase title.
 const YEAR_OVERRIDES = { 'lolita': '1955', 'italian food': '1954' };
 
-const EXTRA = [
-  { title: 'Poetry of the First World War', author: 'Tim Kendall', year: '2013', link: `https://www.goodreads.com/review/list/${USER_ID}?shelf=currently-reading` },
-];
+const EXTRA = [];
 
 export default async function handler(req, res) {
   const url = `https://www.goodreads.com/user/show/${USER_ID}`;
