@@ -2394,8 +2394,8 @@ window.addEventListener('load', function() { setTimeout(function() {
     });
     col.replaceChildren(frag);
     var its = col.querySelectorAll('.epi-item');
-    if (its.length > 4) {
-      var h = its[3].offsetTop + its[3].offsetHeight - its[0].offsetTop;
+    if (its.length > 3) {
+      var h = its[2].offsetTop + its[2].offsetHeight - its[0].offsetTop;
       col.classList.add('gr-scroll');
       col.style.maxHeight = h + 'px';
     }
@@ -2423,9 +2423,9 @@ window.addEventListener('load', function() { setTimeout(function() {
     text-transform: uppercase; color: var(--ink-mute); margin-top: 6px;
   }
   
-  /* Notes — scrollable when more than 4 */
+  /* Notes — scrollable when more than 3 */
   [data-ideas-items] {
-    max-height: calc(4 * 62px);
+    max-height: calc(3 * 62px);
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--rule) transparent;
