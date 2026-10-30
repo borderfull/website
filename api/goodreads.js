@@ -7,6 +7,9 @@ const USER_ID = '59268469';
 
 // Books the profile page doesn't list (Goodreads only shows the 3 most recent). Appended if missing.
 // Remove an entry once you finish the book.
+// Fixes a wrong year the lookups return. Key = lowercase title.
+const YEAR_OVERRIDES = { 'lolita': '1955', 'italian food': '1954' };
+
 const EXTRA = [
   { title: 'Poetry of the First World War', author: 'Tim Kendall', year: '2013', link: `https://www.goodreads.com/review/list/${USER_ID}?shelf=currently-reading` },
 ];
@@ -50,15 +53,15 @@ export default async function handler(req, res) {
       } catch (e) { debug.push('shelf ' + String(e && e.message || e)); }
     }
     if (books.length) for (const x of EXTRA) { if (!books.some((b) => b.title.toLowerCase() === x.title.toLowerCase())) books.push({ image: '', isbn: '', note: '', dateAdded: '', ...x }); }
-    await Promise.all(books.map(async (b) => { b.year = b.year || (await fetchYear(b.link)) || (await olYear(b.title, b.author)); }));
+    await Promise.all(books.map(async (b) => { b.year = YEAR_OVERRIDES[b.title.toLowerCase()] || b.year || (await fetchYear(b.link)) || (await olYear(b.title, b.author)); }));
     if (!books.length) error = 'no currently-reading books found on profile';
   } catch (e) {
     error = String(e && e.message || e);
   }
-  // 1h cache on success, 5 min on failure so recovery is quick.
+  // Short edge cache so the profile is re-read about every minute.
   res.setHeader('Cache-Control', books.length
-    ? 'public, s-maxage=3600, stale-while-revalidate=86400'
-    : 'public, s-maxage=300');
+    ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=300'
+    : 'public, max-age=0, s-maxage=30');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.status(200).json({ shelf: 'currently-reading', source: 'profile', fetchedAt: new Date().toISOString(), error, debug, books });
 }

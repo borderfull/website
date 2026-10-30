@@ -2323,7 +2323,7 @@ window.addEventListener('load', function() { setTimeout(function() {
   var col = document.querySelector('[data-goodreads-col] [data-goodreads-items]');
   if (!col) return;
 
-  fetch('/api/goodreads', { cache: 'default' })
+  fetch('/api/goodreads', { cache: 'no-cache' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
       if (!data || !Array.isArray(data.books) || data.books.length === 0) return;
