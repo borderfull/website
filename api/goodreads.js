@@ -20,6 +20,15 @@ export default async function handler(req, res) {
     });
     if (!r.ok) throw new Error(`upstream ${r.status}`);
     books = parseProfile(await r.text());
+    try {
+      const sr = await fetch(`https://www.goodreads.com/review/list/${USER_ID}?shelf=currently-reading&per_page=100&sort=date_added&order=a`, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36', 'Accept-Language': 'en-US,en;q=0.9' }, signal: AbortSignal.timeout(8000) });
+      if (sr.ok) {
+        const shelf = parseShelf(await sr.text());
+        const id = (l) => (l.match(/book\/show\/(\d+)/) || [])[1] || l;
+        const have = new Set(shelf.map((b) => id(b.link)));
+        books = shelf.concat(books.filter((b) => !have.has(id(b.link))));
+      }
+    } catch (e) {}
     await Promise.all(books.map(async (b) => { b.year = (await fetchYear(b.link)) || (await olYear(b.title, b.author)); }));
     if (!books.length) error = 'no currently-reading books found on profile';
   } catch (e) {
@@ -31,6 +40,22 @@ export default async function handler(req, res) {
     : 'public, s-maxage=300');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.status(200).json({ shelf: 'currently-reading', source: 'profile', fetchedAt: new Date().toISOString(), error, books });
+}
+
+function parseShelf(html) {
+  const out = [];
+  const rows = html.split(/<tr[^>]+class="bookalike review"/i).slice(1);
+  for (const row of rows) {
+    const t = row.match(/<td class="field title">[\s\S]*?<a[^>]+href="([^"]+)"[^>]*title="([^"]+)"/i);
+    if (!t) continue;
+    const a = row.match(/<td class="field author">[\s\S]*?<a[^>]*>([^<]+)<\/a>/i);
+    const im = row.match(/<td class="field cover">[\s\S]*?<img[^>]+src="([^"]+)"/i);
+    let author = a ? decode(a[1]) : '';
+    if (author.includes(',')) author = author.split(',').slice(1).join(',').trim() + ' ' + author.split(',')[0].trim();
+    const title = decode(t[2]);
+    out.push({ title: title.replace(/\s*[:(].*$/, '').trim() || title, author, year: '', image: im ? decode(im[1]) : '', link: abs(decode(t[1])), isbn: '', note: '', dateAdded: '' });
+  }
+  return out;
 }
 
 function parseProfile(html) {
