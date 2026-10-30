@@ -10,6 +10,8 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="apple-touch-icon" href="favicon.svg" />
 <meta name="theme-color" content="#1c1814" />
+<meta name="color-scheme" content="only light" />
+<style>:root{color-scheme:only light}</style>
 
 <!-- Open Graph / social preview -->
 <meta property="og:type" content="website" />
@@ -2325,7 +2327,7 @@ window.addEventListener('load', function() { setTimeout(function() {
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
       if (!data || !Array.isArray(data.books) || data.books.length === 0) return;
-      render(data.books.slice(0, 5));
+      render(data.books);
     })
     .catch(function () { /* keep static fallback */ });
 
@@ -2391,6 +2393,12 @@ window.addEventListener('load', function() { setTimeout(function() {
       frag.appendChild(item);
     });
     col.replaceChildren(frag);
+    var its = col.querySelectorAll('.epi-item');
+    if (its.length > 3) {
+      var h = its[2].offsetTop + its[2].offsetHeight - its[0].offsetTop;
+      col.classList.add('gr-scroll');
+      col.style.maxHeight = h + 'px';
+    }
   }
 })();
 }, 400); }, { once: true });
@@ -2425,6 +2433,10 @@ window.addEventListener('load', function() { setTimeout(function() {
   [data-ideas-items]::-webkit-scrollbar { width: 2px; }
   [data-ideas-items]::-webkit-scrollbar-track { background: transparent; }
   [data-ideas-items]::-webkit-scrollbar-thumb { background: var(--rule); }
+  [data-goodreads-items].gr-scroll { overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--rule) transparent; padding-right: 8px; }
+  [data-goodreads-items]::-webkit-scrollbar { width: 2px; }
+  [data-goodreads-items]::-webkit-scrollbar-track { background: transparent; }
+  [data-goodreads-items]::-webkit-scrollbar-thumb { background: var(--rule); }
 
   /* Reading overlay — letter-paper styling, echoes the lightbox */
   #note-reader {
