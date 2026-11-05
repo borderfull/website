@@ -1,5 +1,3 @@
-05-11-26
-
 In the high-altitude Ladakh, walking has always been a main form of connectivity. Days and months of walking to reach farm fields, grazing grounds, trade centers, and to cross mtshams (meeting points), as a way of connecting, making sense of a place—also of one’s place among the mountains. 
 
 Trekking is new and different; it is recreational, it is urban, or rather remoteness for the incessantly connected urban. One’s footsteps in quiet solitude on the untended Earth, left to its natural fate, and occasional calls of birds that sometimes respond to your calls, aware of your rare presence, getting rarer with altitude, are but a mark of yourself that will not remain any longer than you.
