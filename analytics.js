@@ -22,16 +22,28 @@
   var state = new Map(); // el -> {name, timer, fired, visibleSince, total}
   function nameOf(el) { return el.getAttribute('data-track') || el.id; }
   function visibleNow() { return document.visibilityState === 'visible'; }
+  // GA4 event names: letters, digits, underscores only. "ai-experiments" -> "ai_experiments".
+  function slug(n) { return String(n).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 30); }
+  // In view = half the section is on screen, OR (for sections taller than the screen)
+  // the section fills at least half the screen. Without the second rule, long sections
+  // like Writing and Epilogue could never reach 50% and were never counted.
+  function inView(e) {
+    if (!e.isIntersecting) return false;
+    var vh = (e.rootBounds && e.rootBounds.height) || window.innerHeight;
+    return e.intersectionRatio >= THRESHOLD || e.intersectionRect.height >= vh * THRESHOLD;
+  }
 
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       var s = state.get(e.target);
-      if (e.isIntersecting && e.intersectionRatio >= THRESHOLD) {
+      if (inView(e)) {
         if (visibleNow() && s.visibleSince == null) s.visibleSince = performance.now();
         if (!s.fired && !s.timer) {
           s.timer = setTimeout(function () {         // 2s continuous dwell reached
             s.fired = true; s.timer = null;
             send('section_view', { section_name: s.name });
+            // One event per section, readable straight from Reports > Engagement > Events.
+            send('view_' + slug(s.name), { section_name: s.name });
           }, DWELL_MS);
         }
       } else {
@@ -39,7 +51,7 @@
         if (s.visibleSince != null) { s.total += performance.now() - s.visibleSince; s.visibleSince = null; }
       }
     });
-  }, { threshold: [0, THRESHOLD, 1] });
+  }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
 
   document.querySelectorAll('main section[id], footer[id]').forEach(function (el) {
     state.set(el, { name: nameOf(el), timer: null, fired: false, visibleSince: null, total: 0 });
@@ -52,7 +64,11 @@
       if (s.visibleSince != null) { s.total += now - s.visibleSince; s.visibleSince = null; }
       if (s.timer) { clearTimeout(s.timer); s.timer = null; }
       var secs = Math.round(s.total / 1000);
-      if (secs >= 1) send('section_engagement', { section_name: s.name, engagement_seconds: secs });
+      if (secs >= 1) {
+        send('section_engagement', { section_name: s.name, engagement_seconds: secs });
+        // Per-section time: `value` fills GA4's built-in "Event value" metric (no setup needed).
+        send('time_' + slug(s.name), { section_name: s.name, engagement_seconds: secs, value: secs });
+      }
       s.total = 0;
     });
   }
