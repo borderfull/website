@@ -2483,6 +2483,15 @@ window.addEventListener('load', function() { setTimeout(function() {
     border-bottom: 1px solid var(--rule);
   }
   #note-reader .nr-meta .num { color: var(--accent); }
+  #note-reader .nr-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  #note-reader .nr-share {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink); background: transparent; border: 1px solid var(--ink);
+    padding: 8px 12px; min-height: 32px; cursor: pointer; white-space: nowrap;
+    transition: background .2s ease, color .2s ease;
+  }
+  #note-reader .nr-share:hover, #note-reader .nr-share:focus-visible { background: var(--ink); color: var(--paper); }
+  a.epi-item.is-note { display: block; color: inherit; text-decoration: none; }
   #note-reader .nr-title {
     font-family: var(--serif-display);
     font-weight: 300;
@@ -2523,7 +2532,7 @@ window.addEventListener('load', function() { setTimeout(function() {
 <div id="note-reader" aria-hidden="true">
   <article class="nr-sheet">
     <button class="nr-close" type="button" aria-label="Close"></button>
-    <div class="nr-meta" id="nr-meta"></div>
+    <div class="nr-meta"><span id="nr-meta"></span><button class="nr-share" type="button" aria-label="Share this note">↗ Share</button></div>
     <div class="nr-title" id="nr-title"></div>
     <div class="nr-body" id="nr-body"></div>
   </article>
@@ -2541,6 +2550,50 @@ window.addEventListener('load', function() {
   var rBody  = document.getElementById('nr-body');
   var rMeta  = document.getElementById('nr-meta');
   var notes  = [];
+  var shareBtn = reader.querySelector('.nr-share');
+  var closeBtn = reader.querySelector('.nr-close');
+  var current = null;        // note currently open
+  var lastFocus = null;      // element to return focus to on close
+  var readMs = 0, readSince = null; // reading time while the tab is visible
+
+  // Each note gets its own address: princetomar.com/#note/<slug>
+  function slugOf(n) {
+    return String(n.filename || n.title || '').replace(/\.md$/i, '').toLowerCase()
+      .normalize('NFKD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+  function noteUrl(n) { return location.origin + location.pathname + '#note/' + slugOf(n); }
+  function hashSlug() {
+    var m = /^#note\/(.+)$/.exec(location.hash || '');
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  function findBySlug(s) {
+    for (var i = 0; i < notes.length; i++) if (slugOf(notes[i]) === s) return notes[i];
+    return null;
+  }
+  function setHash(h) {
+    try { history.replaceState(null, '', location.pathname + location.search + h); } catch (e) {}
+  }
+
+  // Google Analytics (uses the shared helper from analytics.js when present)
+  function track(name, params) {
+    if (typeof window.trackEvent === 'function') window.trackEvent(name, params);
+    else if (typeof window.gtag === 'function') window.gtag('event', name, params);
+  }
+  function startTimer() { if (readSince == null && document.visibilityState === 'visible') readSince = performance.now(); }
+  function pauseTimer() { if (readSince != null) { readMs += performance.now() - readSince; readSince = null; } }
+  function sendReadTime() {
+    if (!current) return;
+    pauseTimer();
+    var secs = Math.round(readMs / 1000);
+    if (secs >= 1) track('note_read_time', { note_title: current.title || current.filename, engagement_seconds: secs, value: secs });
+    readMs = 0;
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (!current) return;
+    if (document.visibilityState === 'hidden') sendReadTime(); else startTimer();
+  });
+  window.addEventListener('pagehide', sendReadTime);
 
   setTimeout(function() {
     fetch('notes/index.json', { cache: 'default' })
@@ -2549,9 +2602,19 @@ window.addEventListener('load', function() {
         if (!Array.isArray(data) || data.length === 0) return;
         notes = data;
         render(notes);
+        openFromHash();
       })
       .catch(function () { /* keep static fallback */ });
   }, 600);
+
+  // Arriving through a shared link (or the address changing to one) opens that note.
+  function openFromHash() {
+    var s = hashSlug();
+    if (!s) return;
+    var n = findBySlug(s);
+    if (n && n !== current) open(n, 'shared_link');
+  }
+  window.addEventListener('hashchange', openFromHash);
 
   function render(list) {
     // Sort by first-sync date descending (newest on top)
@@ -2563,8 +2626,9 @@ window.addEventListener('load', function() {
 
     var frag = document.createDocumentFragment();
     list.forEach(function (n) {
-      var item = document.createElement('div');
+      var item = document.createElement('a');
       item.className = 'epi-item is-note';
+      item.href = '#note/' + slugOf(n);
 
       var t = document.createElement('div');
       t.className = 't';
@@ -2587,7 +2651,11 @@ window.addEventListener('load', function() {
         item.appendChild(d);
       }
 
-      item.addEventListener('click', function () { open(n); });
+      item.addEventListener('click', function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return; // let "open in new tab" work
+        e.preventDefault();
+        open(n, 'list');
+      });
       frag.appendChild(item);
     });
     col.replaceChildren(frag);
@@ -2595,7 +2663,15 @@ window.addEventListener('load', function() {
 
   var rTitle = document.getElementById('nr-title');
 
-  function open(n) {
+  function open(n, source) {
+    if (current && current !== n) sendReadTime();
+    if (!current) lastFocus = document.activeElement;
+    current = n;
+    readMs = 0; readSince = null; startTimer();
+    setHash('#note/' + slugOf(n));
+    shareBtn.textContent = '↗ Share';
+    track('note_open', { note_title: n.title || n.filename, note_source: source || 'list' });
+    setTimeout(function () { try { closeBtn.focus({ preventScroll: true }); } catch (e) {} }, 50);
     rMeta.innerHTML = '<span class="num">Note</span>';
     if (n.date) { var rMetaDate = document.createTextNode('   ' + n.date); rMeta.appendChild(rMetaDate); }
     rTitle.textContent = n.title || n.filename || '';
@@ -2617,13 +2693,49 @@ window.addEventListener('load', function() {
   }
 
   function close() {
+    if (!current) return;
+    sendReadTime();
+    current = null;
     reader.classList.remove('open');
     reader.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('lb-open');
+    if (hashSlug()) setHash('');
+    if (lastFocus && lastFocus.focus) { try { lastFocus.focus({ preventScroll: true }); } catch (e) {} }
   }
 
+  // Share: phones get the system share sheet; computers copy the link.
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      ta.remove(); ok ? resolve() : reject();
+    });
+  }
+  function flash(label) {
+    shareBtn.textContent = label;
+    clearTimeout(flash.t);
+    flash.t = setTimeout(function () { shareBtn.textContent = '↗ Share'; }, 2200);
+  }
+  shareBtn.addEventListener('click', function () {
+    if (!current) return;
+    var n = current, url = noteUrl(n), title = n.title || n.filename || 'Note';
+    var phone = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    if (phone && navigator.share) {
+      navigator.share({ title: title + ' — Prince Tomar', url: url })
+        .then(function () { track('note_share', { note_title: title, share_method: 'native' }); })
+        .catch(function () { /* cancelled */ });
+      return;
+    }
+    copyText(url)
+      .then(function () { flash('✓ Link copied'); track('note_share', { note_title: title, share_method: 'copy_link' }); })
+      .catch(function () { window.prompt('Copy this link:', url); });
+  });
+
   reader.addEventListener('click', function (e) { if (e.target === reader) close(); });
-  reader.querySelector('.nr-close').addEventListener('click', close);
+  closeBtn.addEventListener('click', close);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 })();
 }, { once: true });
