@@ -87,6 +87,12 @@
     if (el) send('idea_click', { idea_name: el.getAttribute('data-idea') });
     var p = e.target.closest && e.target.closest('[data-piece]');
     if (p) send('writing_click', { piece_title: p.getAttribute('data-piece') });
+    // Experiment cards: one event per experiment, e.g. click_asylum_maze
+    var x = e.target.closest && e.target.closest('[data-experiment]');
+    if (x) {
+      var xn = x.getAttribute('data-experiment');
+      send('click_' + slug(xn), { experiment_name: xn, link_url: x.href || '', transport_type: 'beacon' });
+    }
   });
 
   /* ---- Cookie consent banner (Consent Mode v2) ---- */
