@@ -54,9 +54,11 @@ export default async function handler(req, res) {
   } catch (e) {
     error = String(e && e.message || e);
   }
-  // Short edge cache so the profile is re-read about every minute.
+  // Edge cache: fresh for 1 hour; after that visitors still get the saved list instantly
+  // while Vercel re-reads Goodreads in the background (for up to 7 days). This avoids
+  // visitors waiting for the slow Goodreads lookups on a quiet site.
   res.setHeader('Cache-Control', books.length
-    ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=300'
+    ? 'public, max-age=0, s-maxage=3600, stale-while-revalidate=604800'
     : 'public, max-age=0, s-maxage=30');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.status(200).json({ shelf: 'currently-reading', source: 'profile', fetchedAt: new Date().toISOString(), error, debug, books });

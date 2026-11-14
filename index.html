@@ -2326,26 +2326,41 @@ EPILOGUE</div>
   the existing static items remain untouched as a graceful fallback.
 -->
 <script>
-window.addEventListener('load', function() { setTimeout(function() {
 (function () {
   var col = document.querySelector('[data-goodreads-col] [data-goodreads-items]');
   if (!col) return;
 
-  fetch('/api/goodreads', { cache: 'no-cache' })
+  // Years from the static fallback list, used to fill gaps in the live data.
+  var known = {};
+  col.querySelectorAll('.epi-item').forEach(function (el) {
+    var ti = el.querySelector('.t'), ai = el.querySelector('.a');
+    var y = ai && (ai.textContent.match(/\b(1[5-9]\d\d|20\d\d)\b/) || [])[1];
+    if (ti && y) known[ti.textContent.trim().toLowerCase()] = y;
+  });
+
+  // 1. Returning visitors: show the last live list instantly (saved in this browser).
+  var KEY = 'gr-books-v1', shown = '';
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved && Array.isArray(saved.books) && saved.books.length && Date.now() - saved.at < 30 * 864e5) {
+      shown = JSON.stringify(saved.books);
+      render(saved.books);
+    }
+  } catch (e) {}
+
+  // 2. Fetch the live shelf straight away (no longer waits for every photo to load).
+  fetch('/api/goodreads')
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
       if (!data || !Array.isArray(data.books) || data.books.length === 0) return;
-      render(data.books);
+      var s = JSON.stringify(data.books);
+      try { localStorage.setItem(KEY, JSON.stringify({ at: Date.now(), books: data.books })); } catch (e) {}
+      if (s !== shown) render(data.books);
     })
     .catch(function () { /* keep static fallback */ });
 
   function render(books) {
-    var known = {};
-    col.querySelectorAll('.epi-item').forEach(function (el) {
-      var ti = el.querySelector('.t'), ai = el.querySelector('.a');
-      var y = ai && (ai.textContent.match(/\b(1[5-9]\d\d|20\d\d)\b/) || [])[1];
-      if (ti && y) known[ti.textContent.trim().toLowerCase()] = y;
-    });
+    books = JSON.parse(JSON.stringify(books));
     books.forEach(function (b) {
       if (!b.year && b.title) {
         var k = b.title.trim().toLowerCase();
@@ -2409,7 +2424,6 @@ window.addEventListener('load', function() { setTimeout(function() {
     }
   }
 })();
-}, 400); }, { once: true });
 </script>
 
 <!-- ─────────────────────────────────────────────────────────────────────
