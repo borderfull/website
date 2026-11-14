@@ -2638,11 +2638,9 @@ window.addEventListener('load', function() {
   window.addEventListener('hashchange', openFromHash);
 
   function render(list) {
-    // Sort by first-sync date descending (newest on top)
+    // Newest first. The date is the day the note first appeared (fixed by NoteSync).
     list = list.slice().sort(function (a, b) {
-      var da = localStorage.getItem('note-sync-date:' + a.filename) || a.date || '';
-      var db = localStorage.getItem('note-sync-date:' + b.filename) || b.date || '';
-      return db.localeCompare(da);
+      return (b.date || '').localeCompare(a.date || '');
     });
 
     var frag = document.createDocumentFragment();
@@ -2656,15 +2654,7 @@ window.addEventListener('load', function() {
       t.textContent = n.title || n.filename;
       item.appendChild(t);
 
-      // Store the first sync date in localStorage so it never updates
-      var storageKey = 'note-sync-date:' + n.filename;
-      var storedDate = localStorage.getItem(storageKey);
-      var displayDate = storedDate || n.date;
-      
-      if (!storedDate && n.date) {
-        localStorage.setItem(storageKey, n.date);
-      }
-
+      var displayDate = n.date;
       if (displayDate) {
         var d = document.createElement('div');
         d.className = 'd';
